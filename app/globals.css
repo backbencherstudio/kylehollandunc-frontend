@@ -14,7 +14,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground: #0a0a0a;
-    --background: #ededed;
+    --background: #FFFFFF;
   }
 }
 
@@ -27,4 +27,13 @@ body {
 
 .font-syne {
   font-family: var(--font-syne), sans-serif;
+}
+
+
+.button-gradient-primary {
+  @apply flex  justify-center items-center gap-2.5 [background:var(--gradient,linear-gradient(180deg,#84B6DE_0%,#1C5E96_100%))] px-6 py-3  mt-[52px] cursor-pointer hover:opacity-90 transition-opacity duration-300;
+}
+
+.button-gradient-primary-text {
+  @apply text-white  text-lg font-medium leading-[150%] tracking-[0.09px] ;
 }

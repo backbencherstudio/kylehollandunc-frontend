@@ -37,7 +37,7 @@ const HeroSection = () => {
                     </h1>
 
                     {/* Divider */}
-                    <div className="w-full h-[1px] bg-white/40 my-8 md:my-16"></div>
+                    <div className="w-full h-px bg-white/40 my-8 md:my-16"></div>
 
                     {/* Description */}
                     <p className="text-[#E9E9EA] text-lg font-medium leading-[150%] tracking-[0.09px] mb-10.5">
