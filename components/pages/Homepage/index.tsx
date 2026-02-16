@@ -6,6 +6,9 @@ import HowItWorks from './HowItWorks';
 import OurOfferSection from './OurOfferSection';
 import WhyChooseSection from './WhyChooseSection';
 import OurPriceSection from './OurPriceSection';
+import OurServiceSection from './OurServiceSection';
+import ContactSection from './ContactSection';
+import RequestSection from './RequestSection';
 
 const Homepage = () => {
     return (
@@ -16,7 +19,10 @@ const Homepage = () => {
             <HowItWorks />
             <OurOfferSection />
             <WhyChooseSection />
-            <OurPriceSection />
+            {/* <OurPriceSection /> */}
+            <OurServiceSection />
+            <ContactSection />
+            <RequestSection />
         </div>
     )
 }

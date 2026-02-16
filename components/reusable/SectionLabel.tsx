@@ -33,11 +33,21 @@ interface SectionHeadingProps {
 export const SectionHeading: React.FC<SectionHeadingProps> = ({
     children,
     className = "",
-}) => {
+  }) => {
     return (
-        <h2 className={`self-stretch text-[#1D1F2C] font-syne text-5xl font-bold leading-[120%] ${className}`}>
-            {children}
-        </h2>
+      <h2
+        className={`
+          self-stretch
+          text-[#1D1F2C]
+          font-syne
+          text-4xl  md:text-5xl
+          font-bold
+          leading-[120%]
+          ${className}
+        `}
+      >
+        {children}
+      </h2>
     );
-};
-
+  };
+  
