@@ -3,6 +3,8 @@ import AboutHeroSection from './AboutUsHeroSection'
 import WhatWeDo from './WhatWeDo'
 import HowWeWork from './HowWeWork'
 import WhoWeServe from './WhoWeServe'
+import OurServices from '../Homepage/OurServices'
+import ContactSection from '../Homepage/ContactSection'
 
 export default function AboutUsContent () {
   return (
@@ -11,6 +13,8 @@ export default function AboutUsContent () {
         <WhatWeDo />
         <HowWeWork />
         <WhoWeServe />
+        <OurServices />
+        <ContactSection />
     </div>
   )
 }

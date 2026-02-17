@@ -9,7 +9,7 @@ import FacebookIcon from "./icons/FacebookIcon";
 
 export default function Footer() {
   return (
-    <footer className="max-w-[1320px] mx-auto px-6 md:px-8 lg:px-0 pb-8">
+    <footer className="max-w-[1320px] mx-auto px-6 md:px-8 lg:px-0 pb-8 ">
 
       {/* Top Section */}
       <div className="w-full flex flex-col lg:flex-row justify-between gap-12 lg:gap-0">
