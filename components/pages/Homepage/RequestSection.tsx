@@ -13,7 +13,9 @@ export default function RequestTestSection() {
         <Image
           src="/images/request-bg1.png" // replace with your image
           alt="Molecule background"
-          fill
+        fill
+          quality={100}
+          unoptimized
           className="object-cover h-full w-full"
           priority
         />

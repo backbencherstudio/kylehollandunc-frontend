@@ -1,6 +1,7 @@
 import SectionLabel, { SectionHeading } from '@/components/reusable/SectionLabel'
-import { BadgeCheck, Check, FileCheck, FlaskConical } from 'lucide-react'
+
 import React from 'react'
+import BadgeCheckIcon from '@/components/icons/BadgeCheckIcon'
 
 export default function OurOfferSection() {
     return (
@@ -38,19 +39,19 @@ export default function OurOfferSection() {
                 <div className='flex flex-col gap-4 sm:gap-6 w-full lg:flex-1'>
 
                     <FeatureCard
-                        icon={BadgeCheck}
+                        icon={<BadgeCheckIcon className="w-6 h-6 text-[#0E3E71]" />}
                         title="Supplier QC & COA support"
                         description="Batch verification to support documentation and customer trust."
                     />
 
                     <FeatureCard
-                        icon={FileCheck}
+                        icon={<ClinicGradeIcon className="w-6 h-6 text-[#0E3E71]" />}
                         title="Clinic-grade documentation"
                         description="Provider-friendly summaries for internal review and patient confidence."
                     />
 
                     <FeatureCard
-                        icon={FlaskConical}
+                        icon={<TestTubeIcon className="w-6 h-6 text-[#0E3E71]" />}
                         title="Pharmacy quality programs"
                         description="Ongoing testing scopes for consistency and QA initiatives."
                     />
@@ -64,9 +65,11 @@ export default function OurOfferSection() {
 
 
 import { LucideIcon } from "lucide-react";
+import ClinicGradeIcon from '@/components/icons/ClinicGradeIcon';
+import TestTubeIcon from '@/components/icons/TestTubeIcon';
 
 interface FeatureCardProps {
-    icon: LucideIcon;
+    icon:  React.ReactNode;
     title: string;
     description: string;
     className?: string;
@@ -83,8 +86,8 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
             className={`flex items-start gap-4 self-stretch rounded-2xl border-2 border-[#D5E0ED] bg-[#E7ECF1] p-6 sm:p-8 ${className}`}
         >
             {/* Icon */}
-            <div className="flex items-center justify-center shrink-0">
-                <Icon className="w-6 h-6 text-[#0E3E71]" />
+            <div className="flex items-center justify-center shrink-0 m">
+                {Icon as React.ReactNode}
             </div>
 
             {/* Content */}

@@ -13,6 +13,8 @@ export default function WhyChooseSection() {
                 src="/images/whychoose-bg.png" // replace with your image
                 alt="Lab technician"
                 fill
+                quality={100}
+                unoptimized
                 priority
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, (max-width: 1280px) 100vw, 100vw"
@@ -25,7 +27,7 @@ export default function WhyChooseSection() {
             <div className="relative z-10 w-full max-w-[1320px] mx-auto px-4 lg:px-0 pt-[70px] pb-8 ">
 
                 {/* Top Content */}
-                <div className="max-w-[600px] mb-[320px]">
+                <div className="max-w-[600px] mb-25 md:mb-[320px]">
                     <SectionLabel className='w-fit mb-2 text-white border-white'>Why Choose Us</SectionLabel>
 
                     <SectionHeading className='max-w-[600px] text-white'>Trusted Lab Services <br /> Across the country</SectionHeading>
