@@ -4,11 +4,15 @@ import Link from "next/link";
 import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import CartIcon from "./icons/CartIcon";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
+
+    const pathname = usePathname();
+    const isHome = pathname === '/';
     return (
-        <header className="absolute top-0 left-0 w-full z-50">
-            <div className="max-w-[1320px] mx-auto px-4 md:px-0  flex items-center justify-between text-white">
+        <header className={`absolute top-0 left-0 w-full z-50 ${isHome ? 'bg-transparent' : 'bg-[#023347]'}`}>
+            <div className="max-w-[1320px] mx-auto px-4 md:px-0  flex items-center justify-between text-white py-2.5">
 
                 {/* Logo */}
                 <div className="w-40 h-15 relative ">
@@ -19,7 +23,7 @@ const Navbar = () => {
                 <nav className="hidden md:flex items-center gap-8 md:text-lg text-sm py-6">
                     <Link href="/">Home</Link>
                     <Link href="/services">Our services</Link>
-                    <Link href="/about">About us</Link>
+                    <Link href="/about-us">About us</Link>
                     <Link href="/verify">Verify</Link>
                 </nav>
 

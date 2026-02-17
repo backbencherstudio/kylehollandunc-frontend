@@ -37,7 +37,7 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
     return (
       <h2
         className={`
-          self-stretch
+          
           text-[#1D1F2C]
           font-syne
           text-4xl  md:text-5xl

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { SVGProps } from "react";
-const CheckCircleIcon = (props: SVGProps<SVGSVGElement>) => (
+const ChevronLeft = (props: SVGProps<SVGSVGElement>) => (
   <svg
     width={24}
     height={24}
@@ -10,18 +10,19 @@ const CheckCircleIcon = (props: SVGProps<SVGSVGElement>) => (
     {...props}
   >
     <path
-      d="M15 2.4578C14.053 2.16035 13.0452 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 10.9548 21.8396 9.94704 21.5422 9"
-      stroke="#777980"
+      d="M12.5 18C12.5 18 18.5 13.5811 18.5 12C18.5 10.4188 12.5 6 12.5 6"
+      stroke="white"
       strokeWidth={1.5}
       strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
-      d="M8.5 9.5L12 13L21.0002 3"
-      stroke="#777980"
+      d="M5.50005 18C5.50005 18 11.5 13.5811 11.5 12C11.5 10.4188 5.5 6 5.5 6"
+      stroke="white"
       strokeWidth={1.5}
       strokeLinecap="round"
       strokeLinejoin="round"
     />
   </svg>
 );
-export default CheckCircleIcon;
+export default ChevronLeft;
