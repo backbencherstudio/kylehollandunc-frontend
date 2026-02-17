@@ -6,7 +6,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     return (
         <div>
             <Navbar />
-            <div className='min-h-[calc(100vh-200px)] '>
+            <div className='min-h-[calc(100vh-200px)] border -mt-1'>
                 {children}
             </div>
             <Footer />
