@@ -13,6 +13,8 @@ export default function WhyChooseSection() {
                 src="/images/whychoose-bg.png" // replace with your image
                 alt="Lab technician"
                 fill
+                quality={100}
+                unoptimized
                 priority
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, (max-width: 1280px) 100vw, 100vw"
