@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Check } from "lucide-react";
+import Checkbox from "@/components/reusable/Checkbox";
 
 const ADD_ON_PRICE = 75;
 
@@ -77,15 +78,7 @@ export default function AddOnServices() {
                                     }`}
                             >
                                 {/* Checkbox */}
-                                <div
-                                    className={`w-5 h-5 rounded-md flex items-center justify-center border shrink-0
-                  ${isSelected
-                                            ? "bg-[#22CAAD] border-[#22CAAD]"
-                                            : "border-[#C9CCD3]"
-                                        }`}
-                                >
-                                    {isSelected && <Check size={16} color="white" />}
-                                </div>
+                                <Checkbox isSelected={isSelected} />
 
                                 <span className="text-[#777980] text-sm sm:text-base lg:text-lg leading-[132%] tracking-[0.1px] break-words">
                                     {option}
