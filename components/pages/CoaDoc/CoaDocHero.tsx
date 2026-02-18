@@ -1,6 +1,15 @@
+"use client";
+
 import React from 'react'
+import { useRouter } from 'next/navigation';
 
 export default function CoaDocHero() {
+
+    const router = useRouter();
+
+    const handleViewCoaDocument = () => {
+        router.push('/coa-doc/view');
+    }
     return (
         <section className='bg-[#023347]'>
             <div className='flex max-w-[1600px] flex-col justify-center items-center md:gap-14 gap-10 px-6 sm:px-10 md:px-16 lg:px-[140px] py-10 sm:py-12 md:py-16 lg:py-[100px] mx-auto'>
@@ -12,7 +21,7 @@ export default function CoaDocHero() {
                         testing results. Click below to view or download the full Certificate of Analysis.</p>
 
 
-                    <button className='md:px-8 px-6 md:py-4 py-3 rounded-full bg-[linear-gradient(180deg,#84B6DE_0%,#1C5E96_100%)] text-white text-lg font-medium hover:opacity-90 transition cursor-pointer mx-auto text-center'       >
+                    <button onClick={handleViewCoaDocument} className='md:px-8 px-6 md:py-4 py-3 rounded-full bg-[linear-gradient(180deg,#84B6DE_0%,#1C5E96_100%)] text-white text-lg font-medium hover:opacity-90 transition cursor-pointer mx-auto text-center'       >
                         View COA Document
                     </button>
                 </div>
