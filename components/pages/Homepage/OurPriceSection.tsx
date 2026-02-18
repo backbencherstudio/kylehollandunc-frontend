@@ -1,6 +1,7 @@
 import RightArrowIcon from "@/components/icons/RIghtArrowIcon";
 import SectionLabel, { SectionHeading } from "@/components/reusable/SectionLabel";
 import { CheckCircleIcon } from "lucide-react";
+import Link from "next/link";
 
 export default function OurPriceSection() {
     return (
@@ -76,10 +77,10 @@ export default function OurPriceSection() {
   
             {/* Bottom Button */}
             <div className="w-full">
-              <button className="w-full px-6 py-3 rounded-lg bg-[linear-gradient(180deg,#84B6DE_0%,#1C5E96_100%)] text-white flex items-center justify-center gap-3 hover:opacity-90 transition-opacity duration-300">
+              <Link href="/services"className="w-full px-6 py-3 rounded-lg bg-[linear-gradient(180deg,#84B6DE_0%,#1C5E96_100%)] text-white flex items-center justify-center gap-3 hover:opacity-90 transition-opacity duration-300">
                 View services
                 <RightArrowIcon className="w-5 h-5 text-white" />
-              </button>
+              </Link>
             </div>
           </div>
   

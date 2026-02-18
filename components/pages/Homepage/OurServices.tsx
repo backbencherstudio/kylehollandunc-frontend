@@ -23,17 +23,17 @@ export default function OurServices() {
           <ServiceCard
             title="Peptide Testing"
             image="/images/services/service1.jpg"
-            href="/services/service1"
+            href="/services"
           />
           <ServiceCard
             title="Peptide Testing"
             image="/images/services/service2.jpg"
-            href="/services/service2"
+            href="/services"
           />
           <ServiceCard
             title="Peptide Testing"
             image="/images/services/service3.jpg"
-            href="/services/service3"
+            href="/services"
           />
         </div>
       </div>

@@ -83,7 +83,7 @@ const InfoCard: React.FC<InfoCardProps> = ({
             </p>
 
             <button className="button-gradient-primary rounded-[32px] w-fit">
-                <span className="button-gradient-primary-text"> Get A Quote</span>
+                <span className="button-gradient-primary-text"> Contact  Us</span>
             </button>
 
         </div>

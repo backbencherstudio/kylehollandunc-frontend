@@ -56,14 +56,14 @@ const HeroSection = () => {
                         </Link>
 
                         <Link
-                            href="/verify"
+                            href="/verify-report"
                             className="px-6 py-3 rounded-full border border-white/40 hover:bg-white/10 transition"
                         >
                             <span className="text-[#FFFFFF] font-medium leading-[150%] tracking-[0.09px]">Verify A Report</span>
                         </Link>
 
                         <Link
-                            href="/request"
+                            href="/request-test"
                             className="px-6 py-3 rounded-full border border-white/40 hover:bg-white/10 transition"
                         >
                             <span className="text-[#FFFFFF] font-medium leading-[150%] tracking-[0.09px]">Request Testing</span>

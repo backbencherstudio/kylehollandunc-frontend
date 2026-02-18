@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import { Check } from "lucide-react";
 import Checkbox from "@/components/reusable/Checkbox";
+import { useRouter } from "next/navigation";
 
 const ADD_ON_PRICE = 75;
 
@@ -17,7 +18,7 @@ const addOns = [
 
 export default function AddOnServices() {
     const [selected, setSelected] = useState<string[]>(["Purity Analysis"]);
-
+    const router  = useRouter();    
     const toggleOption = (option: string) => {
         setSelected((prev) =>
             prev.includes(option)
@@ -27,6 +28,12 @@ export default function AddOnServices() {
     };
 
     const total = selected.length * ADD_ON_PRICE;
+
+    const handleAddToCart = () => {
+        // Implement add to cart functionality here
+        alert(`Added ${selected.length} add-on service(s) to cart. Total: $${total}`);
+            router.push('/services/my-cart'); // Redirect to cart page after adding to cart
+    }   
 
     return (
         <div className="w-full max-w-[900px] mx-auto px-4 md:px-0">
@@ -104,7 +111,7 @@ export default function AddOnServices() {
                     </span>
                 </div>
 
-                <button className="w-full py-3 sm:py-4 rounded-lg bg-gradient-to-b from-[#84B6DE] to-[#1C5E96] text-white font-medium hover:opacity-90 transition">
+                <button onClick={handleAddToCart} className="w-full py-3 sm:py-4 rounded-lg bg-gradient-to-b from-[#84B6DE] to-[#1C5E96] text-white font-medium hover:opacity-90 transition">
                     Add to Cart
                 </button>
 
