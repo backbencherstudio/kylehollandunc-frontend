@@ -3,9 +3,11 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { AuthHeader } from "./AuthReusable";
+import { useRouter } from "next/navigation";
 
 export default function EnterOTPPage() {
   const [otp, setOtp] = useState(["", "", "", ""]);
+  const router = useRouter();
 
   const handleChange = (value: string, index: number) => {
     if (!/^[0-9]?$/.test(value)) return;
@@ -20,6 +22,11 @@ export default function EnterOTPPage() {
     }
   };
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    router.push('/password/reset');
+  };
+
   return (
     <div className="max-w-[1320px] mx-auto px-4 py-16">
 
@@ -30,9 +37,9 @@ export default function EnterOTPPage() {
           description='We have just sent you 4 digit code your email bram******@gmail.com'
         />
 
-        <div className="w-full max-w-[550px] mx-auto bg-[#F8F9FB] rounded-2xl p-6 sm:p-8">
+        <div className="w-full sm:w-[550px] mx-auto bg-[#F8F9FB] rounded-2xl p-6 sm:p-8">
 
-          <form className="flex flex-col gap-6 items-center">
+          <form className="flex flex-col gap-6 items-center" onSubmit={handleSubmit}>
 
             {/* OTP Boxes */}
             <div className="flex gap-4">

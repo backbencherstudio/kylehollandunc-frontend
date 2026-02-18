@@ -78,7 +78,7 @@ const Navbar = () => {
 
                         {/* Sign Up — desktop only */}
                         <Link
-                            href="/contact"
+                            href="/register"
                             className="hidden md:inline-flex px-5 py-2 rounded-full border border-white/50 hover:bg-white/10 transition"
                         >
                             <span className="text-[#FFFFFF] font-medium leading-[150%] tracking-[0.09px]">Sign Up</span>
@@ -190,7 +190,7 @@ const Navbar = () => {
                     style={{ transitionDelay: menuOpen ? '350ms' : '0ms' }}
                 >
                     <Link
-                        href="/contact"
+                        href="/register"
                         onClick={() => setMenuOpen(false)}
                         className="flex items-center justify-center w-full px-5 py-2.5 rounded-full border border-white/50 hover:bg-white/10 transition"
                     >
