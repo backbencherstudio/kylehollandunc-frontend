@@ -37,3 +37,20 @@ body {
 .button-gradient-primary-text {
   @apply text-white  text-lg font-medium leading-[150%] tracking-[0.09px] ;
 }
+
+
+
+
+
+.auth-btn {
+  @apply 
+    w-full
+    flex items-center justify-center gap-2.5
+    h-[48px] sm:h-[52px]
+    px-6 rounded-full text-white 
+    text-base sm:text-lg font-medium leading-[150%] tracking-[0.09px]
+    [background:var(--gradient,linear-gradient(180deg,#84B6DE_0%,#1C5E96_100%))]
+    transition
+    hover:opacity-90; 
+
+}
