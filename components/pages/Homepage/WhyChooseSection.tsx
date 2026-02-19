@@ -2,6 +2,7 @@
 
 import SectionLabel, { SectionHeading } from "@/components/reusable/SectionLabel";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 export default function WhyChooseSection() {
@@ -10,7 +11,7 @@ export default function WhyChooseSection() {
 
             {/* Background Image */}
             <Image
-                src="/images/whychoose-bg.png" // replace with your image
+                src="/images/whychoose-bg.png" 
                 alt="Lab technician"
                 fill
                 quality={100}
@@ -67,6 +68,9 @@ const InfoCard: React.FC<InfoCardProps> = ({
     title,
     description,
 }) => {
+
+    
+
     return (
         <div className="bg-white backdrop-blur-2xl rounded-2xl p-6 shadow-lg">
 
@@ -82,9 +86,9 @@ const InfoCard: React.FC<InfoCardProps> = ({
                 {description}
             </p>
 
-            <button className="button-gradient-primary rounded-[32px] w-fit">
+            <a href="#contact-us" className="button-gradient-primary rounded-[32px] w-fit">
                 <span className="button-gradient-primary-text"> Contact  Us</span>
-            </button>
+            </a>
 
         </div>
     );

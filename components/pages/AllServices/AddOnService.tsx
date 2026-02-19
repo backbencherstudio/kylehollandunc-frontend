@@ -8,14 +8,20 @@ import { useRouter } from "next/navigation";
 const ADD_ON_PRICE = 75;
 
 const addOns = [
-    "Purity Analysis",
-    "Identity Confirmation",
-    "Endotoxin Testing",
+    "TFA analysis",
+    "Raw Data",
+    "Fentanyl presence analysis",
+    "Alternative results format: m/m purity",
+    "Variance Testing",
+    "pH Measurement",
+    "Endotoxin Analysis",
+    "CHNS Mass Report",
+    "Additional report",
+    "LCMS Screening For Peptide Contamination",
     "Sterility Testing",
-    "Moisture Content",
-    "Residual Solvent Analysis",
-];
-
+    "Heavy Metals Analysis",
+  ];
+  
 export default function AddOnServices() {
     const [selected, setSelected] = useState<string[]>(["Purity Analysis"]);
     const router  = useRouter();    

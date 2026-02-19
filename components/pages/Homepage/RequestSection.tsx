@@ -1,9 +1,13 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 export default function RequestTestSection() {
+
+  const router = useRouter();
+
   return (
     <section className="max-w-[1488px] mx-auto px-6 md:px-0 py-10 md:py-25 ">
 
@@ -13,7 +17,7 @@ export default function RequestTestSection() {
         <Image
           src="/images/request-bg1.png" // replace with your image
           alt="Molecule background"
-        fill
+          fill
           quality={100}
           unoptimized
           className="object-cover h-full w-full"
@@ -36,7 +40,7 @@ export default function RequestTestSection() {
               timeline tailored to your workflow.
             </p>
 
-            <button className="px-8 py-3 rounded-full bg-[linear-gradient(180deg,#84B6DE_0%,#1C5E96_100%)] text-white hover:opacity-90 transition">
+            <button onClick={() => router.push("/request-test")} className="px-8 py-3 rounded-full bg-[linear-gradient(180deg,#84B6DE_0%,#1C5E96_100%)] text-white hover:opacity-90 transition cursor-pointer">
               Start request
             </button>
           </div>

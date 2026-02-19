@@ -18,7 +18,7 @@ const HowItworks = () => {
 
                 <StepCard title="Enter Report ID" description="Use the unique ID from your test report" />
                 <StepCard title="Purity Assessment" description="HPLC analysis with detailed impurity profiling." />
-                <StepCard title="Verification ID" description="Unique report ID for third-pany verification." />
+                <StepCard title="Verification ID" description="Unique report ID for third-pany verification." /> 
                 <StepCard title="Method Details" description="Complete methodology and equipment documentation." />
 
             </div>
