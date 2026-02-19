@@ -10,6 +10,24 @@ const Navbar = () => {
     const pathname = usePathname();
     const isHome = pathname === '/';
     const [menuOpen, setMenuOpen] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
+
+
+    useEffect(() => {
+        const handleScroll = () => {
+          if (window.scrollY > 50) {
+            setScrolled(true);
+          } else {
+            setScrolled(false);
+          }
+        };
+    
+        window.addEventListener("scroll", handleScroll);
+    
+        return () => {
+          window.removeEventListener("scroll", handleScroll);
+        };
+      }, []);
 
     // Close menu on route change
     useEffect(() => {
@@ -38,7 +56,16 @@ const Navbar = () => {
 
     return (
         <>
-            <header className={`absolute top-0 left-0 w-full z-50 ${isHome ? 'bg-transparent' : 'bg-[#023347]'}`}>
+       <header
+  className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+    scrolled
+      ? "bg-[#023347] shadow-md"
+      : isHome
+      ? "bg-transparent"
+      : "bg-[#023347]"
+  }`}
+>
+
                 <div className="max-w-[1320px] mx-auto px-4 md:px-0 flex items-center justify-between text-white py-2.5">
 
                     {/* Logo */}

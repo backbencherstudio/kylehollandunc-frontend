@@ -6,6 +6,7 @@ import { CreditCard } from "lucide-react";
 import Checkbox from "@/components/reusable/Checkbox";
 import CardIcon from "@/components/icons/CardIcon";
 import PaypalIcon from "@/components/icons/PaypalIcon";
+import { useRouter } from "next/navigation";
 
 interface FinalOrderSummaryProps {
   subtotal: number;
@@ -177,10 +178,13 @@ function FinalOrderSummary({
   onPay,
 }: FinalOrderSummaryProps) {
   const total = subtotal + shipping;
+  const router = useRouter();
 
 
   const handleMakePayment = () => {
     console.log("payment done")
+
+    router.push("/order")
  
   }
   return (
@@ -226,7 +230,7 @@ function FinalOrderSummary({
         {/* Make Payment */}
         <button
           onClick={handleMakePayment}
-          className="w-full sm:w-1/2 py-3 rounded-lg bg-gradient-to-b from-[#84B6DE] to-[#1C5E96] text-white font-medium hover:opacity-90 transition"
+          className="w-full sm:w-1/2 py-3 rounded-lg bg-gradient-to-b from-[#84B6DE] to-[#1C5E96] text-white font-medium hover:opacity-90 transition cursor-pointer"
         >
           Make Payment
         </button>

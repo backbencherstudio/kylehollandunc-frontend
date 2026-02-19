@@ -3,7 +3,7 @@ import TruckIcon from '@/components/icons/TruckIcon';
 import Checkbox from '@/components/reusable/Checkbox';
 import { ChevronLeft } from 'lucide-react';
 import Image from 'next/image';
-export default function SampleDetails({ selectedMethod }: { selectedMethod: "own" | "label" }) {
+export default function SampleDetails({ selectedMethod, handleNext }: { selectedMethod: "own" | "label", handleNext: any }) {
     return (
         <section className=''>
             <div className="grid sm:grid-cols-2 grid-cols-1 gap-6 md:gap-12 mb-6 md:mb-12">
@@ -90,6 +90,11 @@ export default function SampleDetails({ selectedMethod }: { selectedMethod: "own
                             <p className='self-stretch text-[#5D6873] text-base font-normal leading-[160%] tracking-[0.08px]'>What do you need verified?
                                 (identity/ purity/ potency/ contaminants/ stability/desired turnaround)</p>
                         </div>
+                    </div>
+
+
+                    <div onClick={handleNext} className='flex items-center justify-end mt-[26px]'>
+                        <button className='flex w-24 md:w-60 justify-center items-center gap-2.5 shrink-0 [background:var(--gradient,linear-gradient(0deg,rgba(0,0,0,0.20)_0%,rgba(0,0,0,0.20)_100%),linear-gradient(180deg,#84B6DE_0%,#1C5E96_100%))] px-6 py-3 rounded-lg text-white cursor-pointer'>Next</button>
                     </div>
                 </div>
 

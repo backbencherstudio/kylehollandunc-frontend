@@ -55,7 +55,7 @@ export default function MyCart() {
                 )}
 
                 {currentStep === 2 && (
-                    <SampleDetails selectedMethod={selectedMethod} />
+                    <SampleDetails selectedMethod={selectedMethod} handleNext={() => nextStep()} />
                 )}
 
                 {currentStep === 3 && (
@@ -65,7 +65,7 @@ export default function MyCart() {
             </div>
 
             {/* Navigation Buttons */}
-            <div className="flex justify-between mt-10">
+            {/* <div className="flex justify-between mt-10">
 
                 <button
                     onClick={prevStep}
@@ -83,7 +83,7 @@ export default function MyCart() {
                     Next
                 </button>
 
-            </div>
+            </div> */}
 
         </section>
     );
