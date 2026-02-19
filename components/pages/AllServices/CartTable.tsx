@@ -45,7 +45,7 @@ export default function CartTable() {
     price * quantity;
 
   return (
-    <div className="max-w-[1100px] mx-auto px-4">
+    <div className="w-full ">
 
       <div className="bg-white border border-[#E5E7EB] rounded-3xl p-4 sm:p-6 md:p-8">
 

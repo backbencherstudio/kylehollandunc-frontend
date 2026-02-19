@@ -63,8 +63,8 @@ export default function RequestForm() {
                                                         <ChevronLeft />
                                                     </div>
                                                     <div>
-                                                        <p className='mb-2 self-stretch text-[color:var(--W,#FFF)]  text-base sm:text-lg font-semibold leading-[150%] tracking-[0.09px] '>{item.name}</p>
-                                                        <p className='self-stretch text-[color:var(--W,#FFF)]  text-base sm:text-lg font-normal leading-[150%] tracking-[0.09px]'>{item.description}</p>
+                                                        <p className='mb-2 self-stretch text-[#FFF]  text-base sm:text-lg font-semibold leading-[150%] tracking-[0.09px] '>{item.name}</p>
+                                                        <p className='self-stretch text-[#FFF]  text-base sm:text-lg font-normal leading-[150%] tracking-[0.09px]'>{item.description}</p>
                                                     </div>
                                                 </div>
                                             ))
@@ -84,7 +84,7 @@ export default function RequestForm() {
                     </div>
 
                 </div>
-
+                      
             </div>
         </section>
     )
