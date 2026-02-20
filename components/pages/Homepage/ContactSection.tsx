@@ -6,11 +6,11 @@ import React from "react";
 
 export default function ContactSection() {
     return (
-        <section className="relative w-full min-h-[750px] overflow-hidden">
+        <section id="contact-us" className="relative w-full min-h-[750px] overflow-hidden">
 
             {/* ================= Background Image ================= */}
             <Image
-                src="/images/contact-bg.png" // replace with your image
+                src="/images/contact-bg.png" 
                 alt="Lab technician"
                 fill
                 priority
@@ -18,7 +18,7 @@ export default function ContactSection() {
             />
 
             {/* Dark Overlay */}
-            <div className="absolute inset-0 bg-[rgba(2,51,71,0.10)]" />
+            <div className="absolute inset-0 bg-[rgba(2,51,71,0.40)]" />
 
             {/* ================= Content ================= */}
             <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-[140px] py-20 lg:py-[120px] flex flex-col lg:flex-row justify-between gap-14">
@@ -26,7 +26,8 @@ export default function ContactSection() {
                 {/* Left Side */}
                 <div className="max-w-[556px] text-white">
                     <SectionLabel className='w-fit mb-2 text-white border-white'>Contact us</SectionLabel>
-                    <SectionHeading className='text-white mb-3'>Get in Touch with Us</SectionHeading>
+                    <SectionHeading className='text-white mb-3'>Get in Touch with Us
+                    Contact Us for Custom Pricing on High-Volume Orders</SectionHeading>
 
                     <p className="self-stretch text-white text-base font-normal leading-[124%] tracking-[0.08px]">Need assistance with your sample or testing request? Submit your inquiry and our team will provide fast intake, secure coordination, and transparent communication from start to finish.</p>
 

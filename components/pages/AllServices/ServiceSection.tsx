@@ -39,6 +39,11 @@ export default function ServiceSection() {
               verification and basic purity assessment for your peptide samples.
             </p>
 
+            <div className="mb-3">
+              <p className="text-[color:var(--Gray-Black-500,#1D1F2C)] [font-family:Syne] text-5xl font-bold leading-[120%]">$199</p>
+              <p className="text-[color:var(--Gray-Black-400,#4A4C56)] [font-family:Inter] text-lg font-normal leading-[150%] tracking-[0.09px]">Per peptide tested</p>
+            </div>
+
             <QuantityStepper value={quantity} onChange={setQuantity} />
           </div>
 

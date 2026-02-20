@@ -1,8 +1,9 @@
 import React from 'react'
 import TruckIcon from '@/components/icons/TruckIcon';
 import Checkbox from '@/components/reusable/Checkbox';
-import { ChevronLeft } from 'lucide-react';
+
 import Image from 'next/image';
+import ChevronLeft from '@/components/icons/ChevronLeft';
 export default function SampleDetails({ selectedMethod, handleNext }: { selectedMethod: "own" | "label", handleNext: any }) {
     return (
         <section className=''>
@@ -76,27 +77,44 @@ export default function SampleDetails({ selectedMethod, handleNext }: { selected
 
                 {/* RIGHT SIDE  */}
 
-                <div>
-                    <h2 className='text-[#1D1F2C] font-syne text-2xl  sm:text-4xl font-semibold leading-[124%] tracking-[0.18px] mb-6 md:mb-8'>Sample Details</h2>
+                <div className="w-full lg:max-w-[628px]">
 
-                    <div className='flex flex-col gap-2.5'>
-                        <div className='p-2.5 border-b border-[#DFE1E7]'>
-                            <p className='self-stretch text-[#5D6873] text-base font-normal leading-[160%] tracking-[0.08px]'>Organization (supplier/clinic/pharmacy)</p>
-                        </div>
-                        <div className='p-2.5 border-b border-[#DFE1E7]'>
-                            <p className='self-stretch text-[#5D6873] text-base font-normal leading-[160%] tracking-[0.08px]'>Peptide to test (e g , BPC-157, Semaglutide)</p>
-                        </div>
-                        <div className='p-2.5 border-b border-[#DFE1E7]'>
-                            <p className='self-stretch text-[#5D6873] text-base font-normal leading-[160%] tracking-[0.08px]'>What do you need verified?
-                                (identity/ purity/ potency/ contaminants/ stability/desired turnaround)</p>
-                        </div>
-                    </div>
+                    {/* Title */}
+                    <h2 className="text-3xl md:text-4xl font-syne font-semibold text-[#1D1F2C] mb-10 md:mb-12">
+                        Sample Details
+                    </h2>
 
+                    {/* Form */}
+                    <form className="flex flex-col gap-8 md:gap-10">
 
-                    <div onClick={handleNext} className='flex items-center justify-end mt-[26px]'>
-                        <button className='flex w-24 md:w-60 justify-center items-center gap-2.5 shrink-0 [background:var(--gradient,linear-gradient(0deg,rgba(0,0,0,0.20)_0%,rgba(0,0,0,0.20)_100%),linear-gradient(180deg,#84B6DE_0%,#1C5E96_100%))] px-6 py-3 rounded-lg text-white cursor-pointer'>Next</button>
-                    </div>
+                        {/* Organization */}
+                        <FormInput placeholder="Organization (supplier/clinic/pharmacy)" />
+
+                        {/* Peptide */}
+                        <FormInput placeholder="Peptide to test (e.g., BPC-157, Semaglutide)" />
+
+                        {/* What to verify */}
+                        <textarea
+                            placeholder="What do you need verified? (identity / purity / potency / contaminants / stability / desired turnaround)"
+                            rows={3}
+                            className="w-full bg-transparent border-b border-[#E5E7EB] pb-3 text-[#4A4C56] placeholder-[#9CA3AF] text-base md:text-lg focus:outline-none focus:border-[#1C5E96] resize-none leading-[150%] h-[100px] md:h-auto"
+                        />
+
+                        {/* Button */}
+                        <div className="flex justify-end mt-4">
+                            <button
+                                type="button"
+                                onClick={handleNext}
+                                className="px-8 py-4 rounded-full bg-[linear-gradient(180deg,#84B6DE_0%,#1C5E96_100%)] text-white text-lg font-medium hover:opacity-90 transition cursor-pointer"
+                            >
+                                Next
+                            </button>
+                        </div>
+
+                    </form>
+
                 </div>
+
 
             </div>
         </section>
@@ -188,3 +206,22 @@ export function OrderSummaryCard({
         </div>
     );
 }
+
+
+
+/* ================= Reusable Input ================= */
+
+interface FormInputProps {
+    placeholder: string;
+    className?: string;
+}
+
+const FormInput: React.FC<FormInputProps> = ({ placeholder, className = '' }) => {
+    return (
+        <input
+            type="text"
+            placeholder={placeholder}
+            className={`bg-transparent border-b border-[#E5E7EB] pb-3 text-[#4A4C56] placeholder-[#9CA3AF] text-base md:text-lg focus:outline-none focus:border-[#1C5E96] transition  ${className}`}
+        />
+    );
+};

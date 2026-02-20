@@ -21,17 +21,17 @@ export default function OurServices() {
         {/* services cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
           <ServiceCard
-            title="Peptide Testing"
+            title="HPLC purity analysis"
             image="/images/services/service1.jpg"
             href="/services"
           />
           <ServiceCard
-            title="Peptide Testing"
+            title="Analytical laboratory testing"
             image="/images/services/service2.jpg"
             href="/services"
           />
           <ServiceCard
-            title="Peptide Testing"
+            title="Sample preparation"
             image="/images/services/service3.jpg"
             href="/services"
           />
@@ -70,9 +70,9 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ title, image, href = "#" }) =
         <h3 className="self-stretch text-[color:var(--W,#FFF)] text-left [font-family:Inter] text-xl md:text-2xl font-semibold leading-[120%] tracking-[0.12px] mb-3">
           {title}
         </h3>
-        <span className="text-[color:var(--W,#FFF)] text-left [font-family:Inter] text-base md:text-lg font-medium leading-[120%] tracking-[0.09px] underline underline-offset-4">
+        {/* <span className="text-[color:var(--W,#FFF)] text-left [font-family:Inter] text-base md:text-lg font-medium leading-[120%] tracking-[0.09px] underline underline-offset-4">
           Learn More
-        </span>
+        </span> */}
       </div>
     </Link>
   );

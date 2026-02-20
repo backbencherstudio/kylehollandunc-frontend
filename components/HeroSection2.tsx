@@ -27,9 +27,9 @@ const HeroSection = () => {
                 <div className="max-w-[727px] text-white">
 
                     {/* Small Tagline */}
-                    <span className="inline-block mb-3 px-3 py-1 text-sm bg-white/10 backdrop-blur-[5px] rounded-full text-[#E9E9EA]  font-normal leading-[150%] tracking-[0.07px]">
+                    {/* <span className="inline-block mb-3 px-3 py-1 text-sm bg-white/10 backdrop-blur-[5px] rounded-full text-[#E9E9EA]  font-normal leading-[150%] tracking-[0.07px]">
                         Identity, purity, potency, contaminants, stability (scope dependent)
-                    </span>
+                    </span> */}
 
                     {/* Main Heading */}
                     <h1 className="text-4xl md:text-7xl font-bold leading-[120%]  font-syne">
