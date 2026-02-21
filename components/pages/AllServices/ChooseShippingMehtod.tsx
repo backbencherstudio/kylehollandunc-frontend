@@ -29,6 +29,8 @@ export default function ChooseShippingMehtod({ setSelectedMethod, selectedMethod
                 </div>
             </div>
 
+            
+
         </section>
     )
 }

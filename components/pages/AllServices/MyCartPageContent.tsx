@@ -50,6 +50,7 @@ export default function MyCart() {
                     <div className="flex flex-col gap-6 md:gap-12">
                         <ChooseShippingMehtod selectedMethod={selectedMethod} setSelectedMethod={setSelectedMethod}  />
                         <OrderSummaryCard
+                        method={selectedMethod}
                          handleCancel={() => {}} handleProceed={() => {nextStep()}} subtotal={100} shipping={10} />
                     </div>
                 )}
