@@ -1,16 +1,25 @@
 import SectionLabel, { SectionHeading } from '@/components/reusable/SectionLabel'
+
+import React from 'react'
+
 import ChevronLeft from '@/components/icons/ChevronLeft'
+import DoubleTickIcon from '@/components/icons/DoubleTickIcon'
 
 const HowItworks = () => {
     return (
-        <section className='max-w-[1320px] mx-auto px-4 md:px-0  py-10 md:py-16 lg:py-30'>
+        <section className='max-w-[1320px] mx-auto px-4 md:px-0  py-10 md:py-16 lg:py-25'>
             <div className='mb-10 md:mb-12 lg:mb-14 flex flex-col items-center justify-center'>
                 <SectionLabel className='w-fit mb-2 text-[#1C5E96] border-[#1C5E96] '>Sample COA</SectionLabel>
-                <SectionHeading className='max-w-[700px] text-[#1D1F2C] z-50 '>What's Included </SectionHeading>
+                <SectionHeading className='max-w-[700px] text-[#1D1F2C] z-50 text-center'>What's Included </SectionHeading>
             </div>
 
-            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 '>
 
+            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 place-items-center '>
+
+                <StepCard title="Enter Report ID" description="Use the unique ID from your test report" />
+                <StepCard title="Purity Assessment" description="HPLC analysis with detailed impurity profiling." />
+                <StepCard title="Verification ID" description="Unique report ID for third-pany verification." /> 
+                <StepCard title="Method Details" description="Complete methodology and equipment documentation." />
 
             </div>
         </section>
@@ -20,29 +29,26 @@ const HowItworks = () => {
 export default HowItworks
 
 
-const StepCard = ({ step, title, description }: { step: number, title: string, description: string }) => {
+const StepCard = ({ title, description }: { title: string, description: string }) => {
     return (
-        <div className='flex w-[424px] h-[262px] flex-col items-start gap-8 border border-[color:var(--background-pressed-100,#DFE1E7)] [background:#FFF] p-6 rounded-2xl border-solid'>
+        <div className='max-w-[312px]  flex flex-col justify-center items-center gap-6 flex-[1_0_0] border border-[color:var(--background-pressed-100,#DFE1E7)] [background:#FFF] px-8 py-6 rounded-2xl border-solid'>
 
 
             {/* top section */}
-            <div className='flex justify-between items-center gap-2  w-full'>
 
-                <h2 className="text-[#023347]  text-[64px] font-semibold leading-[120%] tracking-[0.32px]">{step}</h2>
-
-
-                <div>
-                    <ChevronLeft className='w-12 h-12 text-[#023347]  ' />
-                </div>
-
-            </div>
-
-
-            {/* bottom section */}
             <div>
-                <h3 className='text-[color:var(--Gray-Black-500,#1D1F2C)]  [font-family:Syne] text-[32px] font-semibold leading-[120%] mb-3'>{title}</h3>
-                <p className='self-stretch text-[color:var(--Gray-Black-300,#777980)] [font-family:Inter] text-lg font-normal leading-[150%] tracking-[0.09px]'>{description}</p>
+                <DoubleTickIcon />
             </div>
+
+
+
+            <div>
+                <h3 className='text-[#023347] text-center [font-family:Syne] text-2xl font-semibold leading-[120%] mb-3'>{title}</h3>
+                <p className='self-stretch text-[color:var(--Gray-Black-300,#777980)] text-center [font-family:Inter] text-base font-normal leading-[150%] tracking-[0.08px]'>{description}</p>
+            </div>
+
+
+
 
         </div>
     )
