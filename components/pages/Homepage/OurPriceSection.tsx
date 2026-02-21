@@ -57,11 +57,10 @@ export default function OurPriceSection() {
   
                 <div className="flex flex-col gap-3">
                   {[
-                    "Basic lab diagnostics",
-                    "Essential drug supply",
-                    "Lab report access",
-                    "Expert phone support",
-                    "Advanced test panels",
+                    "Identity Verification",
+                    "Purity Assessment",
+                    "Amount Check",
+                    "Detailed Report",
                   ].map((item, index) => (
                     <div key={index} className="flex items-center gap-2">
                       <CheckCircleIcon className="w-5 h-5 text-white" />
