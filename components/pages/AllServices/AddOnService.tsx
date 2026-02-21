@@ -22,8 +22,8 @@ const addOns = [
     "Heavy Metals Analysis",
   ];
   
-export default function AddOnServices() {
-    const [selected, setSelected] = useState<string[]>(["Purity Analysis"]);
+export default function AddOnServices( { basePrice, quantity }: { basePrice: number, quantity: number } ) {
+    const [selected, setSelected] = useState<string[]>([]);
     const router  = useRouter();    
     const toggleOption = (option: string) => {
         setSelected((prev) =>
@@ -33,7 +33,7 @@ export default function AddOnServices() {
         );
     };
 
-    const total = selected.length * ADD_ON_PRICE;
+    const total = (basePrice * quantity) +(selected.length * ADD_ON_PRICE);
 
     const handleAddToCart = () => {
         // Implement add to cart functionality here

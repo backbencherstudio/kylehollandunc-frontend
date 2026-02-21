@@ -8,6 +8,9 @@ import CircleCheckIcon from "@/components/icons/CircleCheckIcon";
 import AddOnService from "./AddOnService";
 
 export default function ServiceSection() {
+
+  const [basePrice, setBasePrice] = useState(199);
+
   const [quantity, setQuantity] = useState(1);
 
   return (
@@ -40,7 +43,7 @@ export default function ServiceSection() {
             </p>
 
             <div className="mb-3">
-              <p className="text-[color:var(--Gray-Black-500,#1D1F2C)] [font-family:Syne] text-5xl font-bold leading-[120%]">$199</p>
+              <p className="text-[color:var(--Gray-Black-500,#1D1F2C)] [font-family:Syne] text-5xl font-bold leading-[120%]">${basePrice*quantity}</p>
               <p className="text-[color:var(--Gray-Black-400,#4A4C56)] [font-family:Inter] text-lg font-normal leading-[150%] tracking-[0.09px]">Per peptide tested</p>
             </div>
 
@@ -71,7 +74,7 @@ export default function ServiceSection() {
           </div>
 
           {/* Add On */}
-          <AddOnService />
+          <AddOnService basePrice={basePrice} quantity={quantity} />
 
         </div>
 

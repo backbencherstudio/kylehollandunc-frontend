@@ -22,7 +22,7 @@ export default function page() {
                     <div className="relative w-full max-w-[1324px] aspect-1324/1713 border-4 border-[#DFE1E7] rounded-lg overflow-hidden">
 
                         <Image
-                            src="/images/coa-doc3.png"
+                            src="/images/coa-doc1.jpg"
                             alt="COA Document"
                             fill
                             className="object-contain"
@@ -34,7 +34,7 @@ export default function page() {
                     <div className="relative w-full max-w-[1324px] aspect-1324/1713 border-4 border-[#DFE1E7] rounded-lg overflow-hidden">
 
                         <Image
-                            src="/images/coa-doc4.png"
+                            src="/images/coa-doc2.jpg"
                             alt="COA Document"
                             fill
                             className="object-contain"
