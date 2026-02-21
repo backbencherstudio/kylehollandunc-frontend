@@ -16,10 +16,10 @@ const Homepage = () => {
             <HeroSection2 />
             <AboutSection />
             <OurServices />
+            <OurPriceSection />
             <HowItWorks />
             <OurOfferSection />
             <WhyChooseSection />
-            <OurPriceSection />
             <OurServiceSection />
             <ContactSection />
             <RequestSection />
