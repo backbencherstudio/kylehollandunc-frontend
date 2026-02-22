@@ -49,9 +49,9 @@ export default function DashboardLayout({
                 </SheetContent>
             </Sheet>
 
-            <div className="flex flex-1 flex-col">
+            <div className=" flex-1  bg-[#FAFAFA]">
                 <Topbar onMenuClick={() => setIsMobileMenuOpen(true)} />
-                <main className="flex-1 p-4 md:p-6 overflow-auto">
+                <main className="flex-1 p-4 md:p-6 overflow-auto max-w-[1680px] mx-auto ">
                     {children}
                 </main>
             </div>
