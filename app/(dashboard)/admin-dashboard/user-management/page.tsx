@@ -1,9 +1,10 @@
-import React from 'react'
 
-export default function UserManagementPage() {
+import UserManagementPage from '@/components/dashboard/UserManagement/UserManagementPage'
+
+export default function page() {
   return (
     <div>
-        <h1>User Management</h1>
+        <UserManagementPage />
     </div>
   )
 }
