@@ -42,7 +42,7 @@ const data = [
 
 export default function TestRequestChart() {
   return (
-    <Card className="rounded-2xl shadow-sm h-[348px]">
+    <Card className="rounded-2xl shadow-sm h-[348px] px-4 py-4 flex-1">
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle className="text-xl font-semibold">
           Test Request & Contact Form
@@ -52,7 +52,7 @@ export default function TestRequestChart() {
           <SelectTrigger className="w-[140px]">
             <SelectValue placeholder="Select range" />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="">
             <SelectItem value="last-month">Last Month</SelectItem>
             <SelectItem value="last-6">Last 6 Months</SelectItem>
             <SelectItem value="year">This Year</SelectItem>
@@ -60,7 +60,7 @@ export default function TestRequestChart() {
         </Select>
       </CardHeader>
 
-      <CardContent className="h-[350px]">
+      <CardContent className="h-[280px] p-0">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data}>
             <defs>
@@ -94,7 +94,7 @@ export default function TestRequestChart() {
               stroke="#2563eb"
               fillOpacity={1}
               fill="url(#colorContact)"
-              strokeWidth={3}
+              strokeWidth={2}
             />
 
             <Area
@@ -103,7 +103,7 @@ export default function TestRequestChart() {
               stroke="#7c3aed"
               fillOpacity={1}
               fill="url(#colorTest)"
-              strokeWidth={3}
+              strokeWidth={2}
             />
           </AreaChart>
         </ResponsiveContainer>

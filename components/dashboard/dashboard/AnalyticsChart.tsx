@@ -48,7 +48,7 @@ const CustomTooltip = ({
 
 export function AnalyticsChart() {
   return (
-    <div className="w-full h-80">
+    <div className="w-full h-[348px]">
       <ResponsiveContainer width="100%" height="100%">
         <LineChart
           data={data}
@@ -66,14 +66,14 @@ export function AnalyticsChart() {
           />
           <Tooltip content={<CustomTooltip />} />
           <Legend 
-            wrapperStyle={{ paddingTop: '20px' }}
+            wrapperStyle={{ paddingTop: '16px' }}
             iconType="square"
           />
           <Line
             type="monotone"
             dataKey="Test Request"
             stroke="#7c3aed"
-            strokeWidth={2}
+            strokeWidth={1}
             dot={false}
             isAnimationActive={false}
           />
@@ -81,7 +81,7 @@ export function AnalyticsChart() {
             type="monotone"
             dataKey="Contact Form"
             stroke="#3b82f6"
-            strokeWidth={2}
+            strokeWidth={1}
             dot={false}
             isAnimationActive={false}
           />

@@ -14,7 +14,7 @@ const TOTAL_REQUESTS = 4641
 
 export function RequestDataCard() {
   return (
-    <Card className="w-full max-w-[400px] rounded-[32px] border-none shadow-lg p-4">
+    <Card className="w-full max-w-[500px] rounded-xl border-none shadow-sm h-[348px] flex-1">
       <CardHeader className="pb-0">
         <CardTitle className="text-xl font-bold text-slate-800">Request Data</CardTitle>
       </CardHeader>
