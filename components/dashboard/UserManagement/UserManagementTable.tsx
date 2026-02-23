@@ -12,6 +12,8 @@ import { Column, ReusableTable } from '@/components/reusable/ReusableTable'
 import { StatusBadge } from '@/components/reusable/StatusBadge'
 import { Search } from 'lucide-react'
 import { Input } from '@/components/ui/input'
+import SearchInput from '@/components/reusable/SearchInput'
+import { useState } from 'react'
 
 /* ================= Sample Data ================= */
 
@@ -63,6 +65,8 @@ const columns: Column<User>[] = [
 
 
 export function UserManagementTable() {
+
+    const [search, setSearch] = useState("");   
     return (
         <div className="bg-white rounded-xl border border-[#E5E5E5] overflow-hidden">
 
@@ -73,13 +77,11 @@ export function UserManagementTable() {
                 </h2>
 
                 {/* Search */}
-                <div className="relative w-full sm:w-[360px]">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#687588]" />
-                    <Input
-                        placeholder="Search users by name, email, or code..."
-                        className="pl-9 h-9 text-sm border-[#E5E5E5] focus:border-2 focus:border-[#1C5E96] focus:ring-0 "
-                    />
-                </div>
+                <SearchInput
+                    placeholder="Search users by name, email, or code..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
             </div>
 
             {/* Table */}

@@ -177,3 +177,9 @@ body {
 .table-title{
   @apply text-[#1D1F2C] text-2xl font-semibold leading-[150%] tracking-[0.07px];          
 }
+
+
+.dashboard-modal-title{
+  @apply text-2xl font-semibold leading-[120%]  bg-linear-to-b from-[#84B6DE] to-[#1C5E96] bg-clip-text text-transparent;
+}
+

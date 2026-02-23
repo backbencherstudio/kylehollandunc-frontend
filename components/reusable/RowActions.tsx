@@ -83,7 +83,7 @@ import {
   
         <DropdownMenuContent
           align="end"
-          className={`bg-white border border-[#E5E5E5] rounded-xl z-[100] ${className}`}
+          className={`bg-white border border-[#E5E5E5] rounded-md z-100 ${className}`}
           onClick={(e) => e.stopPropagation()}
         >
           {visibleActions.map((action) => (

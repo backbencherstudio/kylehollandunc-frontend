@@ -1,7 +1,8 @@
 import React from 'react'
+import RequestFormsPage from '@/components/dashboard/RequestForms/index'
 
 export default function page() {
   return (
-    <div> this is request forms page</div>
+    <div> <RequestFormsPage /></div>
   )
 }
