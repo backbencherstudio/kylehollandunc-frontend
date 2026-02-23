@@ -1,7 +1,7 @@
 import React from 'react'
-
+import OrderPage from '@/components/dashboard/order'
 export default function page() {
   return (
-    <div>this is orders page</div>
+    <OrderPage />
   )
 }
