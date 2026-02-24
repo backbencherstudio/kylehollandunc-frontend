@@ -1,7 +1,10 @@
 import React from 'react'
+import SettingsPage from '@/components/dashboard/settings'
 
 export default function page() {
   return (
-    <div>this is settings page</div>
+    <div>
+        <SettingsPage />
+    </div>
   )
 }

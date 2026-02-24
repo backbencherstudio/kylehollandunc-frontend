@@ -28,7 +28,7 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { cn } from '@/lib/utils'
 import ReusableModal from '../reusable/CustomModal'
 import LogoutModal from './LogoutModal'
-
+import Image from 'next/image'
 /* ================= Layout ================= */
 
 export default function DashboardLayout({
@@ -118,14 +118,10 @@ function Sidebar({ isMobile, onClose }: SidebarProps) {
             <div>
                 {/* Logo with close button for mobile */}
                 <div className="px-4 py-4 flex items-center justify-between">
-                    <div>
-                        <h1 className="text-lg font-semibold tracking-tight">
-                            LAKE NORMAN LABS
-                        </h1>
-                        <p className="text-xs text-muted-foreground">
-                            Verified in the Carolinas.
-                        </p>
-                    </div>
+                    <Link href="/" className='w-[200px] h-[57px] relative'>
+
+                        <Image src="/images/dashboard-logo.png" alt="logo" fill className='object-contain object-center' />
+                    </Link>
                     {isMobile && (
                         <Button variant="ghost" size="icon" onClick={onClose} className="lg:hidden">
                             {/* <X className="h-5 w-5" /> */}
