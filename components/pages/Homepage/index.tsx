@@ -16,11 +16,11 @@ const Homepage = () => {
             <HeroSection2 />
             <AboutSection />
             <OurServices />
-            <OurPriceSection />
+            <OurPriceSection />             
             <HowItWorks />
-            <OurOfferSection />
             <WhyChooseSection />
-            <OurServiceSection />
+            <OurOfferSection />
+            {/* <OurServiceSection /> */}
             <ContactSection />
             <RequestSection />
         </div>

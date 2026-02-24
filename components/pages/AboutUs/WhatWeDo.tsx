@@ -1,6 +1,6 @@
 import CircleCheckIcon from "@/components/icons/CircleCheckIcon";
 import SectionLabel, { SectionHeading } from "@/components/reusable/SectionLabel";
-import { Circle } from "lucide-react";
+
 import Image from "next/image";
 
 export default function WhatWeDo() {
@@ -25,7 +25,8 @@ export default function WhatWeDo() {
 
                     {/* right side */}
                     <div className='flex flex-col gap-6 w-full lg:max-w-[734px]'>
-                        <Image src="/images/others/what-we-do.png" alt="What We Do" width={734} height={454} />
+                     
+                        <Image src="/images/others/what-we-do2.png" alt="What We Do" width={734} height={454} />
                     </div>
                 </div>
             </section>

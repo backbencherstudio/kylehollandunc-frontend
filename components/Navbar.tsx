@@ -46,7 +46,7 @@ const Navbar = () => {
 
     const navLinks = [
         { label: 'Home', href: '/' },
-        { label: 'Our services', href: '/request-test' },
+        { label: 'Our services', href: '/services' },
         { label: 'About us', href: '/about-us' },
         { label: 'COA', href: '/coa-doc' },
         { label: 'Verify', href: '/verify-report' },
