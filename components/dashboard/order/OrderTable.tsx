@@ -119,8 +119,15 @@ const columns: Column<Order>[] = [
 ]
 
 import React from 'react'
+import { useRouter } from 'next/navigation'
 
 export default function OrderTable() {
+
+    const router = useRouter();
+
+    const handleViewDetails = (item: Order) => {
+        router.push(`./orders/${item.id}`);
+    }
 
     const [search, setSearch] = useState("");
     const [sort, setSort] = useState("newest");
@@ -160,7 +167,7 @@ export default function OrderTable() {
                     {
                         key: 'view',
                         label: 'View Details',
-                        onClick: (item) => console.log('View Details', item),
+                        onClick: (item) => handleViewDetails(item),
                     },
                     {
                         key: 'reply',

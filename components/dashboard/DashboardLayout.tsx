@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import {
     Bell,
@@ -16,7 +16,8 @@ import {
     LogOut,
     Menu,
     X,
-    HelpCircle
+    HelpCircle,
+    AlertCircle
 } from 'lucide-react'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -25,6 +26,8 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 
 import { cn } from '@/lib/utils'
+import ReusableModal from '../reusable/CustomModal'
+import LogoutModal from './LogoutModal'
 
 /* ================= Layout ================= */
 
@@ -53,7 +56,7 @@ export default function DashboardLayout({
                 <Topbar onMenuClick={() => setIsMobileMenuOpen(true)} />
                 <main className="flex-1 min-w-0 p-4 md:p-6 overflow-x-hidden max-w-[1680px] mx-auto w-full">
 
-                {/* <main className="flex-1 p-4 md:p-6 overflow-x-hidden"> */}
+                    {/* <main className="flex-1 p-4 md:p-6 overflow-x-hidden"> */}
                     {children}
                 </main>
             </div>
@@ -88,8 +91,14 @@ const menuItems = {
 };
 
 function Sidebar({ isMobile, onClose }: SidebarProps) {
-    const pathname = usePathname()
-
+    const pathname = usePathname();
+    const router = useRouter();
+    const [logoutOpen, setLogoutOpen] = useState(false);
+    // handle logout
+    const handleLogout = () => {
+        setLogoutOpen(true);
+        router.push('/');
+    }
 
     const handleLinkClick = () => {
         if (isMobile && onClose) {
@@ -97,6 +106,12 @@ function Sidebar({ isMobile, onClose }: SidebarProps) {
         }
     }
 
+    const isActive = (href: string) => {
+        if (href === '/admin-dashboard') {
+            return pathname === href;
+        }
+        return pathname === href || pathname.startsWith(href + '/');
+    }
     return (
         <aside className="w-full lg:w-[260px] h-full bg-white border-r flex flex-col justify-between">
             {/* Top Section */}
@@ -148,7 +163,7 @@ function Sidebar({ isMobile, onClose }: SidebarProps) {
                                 onClick={handleLinkClick}
                                 className={cn(
                                     'flex items-center gap-3 px-2.5 py-1.5  transition-all text-white text-sm font-medium leading-[150%] tracking-[-0.28px] self-stretch  rounded-[7px]',
-                                    item.href === pathname
+                                    isActive(item.href)
                                         ? ' [background:var(--gradient,linear-gradient(0deg,rgba(0,0,0,0.20)_0%,rgba(0,0,0,0.20)_100%),linear-gradient(180deg,#84B6DE_0%,#1C5E96_100%))] text-white'
                                         : 'text-[#5B5A64] hover:bg-gray-100'
                                 )}
@@ -184,13 +199,26 @@ function Sidebar({ isMobile, onClose }: SidebarProps) {
                     }
                     <button
                         className="flex items-center gap-3 px-3 py-2 text-sm text-gray-600 hover:bg-gray-100 hover:text-red-500 rounded-md w-full cursor-pointer"
-                        onClick={handleLinkClick}
+                        onClick={() => setLogoutOpen(true)}
                     >
                         <LogOut className="w-4 h-4 shrink-0" />
                         <span className="truncate">Logout</span>
                     </button>
                 </div>
             </div>
+
+
+            <ReusableModal
+                open={logoutOpen}
+                onOpenChange={setLogoutOpen}
+                className="w-[500px] p-12"
+                hideCloseButton={true}
+            >
+                <LogoutModal
+                    setLogoutOpen={setLogoutOpen}
+                    handleLogout={handleLogout}
+                />
+            </ReusableModal>
         </aside>
     )
 }
