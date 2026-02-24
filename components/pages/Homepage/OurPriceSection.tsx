@@ -14,7 +14,7 @@ export default function OurPriceSection() {
           <div className="flex-1 flex flex-col gap-4">
             <div>
               <SectionLabel className="w-fit">Our Price</SectionLabel>
-              <SectionHeading>Our industry best Pricing</SectionHeading>
+              <SectionHeading>Industry best Pricing</SectionHeading>
             </div>
   
             <p className="max-w-[615px] text-[#4A4C56] text-base md:text-lg font-normal leading-[150%] tracking-[0.09px]">

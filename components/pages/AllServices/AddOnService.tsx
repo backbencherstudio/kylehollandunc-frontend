@@ -84,7 +84,7 @@ export default function AddOnServices( { basePrice, quantity }: { basePrice: num
                                 key={option}
                                 type="button"
                                 onClick={() => toggleOption(option)}
-                                className={`flex items-center gap-3 p-3 sm:p-4 rounded-xl border-2 transition cursor-pointer w-full
+                                className={`flex items-center  gap-3 p-3 sm:p-4 rounded-xl border-2 transition cursor-pointer w-full
                 ${isSelected
                                         ? "border-[#22CAAD]"
                                         : "border-[#E5E7EB] bg-white hover:border-[#22CAAD]"
@@ -93,7 +93,7 @@ export default function AddOnServices( { basePrice, quantity }: { basePrice: num
                                 {/* Checkbox */}
                                 <Checkbox isSelected={isSelected} />
 
-                                <span className="text-[#777980] text-sm sm:text-base lg:text-lg leading-[132%] tracking-[0.1px] break-words">
+                                <span className="text-[#777980] text-sm sm:text-base lg:text-lg leading-[132%] tracking-[0.1px] wrap-break-words text-left">
                                     {option}
                                 </span>
                             </button>

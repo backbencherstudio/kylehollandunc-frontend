@@ -17,7 +17,7 @@ export default function HowItWorks() {
                 <div className='mb-14'>
                     <SectionLabel className='w-fit mb-2 text-white border-white'>How It Works</SectionLabel>
 
-                    <SectionHeading className='max-w-[700px] text-white z-50 '>How Simple process. Serious standards.</SectionHeading>
+                    <SectionHeading className='max-w-[700px] text-white z-50 '>Simple process. <br /> Serious standards.</SectionHeading>
                 </div>
 
                 <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>

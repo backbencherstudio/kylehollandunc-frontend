@@ -144,6 +144,26 @@ body {
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* Horizontal table scroll: visible scrollbar so table doesn't break layout */
+.table-scroll-x {
+  overflow-x: auto;
+  scrollbar-gutter: stable;
+}
+.table-scroll-x::-webkit-scrollbar {
+  height: 8px;
+}
+.table-scroll-x::-webkit-scrollbar-track {
+  background: oklch(0.97 0 0);
+  border-radius: 4px;
+}
+.table-scroll-x::-webkit-scrollbar-thumb {
+  background: oklch(0.85 0 0);
+  border-radius: 4px;
+}
+.table-scroll-x::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.75 0 0);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -152,3 +172,14 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+
+.table-title{
+  @apply text-[#1D1F2C] text-2xl font-semibold leading-[150%] tracking-[0.07px];          
+}
+
+
+.dashboard-modal-title{
+  @apply text-2xl font-semibold leading-[120%]  bg-linear-to-b from-[#84B6DE] to-[#1C5E96] bg-clip-text text-transparent;
+}
+
