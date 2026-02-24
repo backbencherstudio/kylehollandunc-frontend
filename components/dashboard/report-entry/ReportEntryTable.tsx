@@ -3,6 +3,7 @@
 import { Column, ReusableTable } from "@/components/reusable/ReusableTable"
 import { StatusBadge } from "@/components/reusable/StatusBadge"
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 
 export interface Report {
     id: string
@@ -122,6 +123,8 @@ export interface Report {
   export function ReportEntryTable() {
     const [search, setSearch] = useState("");
     const [sort, setSort] = useState("newest");
+
+    const router = useRouter();
     return (
       <div className="bg-white rounded-xl border p-6 min-w-0 overflow-hidden">
         <h3 className="table-title mb-6">Report Table</h3>
@@ -134,12 +137,12 @@ export interface Report {
             {
               key: 'view',
               label: 'View details',
-              onClick: (item) => console.log('View', item),
+              onClick: (item) => router.push(`/admin-dashboard/report-entry/${item.id}`),
             },
             {
               key: 'edit',
               label: 'Edit',
-              onClick: (item) => console.log('Edit', item),
+              onClick: (item) => router.push(`/admin-dashboard/report-entry/${item.id}/edit`),
             },
             {
               key: 'delete',

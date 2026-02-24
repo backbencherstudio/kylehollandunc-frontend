@@ -2,13 +2,23 @@
 import SearchInput from '@/components/reusable/SearchInput';
 import SortFilter from '@/components/reusable/SortFilter';
 import { useState } from 'react';
-
+import { MoreVertical, Calendar } from 'lucide-react'
+import { RowActions } from '@/components/reusable/RowActions';
+import CustomModal from '@/components/reusable/CustomModal';
 import React from 'react'
 
 export default function ContactForms() {
 
     const [search, setSearch] = useState('');
     const [sort, setSort] = useState('newest');
+    const [isViewOpen, setIsViewOpen] = useState(false);
+
+
+    const handleView = () => {
+        setIsViewOpen(true);
+    }
+
+ 
 
     return (
         <section className='p-4 rounded-xl bg-white'>
@@ -33,10 +43,19 @@ export default function ContactForms() {
 
             {/* cards */}
             <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                <ContactFormCard />
-                <ContactFormCard />
-                <ContactFormCard />
+                <ContactFormCard onView={handleView} />
+                <ContactFormCard onView={handleView} />
+                <ContactFormCard onView={handleView} />
             </div>
+
+            <CustomModal
+                open={isViewOpen}
+                onOpenChange={setIsViewOpen}
+                title="Contact Form"
+                children={<div>Contact Form</div>}
+            />
+
+            
         </section>
     )
 }
@@ -45,8 +64,7 @@ export default function ContactForms() {
 
 
 
-import { MoreVertical, Calendar } from 'lucide-react'
-import { RowActions } from '@/components/reusable/RowActions';
+
 
 interface InquiryCardProps {
     name?: string
@@ -55,6 +73,7 @@ interface InquiryCardProps {
     title?: string
     message?: string
     avatar?: string
+    onView?: () => void
 }
 
 function ContactFormCard({
@@ -64,6 +83,7 @@ function ContactFormCard({
     title = 'Inquiry about bulk pricing.',
     message = 'Hello, do you offer discounts for orders over 100mg?',
     avatar = 'https://i.pravatar.cc/100?img=12',
+    onView,
 }: InquiryCardProps) {
     return (
         <div className="bg-[#F6F8FA] pl-3 pr-5 py-3 rounded-xl w-full">
@@ -100,9 +120,7 @@ function ContactFormCard({
                     <RowActions actions={[{
                         key: 'view',
                         label: 'View',
-                        onClick: () => {
-                            console.log('View')
-                        }
+                        onClick: onView ? () => onView() : () => {console.log('View')}
                     }]} item={name} />
                 </button>
             </div>

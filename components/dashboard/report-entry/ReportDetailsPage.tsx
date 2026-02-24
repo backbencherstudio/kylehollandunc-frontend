@@ -1,99 +1,134 @@
-import DashboardTtile from '@/components/reusable/DashboardTtile'
-import FormInput from '@/components/reusable/FormInput'
-import React from 'react'
+"use client";
+
+import React from "react";
+import { format } from "date-fns";
+import DashboardTtile from "@/components/reusable/DashboardTtile";
+import FileUpload from "@/components/reusable/FileUpload";
 
 export default function ReportDetailsPage() {
-    return (
-        <div>
-            <DashboardTtile
-                baseTitle="Home"
-                page="Order"
-                heading="Manage order"
-                className="mb-8"
-            />
+  // Fake static data (would come from API)
+  const reportData = {
+    reportId: "LNL-000123",
+    testType: "Standard Panel & 2 add ons",
+    clientName: "Theresa Webb",
+    progressStatus: "Completed",
+    date: new Date(),
+    uniqueId: "Illinois DOL",
+    lot: "290",
+    resultStatus: "Pass",
+    summary: [
+      { name: "GHK-Cu", value: "71.36 mg" },
+      { name: "BPC-157", value: "12.41 mg" },
+    ],
+    fileName: "report.xlsx",
+  };
 
-            <section className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                    <FormInput
-                        label="Full Name"
-                        name="name"
-                        value="John Doe"
-                        readOnly
-                    />
-                    <FormInput
-                        label="Report ID"
-                        name="reportId"
-                        value="LNL-000123"
-                        readOnly
-                    />
-                </div>
+  return (
+    <div className="space-y-8">
+      <DashboardTtile
+        baseTitle="Home"
+        page="Report Entry"
+        heading="Report Details"
+        description="Upload and verify client reports"
+      />
 
-                <div className='bg-white rounded-xl border p-6 min-w-0 overflow-hidden'>
-                    <h3 className='table-title mb-6'>Report Details</h3>
-                </div>
+      {/* ========================= */}
+      {/* Test Information Section */}
+      {/* ========================= */}
 
-                <div className='p-4 rounded-2xl bg-[#ECEFF3]'>
+      <section className="p-6 rounded-2xl border border-[#ECEFF3] space-y-6 bg-white">
+        <h2 className="text-[#4A4C56] text-lg font-medium">
+          Test Information
+        </h2>
 
-
-                    <p>Product detail</p>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-                        {/* Product Detail Card */}
-                        <div className="bg-white rounded-xl border border-[#E6E8EC] p-6">
-                            <h3 className="text-lg font-semibold text-[#1D1F2C] mb-4">
-                                Product detail
-                            </h3>
-
-                            <div className="grid grid-cols-2 text-sm">
-                                <p className="text-muted-foreground font-medium">Product</p>
-                                <p className="text-muted-foreground font-medium text-right">
-                                    Quantity
-                                </p>
-
-                                <p className="text-[#1D1F2C] mt-3">
-                                    Standard Panel
-                                </p>
-                                <p className="text-[#1D1F2C] mt-3 text-right">
-                                    1
-                                </p>
-
-                                <p className="text-[#6B7280] mt-2">
-                                    Sterility Testing (Add On)
-                                </p>
-                                <p className="text-[#6B7280] mt-2 text-right">
-                                    1
-                                </p>
-                            </div>
-                        </div>
-
-                        {/* Shipping Method Card */}
-                        <div className="bg-white rounded-xl border border-[#E6E8EC] p-6">
-                            <h3 className="text-lg font-semibold text-[#1D1F2C] mb-4">
-                                Shipping method
-                            </h3>
-
-                            <div className="space-y-3 text-sm">
-                                <p className="text-blue-600 font-medium cursor-pointer">
-                                    Shipping Label Added
-                                </p>
-
-                                <div>
-                                    <p className="text-muted-foreground font-medium">
-                                        Address
-                                    </p>
-                                    <p className="text-[#6B7280] mt-1">
-                                        123 street, Utah 84620, USA
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </section>
-
-
-
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <DisplayField label="Report ID" value={reportData.reportId} />
+          <DisplayField label="Test Type" value={reportData.testType} />
+          <DisplayField label="Client Name" value={reportData.clientName} />
+          <DisplayField
+            label="Progress Status"
+            value={reportData.progressStatus}
+          />
         </div>
-    )
+      </section>
+
+      {/* ========================= */}
+      {/* Update Test Report */}
+      {/* ========================= */}
+
+      <section className="p-6 rounded-2xl border border-[#ECEFF3] space-y-6 bg-white">
+        <h2 className="text-[#4A4C56] text-lg font-medium">
+          Update Test Report
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <DisplayField
+            label="Date"
+            value={format(reportData.date, "PPP")}
+          />
+          <DisplayField label="Unique ID" value={reportData.uniqueId} />
+          <DisplayField label="Lot" value={reportData.lot} />
+          <DisplayField
+            label="Result Status"
+            value={reportData.resultStatus}
+          />
+        </div>
+
+        {/* Result Summary */}
+        <div className="space-y-3 pt-4">
+          <h3 className="text-[#1D1F2C] text-base font-medium">
+            Result Summary
+          </h3>
+
+          <div className="divide-y divide-[#ECEFF3]">
+            {reportData.summary.map((item, index) => (
+              <div
+                key={index}
+                className="flex justify-between py-3 text-base"
+              >
+                <span className="text-[#777980]">{item.name}</span>
+                <span className="text-[#1D1F2C] font-medium">
+                  {item.value}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Uploaded File */}
+        <div className="pt-4">
+          <h3 className="text-[#1D1F2C] text-base font-medium mb-3">
+            Uploaded Report
+          </h3>
+
+          <div className="p-4 border border-[#DFE1E7] rounded-xl bg-[#F8FAFB]">
+            <p className="text-sm text-[#1D1F2C] font-medium">
+              {reportData.fileName}
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+/* ========================= */
+/* Reusable Display Field */
+/* ========================= */
+
+function DisplayField({
+  label,
+  value,
+}: {
+  label: string;
+  value: string;
+}) {
+  return (
+    <div className="space-y-1">
+      <p className="text-sm text-[#777980]">{label}</p>
+      <p className="text-base text-[#1D1F2C] font-medium">
+        {value || "-"}
+      </p>
+    </div>
+  );
 }

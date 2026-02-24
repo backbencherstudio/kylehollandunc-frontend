@@ -7,8 +7,8 @@ export default function ReportEntryPage() {
         <div>
             <DashboardTtile
                 baseTitle="Home"
-                page="Order"
-                heading="Manage order"
+                page="Report Entry"
+                heading="Report Entry"
                 className="mb-8"
             />
 

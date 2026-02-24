@@ -85,7 +85,7 @@ const menuItems = {
     ],
     bottom: [
         { label: 'Settings', icon: Settings, href: '/admin-dashboard/settings' },
-        { label: 'Help & Support', icon: HelpCircle, href: '/admin-dashboard/help-support' },
+        // { label: 'Help & Support', icon: HelpCircle, href: '/admin-dashboard/help-support' },
 
     ]
 };
