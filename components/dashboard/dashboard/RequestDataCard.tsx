@@ -34,9 +34,10 @@ export function RequestDataCard() {
                 endAngle={-20}   // Matches the "half-moon" end
                 paddingAngle={8} // Creates the clean gap between segments
                 stroke="none"
+                cornerRadius={5}
               >
                 {chartData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.fill} cornerRadius={5} />
+                  <Cell key={`cell-${index}`} fill={entry.fill} />
                 ))}
                 
                 {/* Center Text Logic */}
