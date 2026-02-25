@@ -28,6 +28,9 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { cn } from '@/lib/utils'
 import ReusableModal from '../reusable/CustomModal'
 import LogoutModal from './LogoutModal'
+import { useAppDispatch } from '@/redux/hooks'
+import { logout } from '@/redux/features/auth/authSlice'
+import { removeStorageItem } from '@/utils/storage'
 import Image from 'next/image'
 /* ================= Layout ================= */
 
@@ -93,10 +96,14 @@ const menuItems = {
 function Sidebar({ isMobile, onClose }: SidebarProps) {
     const pathname = usePathname();
     const router = useRouter();
+    const dispatch = useAppDispatch();
     const [logoutOpen, setLogoutOpen] = useState(false);
-    // handle logout
+    // handle logout: clear storage and Redux, then redirect
     const handleLogout = () => {
-        setLogoutOpen(true);
+        removeStorageItem('token');
+        removeStorageItem('user');
+        dispatch(logout());
+        setLogoutOpen(false);
         router.push('/');
     }
 

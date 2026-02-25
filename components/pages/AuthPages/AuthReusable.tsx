@@ -1,6 +1,6 @@
 
 
-import React from "react";
+import React, { forwardRef } from "react";
 
 interface AuthHeaderProps {
   title: string;
@@ -32,30 +32,27 @@ export const AuthHeader: React.FC<AuthHeaderProps> = ({
 
 /* ================= Reusable Input ================= */
 
-interface FormInputProps {
-    placeholder: string;
-    type?: string;
+interface FormInputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
+  placeholder: string;
 }
 
-export const FormInput: React.FC<FormInputProps> = ({
-    placeholder,
-    type = "text",
-}) => {
+export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
+  ({ placeholder, type = "text", className, ...rest }, ref) => {
     return (
-        //   <input
-        //     type={type}
-        //     placeholder={placeholder}
-        //     className="w-full bg-transparent border-b border-[#E5E7EB]  text-[#1D1F2C] placeholder-[#9CA3AF] text-base focus:outline-none focus:border-[#1C5E96] transition p-2.5 "
-        //   />
-
-
-        <div className="p-2.5">
-            <input type={type} placeholder={placeholder} className="w-full bg-transparent border-b border-[#E5E7EB]  text-[#1D1F2C] placeholder-[#5D6873]/80 text-base focus:outline-none focus:border-[#1C5E96] transition  pb-2.5 " />
-        </div>
+      <div className="p-2.5">
+        <input
+          ref={ref}
+          type={type}
+          placeholder={placeholder}
+          {...rest}
+          className={`w-full bg-transparent border-b border-[#E5E7EB] 
+          text-[#1D1F2C] placeholder-[#5D6873]/80 text-base 
+          focus:outline-none focus:border-[#1C5E96] transition pb-2.5 ${className}`}
+        />
+      </div>
     );
-};
+  }
+);
 
-
-
-
-
+FormInput.displayName = "FormInput";

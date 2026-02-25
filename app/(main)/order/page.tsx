@@ -6,60 +6,64 @@ import {
     TabsTrigger,
     TabsContent,
 } from "@/components/ui/tabs";
+import PrivateRoute from "@/components/pages/AuthPages/PrivateRoute";
 
 export default function MyOrdersPage() {
     return (
-        <div className="bg-gray-100"><section className="max-w-[1000px] mx-auto px-4 py-12">
+     <PrivateRoute>
+           <div className="bg-gray-100"><section className="max-w-[1000px] mx-auto px-4 py-12">
 
-            {/* Title */}
-            <h2 className="text-3xl font-syne font-semibold text-[#1D1F2C] mb-8">
-                My Orders
-            </h2>
+{/* Title */}
+<h2 className="text-3xl font-syne font-semibold text-[#1D1F2C] mb-8">
+    My Orders
+</h2>
 
-            {/* Tabs */}
-            <Tabs defaultValue="all" className="w-full">
+{/* Tabs */}
+<Tabs defaultValue="all" className="w-full">
 
-                <TabsList className="bg-transparent p-0 mb-8 gap-2">
-                    <TabsTrigger
-                        value="all"
-                        className="data-[state=active]:bg-[#1D1F2C] data-[state=active]:text-white rounded-md px-4 py-2 text-sm"
-                    >
-                        All
-                    </TabsTrigger>
+    <TabsList className="bg-transparent p-0 mb-8 gap-2">
+        <TabsTrigger
+            value="all"
+            className="data-[state=active]:bg-[#1D1F2C] data-[state=active]:text-white rounded-md px-4 py-2 text-sm"
+        >
+            All
+        </TabsTrigger>
 
-                    <TabsTrigger
-                        value="progress"
-                        className="data-[state=active]:bg-[#1D1F2C] data-[state=active]:text-white rounded-md px-4 py-2 text-sm"
-                    >
-                        In Progress
-                    </TabsTrigger>
+        <TabsTrigger
+            value="progress"
+            className="data-[state=active]:bg-[#1D1F2C] data-[state=active]:text-white rounded-md px-4 py-2 text-sm"
+        >
+            In Progress
+        </TabsTrigger>
 
-                    <TabsTrigger
-                        value="delivered"
-                        className="data-[state=active]:bg-[#1D1F2C] data-[state=active]:text-white rounded-md px-4 py-2 text-sm"
-                    >
-                        Delivered
-                    </TabsTrigger>
-                </TabsList>
+        <TabsTrigger
+            value="delivered"
+            className="data-[state=active]:bg-[#1D1F2C] data-[state=active]:text-white rounded-md px-4 py-2 text-sm"
+        >
+            Delivered
+        </TabsTrigger>
+    </TabsList>
 
-                {/* ================= All Orders ================= */}
-                <TabsContent value="all">
-                    <OrderCard />
-                    <OrderCard status="Delivered" />
-                </TabsContent>
+    {/* ================= All Orders ================= */}
+    <TabsContent value="all">
+        <OrderCard />
+        <OrderCard status="Delivered" />
+    </TabsContent>
 
-                {/* ================= In Progress ================= */}
-                <TabsContent value="progress">
-                    <OrderCard />
-                </TabsContent>
+    {/* ================= In Progress ================= */}
+    <TabsContent value="progress">
+        <OrderCard />
+    </TabsContent>
 
-                {/* ================= Delivered ================= */}
-                <TabsContent value="delivered">
-                    <OrderCard status="Delivered" />
-                </TabsContent>
+    {/* ================= Delivered ================= */}
+    <TabsContent value="delivered">
+        <OrderCard status="Delivered" />
+    </TabsContent>
 
-            </Tabs>
-        </section></div>
+</Tabs>
+</section>
+</div>
+     </PrivateRoute>
     );
 }
 
