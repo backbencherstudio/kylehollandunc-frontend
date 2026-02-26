@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { AuthHeader, FormInput } from "./AuthReusable";
 import { useLoginMutation } from "@/redux/features/auth/authApi";
 import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
 
 type LoginFormValues = {
   email: string;
@@ -104,9 +105,16 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="auth-btn cursor-pointer disabled:opacity-50"
+              className="auth-btn cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
             >
-              {isLoading ? "Logging in..." : "Log In"}
+              {isLoading ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  <span>Logging in...</span>
+                </>
+              ) : (
+                "Log In"
+              )}
             </button>
 
             {/* Bottom Link */}

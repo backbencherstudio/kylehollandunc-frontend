@@ -5,7 +5,7 @@ import Image from "next/image";
 import CartIcon from "./icons/CartIcon";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { useAppSelector , useAppDispatch} from "@/redux/hooks";
+import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { logout, selectCurrentUser, selectIsLoading } from "@/redux/features/auth/authSlice";
 import { removeStorageItem } from "@/utils/storage";
 
@@ -14,26 +14,26 @@ const Navbar = () => {
     const isHome = pathname === '/';
     const [menuOpen, setMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
-   const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
     const isLoading = useAppSelector(selectIsLoading);
     const user = useAppSelector(selectCurrentUser);
 
     console.log(isLoading, user);
     useEffect(() => {
         const handleScroll = () => {
-          if (window.scrollY > 50) {
-            setScrolled(true);
-          } else {
-            setScrolled(false);
-          }
+            if (window.scrollY > 50) {
+                setScrolled(true);
+            } else {
+                setScrolled(false);
+            }
         };
-    
+
         window.addEventListener("scroll", handleScroll);
-    
+
         return () => {
-          window.removeEventListener("scroll", handleScroll);
+            window.removeEventListener("scroll", handleScroll);
         };
-      }, []);
+    }, []);
 
     // Close menu on route change
     useEffect(() => {
@@ -64,19 +64,18 @@ const Navbar = () => {
     const handleLogout = () => {
 
         dispatch(logout());
-    }   
+    }
 
     return (
         <>
-       <header
-  className={`fixed top-0 left-0 w-full z-99 transition-all duration-300 ${
-    scrolled
-      ? "bg-[#023347] shadow-md"
-      : isHome
-      ? "bg-transparent"
-      : "bg-[#023347]"
-  }`}
->
+            <header
+                className={`fixed top-0 left-0 w-full z-99 transition-all duration-300 ${scrolled
+                        ? "bg-[#023347] shadow-md"
+                        : isHome
+                            ? "bg-transparent"
+                            : "bg-[#023347]"
+                    }`}
+            >
 
                 <div className="max-w-[1320px] mx-auto px-4 md:px-0 flex items-center justify-between text-white py-2.5">
 
@@ -115,21 +114,21 @@ const Navbar = () => {
                             </span>
                         </div>
 
-                        {/* Sign Up — desktop only */}
-                     {
-                        !isLoading && !user ? (
-                            <Link
-                                href="/register"
-                                className="hidden md:inline-flex px-5 py-2 rounded-full border border-white/50 hover:bg-white/10 transition"
-                            >
-                                <span className="text-[#FFFFFF] font-medium leading-[150%] tracking-[0.09px]">Sign Up</span>
-                            </Link>
-                        ) : (
-                            <button onClick={handleLogout} className="hidden md:inline-flex px-5 py-2 rounded-full border border-white/50 hover:bg-white/10 transition">
-                                <span className="text-[#FFFFFF] font-medium leading-[150%] tracking-[0.09px]">Log out</span>
-                            </button>
-                        )
-                     }
+                        {/* Sign In — desktop only */}
+                        {
+                            !isLoading && !user ? (
+                                <Link
+                                    href="/login"
+                                    className="hidden md:inline-flex px-5 py-2 rounded-full border border-white/50 hover:bg-white/10 transition"
+                                >
+                                    <span className="text-[#FFFFFF] font-medium leading-[150%] tracking-[0.09px]">Sign In</span>
+                                </Link>
+                            ) : (
+                                <button onClick={handleLogout} className="hidden md:inline-flex px-5 py-2 rounded-full border border-white/50 hover:bg-white/10 transition cursor-pointer">
+                                    <span className="text-[#FFFFFF] font-medium leading-[150%] tracking-[0.09px]">Log out</span>
+                                </button>
+                            )
+                        }
 
                         {/* Hamburger — mobile only */}
                         <button
@@ -140,21 +139,18 @@ const Navbar = () => {
                         >
                             {/* Top bar */}
                             <span
-                                className={`block h-[2px] w-6 bg-white rounded-full origin-center transition-all duration-300 ease-in-out ${
-                                    menuOpen ? 'translate-y-[7px] rotate-45' : ''
-                                }`}
+                                className={`block h-[2px] w-6 bg-white rounded-full origin-center transition-all duration-300 ease-in-out ${menuOpen ? 'translate-y-[7px] rotate-45' : ''
+                                    }`}
                             />
                             {/* Middle bar */}
                             <span
-                                className={`block h-[2px] w-6 bg-white rounded-full transition-all duration-300 ease-in-out ${
-                                    menuOpen ? 'opacity-0 scale-x-0' : ''
-                                }`}
+                                className={`block h-[2px] w-6 bg-white rounded-full transition-all duration-300 ease-in-out ${menuOpen ? 'opacity-0 scale-x-0' : ''
+                                    }`}
                             />
                             {/* Bottom bar */}
                             <span
-                                className={`block h-[2px] w-6 bg-white rounded-full origin-center transition-all duration-300 ease-in-out ${
-                                    menuOpen ? '-translate-y-[7px] -rotate-45' : ''
-                                }`}
+                                className={`block h-[2px] w-6 bg-white rounded-full origin-center transition-all duration-300 ease-in-out ${menuOpen ? '-translate-y-[7px] -rotate-45' : ''
+                                    }`}
                             />
                         </button>
                     </div>
@@ -164,9 +160,8 @@ const Navbar = () => {
 
             {/* Mobile Overlay */}
             <div
-                className={`fixed inset-0 z-60 md:hidden transition-all duration-300 ease-in-out ${
-                    menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-                }`}
+                className={`fixed inset-0 z-60 md:hidden transition-all duration-300 ease-in-out ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+                    }`}
                 onClick={() => setMenuOpen(false)}
                 aria-hidden="true"
             >
@@ -176,9 +171,8 @@ const Navbar = () => {
 
             {/* Mobile Drawer */}
             <div
-                className={`fixed top-0 right-0 h-full w-72 max-w-[85vw] z-80 md:hidden bg-[#023347] flex flex-col shadow-2xl transition-transform duration-300 ease-in-out ${
-                    menuOpen ? 'translate-x-0' : 'translate-x-full'
-                }`}
+                className={`fixed top-0 right-0 h-full w-72 max-w-[85vw] z-80 md:hidden bg-[#023347] flex flex-col shadow-2xl transition-transform duration-300 ease-in-out ${menuOpen ? 'translate-x-0' : 'translate-x-full'
+                    }`}
                 aria-hidden={!menuOpen}
             >
                 {/* Drawer Header */}
@@ -229,15 +223,14 @@ const Navbar = () => {
                     ))}
                 </nav>
 
-                {/* Drawer Footer — Sign Up */}
+                {/* Drawer Footer — Sign In */}
                 <div
-                    className={`px-6 py-6 border-t border-white/10 transition-all duration-300 ${
-                        menuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-                    }`}
+                    className={`px-6 py-6 border-t border-white/10 transition-all duration-300 ${menuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                        }`}
                     style={{ transitionDelay: menuOpen ? '350ms' : '0ms' }}
                 >
                     <Link
-                        href="/register"
+                        href="/sign-in"
                         onClick={() => setMenuOpen(false)}
                         className="flex items-center justify-center w-full px-5 py-2.5 rounded-full border border-white/50 hover:bg-white/10 transition"
                     >

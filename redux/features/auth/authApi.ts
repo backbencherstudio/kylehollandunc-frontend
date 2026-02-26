@@ -7,6 +7,10 @@ import type {
   LoginApiResponse,
   RegisterRequest,
   RegisterResponse,
+  ForgotPasswordResponse,
+  ForgotPasswordRequest,
+  ResetPasswordRequest,
+  VerifyOtpRequest,
 } from "./types";
 import { setCookie } from "@/utils/cookes";
  
@@ -71,7 +75,53 @@ export const authApi = baseApi.injectEndpoints({
       }),
     }),
 
-   
+
+
+
+     // ======================
+    // Forgot Password
+    // ======================
+    forgotPassword: builder.mutation<ForgotPasswordResponse, ForgotPasswordRequest>({
+      query: (email) => ({
+        url: "/request-otp",
+        method: "POST",
+        body: email,
+      }),
+      transformResponse: (response: any) => {
+        if (!response.success) {
+          throw new Error(response.errors || "Invalid OTP");
+        }
+        return response;
+      },
+    }),
+    verifyOtp: builder.mutation<any, VerifyOtpRequest>({
+      query: ({ email, otp }: VerifyOtpRequest) => ({
+        url: "/verify-otp",
+        method: "POST",
+        body: { email, otp },
+      }),
+      transformResponse: (response: any) => {
+        if (!response.success) {
+          throw new Error(response.errors || "Invalid OTP");
+        }
+        return response;
+      },
+    }),
+    resetPassword: builder.mutation<any, ResetPasswordRequest>({
+      query: ({ email, new_password, confirm_password }: ResetPasswordRequest) => ({
+        url: "/reset-password", 
+        method: "POST",
+        body: { email, new_password, confirm_password },
+      }),
+
+      transformResponse: (response: any) => {
+        if (!response.success) {
+          throw new Error(response.errors || "Reset failed");
+        }
+        return response;
+      },
+    }),
+    
 
   }),
 });
@@ -79,4 +129,7 @@ export const authApi = baseApi.injectEndpoints({
 export const {
   useLoginMutation,
   useRegisterMutation,
+  useForgotPasswordMutation,
+  useVerifyOtpMutation,
+  useResetPasswordMutation,
 } = authApi;

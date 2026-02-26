@@ -43,3 +43,39 @@ export interface User {
   export interface RegisterResponse {
     success: boolean;
   }
+
+
+
+
+
+
+
+  //         Forgot Password          //
+  export interface ForgotPasswordRequest {
+    email: string;
+  }
+  export interface ForgotPasswordResponse {
+    success: boolean;
+    message: string;
+  }
+
+
+  //         Verify OTP          //
+  export interface VerifyOtpRequest {
+    email: string;
+    otp: string;
+  }
+
+
+  //         Reset Password          //
+  export interface ResetPasswordRequest {
+    email: string;
+    new_password: string;
+    confirm_password: string;
+  }
+  export interface ResetPasswordResponse {
+    success: boolean;
+    message: string;
+  }
+
+
