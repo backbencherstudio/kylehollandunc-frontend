@@ -4,6 +4,7 @@ import "./globals.css";
 import { store } from "@/redux/store";
 import { Provider } from "react-redux";
 import ReduxProvider from "@/redux/ReduxProvider";
+import { Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,14 +42,15 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${syne.variable} ${syne.className} ${inter.variable} ${inter.className} antialiased`}
       >
-       
 
-          
-          {/* <Suspense fallback={<div>Loading...</div>}></Suspense> */}
-          <ReduxProvider  >
+
+        <Toaster position="top-center" richColors />
+
+        {/* <Suspense fallback={<div>Loading...</div>}></Suspense> */}
+        <ReduxProvider  >
           {children}
         </ReduxProvider>
-        
+
       </body>
     </html>
   );

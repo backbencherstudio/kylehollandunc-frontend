@@ -1,9 +1,12 @@
 import MyCartPageContent from '@/components/pages/AllServices/MyCartPageContent'
+import PrivateRoute from '@/components/pages/AuthPages/PrivateRoute'
 
 export default function page() {
   return (
-    <div className='mt-[80px] sm:mt-[96px] mb-[40px]'>
+    <PrivateRoute>
+      <div className='mt-[80px] sm:mt-[96px] mb-[40px]'>
         <MyCartPageContent />
-    </div>
+      </div>
+    </PrivateRoute>
   )
 }

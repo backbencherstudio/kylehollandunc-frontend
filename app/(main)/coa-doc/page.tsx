@@ -9,8 +9,6 @@ export default function page() {
     <div className='mt-[80px] sm:mt-[96px] mb-[40px]'>
       <CoaDocHero />
       <SimpleCOA />
-
-      this is simple coa doc page
       <ContactSection />
     </div>
   )

@@ -1,13 +1,14 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 
 import { AuthHeader, FormInput } from "./AuthReusable";
 import { useLoginMutation } from "@/redux/features/auth/authApi";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Loader2 } from "lucide-react";
+import { useAppSelector } from "@/redux/hooks";
 
 type LoginFormValues = {
   email: string;
@@ -15,6 +16,12 @@ type LoginFormValues = {
 };
 
 export default function LoginPage() {
+  
+
+  const searchParams = useSearchParams();
+  const next = searchParams.get("next") ; 
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
+
   const {
     register,
     handleSubmit,
@@ -34,12 +41,22 @@ export default function LoginPage() {
   const onSubmit = async (data: LoginFormValues) => {
     try {
       await login(data).unwrap();
-      router.push("/order");
+      if (next) {
+        router.push(next);
+      } else {
+        router.push("/");
+      }
     } catch (err) {
       console.error("Login error:", err);
     }
   };
 
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.replace("/");
+    }
+  }, [isAuthenticated, router]);
   return (
     <div className="max-w-[1320px] mx-auto px-4 md:px-0 w-full py-16">
       <div className="flex flex-col gap-12">

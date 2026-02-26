@@ -13,7 +13,7 @@ export default function OurServices() {
             <SectionHeading>Our Services</SectionHeading>
           </div>
 
-          <p className="max-w-[351px] text-[#4A4C56] [font-family:Inter] text-base md:text-lg font-normal leading-[150%] tracking-[0.09px] lg:shrink-0">
+          <p className="max-w-[351px] text-[#4A4C56]  text-base md:text-lg font-normal leading-[150%] tracking-[0.09px] lg:shrink-0">
             Comprehensive lab services designed for accuracy and peace of mind.
           </p>
         </div>
