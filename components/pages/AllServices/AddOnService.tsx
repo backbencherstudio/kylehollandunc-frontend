@@ -11,7 +11,7 @@ type Addon = {
 
 const addOns: Addon[] = [
   { id: 1, name: "Endotoxin Analysis", price: 75 },
-  { id: 2, name: "TFA Analysis", price: 75 },
+  // { id: 2, name: "TFA Analysis", price: 75 },
 ];
 
 export default function AddOnService({

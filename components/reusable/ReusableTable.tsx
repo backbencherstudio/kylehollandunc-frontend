@@ -37,6 +37,7 @@ interface TableProps<T> {
     onRowClick?: (item: T) => void
     actions?: TableAction<T>[]
   }) => React.ReactNode
+  isLoading?: boolean
 }
 
 /* ================= Component ================= */
@@ -51,6 +52,7 @@ export function ReusableTable<
   actionMode = 'dropdown',
   colBorder = false,
   zebra = true,
+  isLoading = false,
 }: TableProps<T>) {
   const hasActions = actions && actions.length > 0
 

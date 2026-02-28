@@ -33,7 +33,7 @@ export const authApi = baseApi.injectEndpoints({
           // API wraps user in res.data: { id, name, email, ... }
           const userData = res.data;
           const user = userData
-            ? { id: userData.id, name: userData.name, email: userData.email }
+            ? { id: userData.id, name: userData.name, email: userData.email, role: userData.role }
             : null;
 
           // Token may be in data, root, or not sent by API
