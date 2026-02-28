@@ -13,7 +13,10 @@ export function OrderSummaryCard({
   subtotal,
   shipping = null,
 }: OrderSummaryCardProps) {
-  const total = subtotal + (shipping ?? 0);
+
+
+
+  const total = Number(subtotal) + Number(shipping ?? 0);
 
   return (
     <div className="w-full  border border-[#DFE1E7] rounded-[32px] p-6 sm:p-8 bg-white">

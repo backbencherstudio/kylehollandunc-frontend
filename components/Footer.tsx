@@ -9,7 +9,7 @@ import FacebookIcon from "./icons/FacebookIcon";
 
 export default function Footer() {
     return (
-        <footer className="max-w-[1320px] mx-auto px-6 md:px-8 lg:px-0 pb-8 ">
+        <footer className="max-w-[1320px] mx-auto px-6 md:px-8 lg:px-0 pb-8 pt-4">
 
             {/* Top Section */}
             <div className="w-full flex flex-col lg:flex-row justify-between gap-12 lg:gap-0">
@@ -32,13 +32,13 @@ export default function Footer() {
                     </p>
 
                     <div className="mt-8 flex gap-[22px]">
-                        <SocialIcon>
+                        <SocialIcon href="https://www.instagram.com/lakenormanlabs">
                             <InstagramIcon width={22} height={22} />
                         </SocialIcon>
                         <SocialIcon>
                             <FacebookIcon width={22} height={22} />
                         </SocialIcon>
-                        <SocialIcon>
+                        <SocialIcon href="https://www.tiktok.com/@lakenormanlabs">
                             <TiktokIcon width={24} height={24} />
                         </SocialIcon>
                     </div>
@@ -75,7 +75,7 @@ export default function Footer() {
                                 Phone no
                             </p>
                             <p className="text-[#1D1F2C] text-base font-medium leading-[150%] tracking-[0.08px]">
-                                4614671317
+                                704-314-5732
                             </p>
                         </div>
                     </FooterColumn>
@@ -129,10 +129,10 @@ function FooterLink({
     );
 }
 
-function SocialIcon({ children }: { children: React.ReactNode }) {
+function SocialIcon({ href="#", children }: { href?: string; children: React.ReactNode }) {
     return (
-        <div className="w-[45px] h-[45px] md:w-[50px] md:h-[50px] rounded-full border border-[#E5E7EB] flex items-center justify-center hover:bg-white transition cursor-pointer">
+        <Link href={href} className="w-[45px] h-[45px] md:w-[50px] md:h-[50px] rounded-full border border-[#E5E7EB] flex items-center justify-center hover:bg-white transition cursor-pointer">
             {children}
-        </div>
+        </Link>
     );
 }
