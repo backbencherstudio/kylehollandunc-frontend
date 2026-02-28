@@ -72,6 +72,22 @@ export const orderApi = baseApi.injectEndpoints({
                 return response;
             },
         }),
+
+
+        // get orders
+        getOrders: builder.query<any, void>({
+            query: () => ({
+                url: "/user-orders",
+                method: "GET",
+            }),
+            providesTags: ["Order"],
+            transformResponse: (response: any) => {
+                if (!response.success) {
+                    throw new Error(response.errors || "Failed to get orders");
+                }
+                return response;
+            },
+        }),
     }),
 })
 
