@@ -77,7 +77,7 @@ export default function ServiceSection() {
       toast.success("Added to cart successfully");
       router.push("/services/my-cart");
     }).catch((err) => {
-      toast.error(err.data.message);
+      toast.error(err.data.message || "Failed to add to cart");
     });
 
   };

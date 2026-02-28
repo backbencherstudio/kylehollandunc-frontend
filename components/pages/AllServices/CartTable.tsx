@@ -14,7 +14,8 @@ interface CartItem {
 export default function CartTable() {
   const { data: cartData } = useGetCartQuery();
 
-  const firstCart = cartData?.data?.[3];
+  const firstCart = cartData?.data?.[0];
+  // const firstCart = cartData?.data?.[cartData?.data?.length - 1];
 
   const [items, setItems] = useState<CartItem[]>([]);
 
@@ -95,21 +96,21 @@ export default function CartTable() {
 
                 <div className="text-center">
                   <div className="flex items-center gap-4 justify-center">
-                    <button
+                    {/* <button
                       onClick={() => updateQuantity(item.id, "dec")}
                       className="hover:opacity-70"
                     >
                       <Minus size={16} />
-                    </button>
+                    </button> */}
 
                     <span>{item.quantity}</span>
 
-                    <button
+                    {/* <button
                       onClick={() => updateQuantity(item.id, "inc")}
                       className="hover:opacity-70"
                     >
                       <Plus size={16} />
-                    </button>
+                    </button> */}
                   </div>
                 </div>
 

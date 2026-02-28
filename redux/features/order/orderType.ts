@@ -69,3 +69,11 @@ export interface CreateCartResponse {
     shipping_address: string;
     shipping_price: number;
   }
+
+
+  export interface UpdateSampleDetailsRequest {
+    cart_id: number;
+    organization: string;
+    test: string;
+    details: string;
+  }

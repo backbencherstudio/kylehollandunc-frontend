@@ -17,18 +17,19 @@ interface FinalOrderSummaryProps {
 
 type PaymentMethod = "card" | "paypal";
 
-export default function MakePaymentSection({handleProceed}:{handleProceed:() => void}) {
+export default function   MakePaymentSection({cartData, handleProceed, shippingMethod}:{cartData: any, handleProceed:() => void, shippingMethod: "own" | "label"}) {
 
 
-
-  console.log("this is payment", handleProceed )
+  const subtotal = cartData?.total_price;
+  // const shipping = cartData?.shipping_price;
+  // console.log("this is payment", handleProceed )
 
   return (
     <section className='grid grid-cols-1 md:grid-cols-2 gap-6 #FCFCFD)]  rounded-lg border-solid'>
 
       <PaymentSection ></PaymentSection>
 
-      <FinalOrderSummary  subtotal={1000} shipping={123} onPay={handleProceed} />
+      <FinalOrderSummary  subtotal={subtotal} shipping={shippingMethod === "own" ? 0 : 25} onPay={handleProceed} />
     </section>
   )
 }
@@ -177,7 +178,7 @@ function FinalOrderSummary({
   onCancel,
   onPay,
 }: FinalOrderSummaryProps) {
-  const total = subtotal + shipping;
+  const total = Number(subtotal) + Number(shipping);
   const router = useRouter();
 
 

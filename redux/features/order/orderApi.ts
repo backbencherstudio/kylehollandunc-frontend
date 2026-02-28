@@ -1,6 +1,6 @@
 
 import { baseApi } from "../api/baseApi";
-import { AddToCartRequest, CreateCartResponse, UpdateShippingDetailsRequest } from "./orderType";
+import { AddToCartRequest, CreateCartResponse, UpdateSampleDetailsRequest, UpdateShippingDetailsRequest } from "./orderType";
 
 
 
@@ -42,10 +42,10 @@ export const orderApi = baseApi.injectEndpoints({
         }),
 
 
-        updateShippingDetails: builder.mutation<any, UpdateShippingDetailsRequest>({
-            query: (data: UpdateShippingDetailsRequest) => ({
-                url: "/carts/shipping",
-                method: "PUT",
+        updateShippingDetails: builder.mutation<any, { cartId: number } & UpdateShippingDetailsRequest>({
+            query: ({ cartId, ...data }) => ({
+                url: `/carts/${cartId}/update-shipping`,
+                method: "POST",
                 body: data,
             }),
             invalidatesTags: ["Order"],
@@ -56,9 +56,25 @@ export const orderApi = baseApi.injectEndpoints({
                 return response;
             },
         }),
+
+
+        updateSampleDetails: builder.mutation<any, UpdateSampleDetailsRequest>({
+            query: (data: UpdateSampleDetailsRequest) => ({
+                url: `/carts/sample`,
+                method: "POST",
+                body: data,
+            }),
+            invalidatesTags: ["Order"],
+            transformResponse: (response: any) => {
+                if (!response.success) {
+                    throw new Error(response.errors || "Failed to update sample details");
+                }
+                return response;
+            },
+        }),
     }),
-})  
+})
 
 
 
-export const { useAddToCartMutation, useUpdateShippingDetailsMutation, useGetCartQuery } = orderApi;
+export const { useAddToCartMutation, useUpdateShippingDetailsMutation, useGetCartQuery, useUpdateSampleDetailsMutation } = orderApi;
