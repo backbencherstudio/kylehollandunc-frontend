@@ -131,7 +131,7 @@ export default function OrderTable() {
         return (
             <div className="bg-white rounded-xl border p-6 min-w-0 overflow-hidden">
                 <div className="flex justify-center items-center py-12">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#1D1F2C]"></div>
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#4c5fda]"></div>
                 </div>
             </div>
         )
@@ -278,8 +278,8 @@ export default function OrderTable() {
                     },
                     {
                         key: 'update_status',
-                        label: 'Update Status',
-                        onClick: (item:any) => handleUpdateStatus(item, 'pending'),
+                        label: 'Start Order',
+                        onClick: (item:any) => handleUpdateStatus(item, 'started'),
                         // children: statusOptions.map((option:any) => ({
                         //     key: `status_${option.value}`,
                         //     label: option.label,

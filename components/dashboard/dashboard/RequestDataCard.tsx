@@ -5,14 +5,14 @@ import { Label, Pie, PieChart, Cell, ResponsiveContainer } from "recharts"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 // Data structure based on your image
-const chartData = [
-  { name: "Contact Form", value: 628, fill: "#FFC567" },
-  { name: "Request Form", value: 604, fill: "#50CBA1" },
-]
+// const chartData = [
+//   { name: "Contact Form", value: 628, fill: "#FFC567" },
+//   { name: "Request Form", value: 604, fill: "#50CBA1" },
+// ]
 
-const TOTAL_REQUESTS = 4641
+// const TOTAL_REQUESTS = 4641
 
-export function RequestDataCard() {
+export function RequestDataCard({ requestChartData }: { requestChartData: any }) {
   return (
     <Card className="w-full max-w-[500px] rounded-xl border-none shadow-sm h-[348px] flex-1">
       <CardHeader className="pb-0">
@@ -25,7 +25,7 @@ export function RequestDataCard() {
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
-                data={chartData}
+                data={requestChartData.chartData}
                 dataKey="value"
                 nameKey="name"
                 innerRadius={75}
@@ -36,7 +36,7 @@ export function RequestDataCard() {
                 stroke="none"
                 cornerRadius={5}
               >
-                {chartData.map((entry, index) => (
+                {requestChartData.chartData.map((entry: any, index: number) => (
                   <Cell key={`cell-${index}`} fill={entry.fill} />
                 ))}
                 
@@ -63,7 +63,7 @@ export function RequestDataCard() {
                             y={(viewBox.cy || 0) + 5}
                             className="text-[#0E121B] text-[32px] font-medium leading-[120%]"
                           >
-                            {TOTAL_REQUESTS.toLocaleString()}
+                            {requestChartData.TOTAL_REQUESTS.toLocaleString()}
                           </tspan>
                         </text>
                       )
@@ -77,7 +77,7 @@ export function RequestDataCard() {
 
         {/* Legend Section */}
         <div className="space-y-4 -mt-8">
-          {chartData.map((item) => (
+          {requestChartData.chartData.map((item: any) => (
             <div key={item.name} className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div 

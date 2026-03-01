@@ -2,72 +2,61 @@
 
 import { Column, ReusableTable } from "@/components/reusable/ReusableTable"
 import { StatusBadge } from "@/components/reusable/StatusBadge"
-import { useState } from "react"
 import { useRouter } from "next/navigation"
+import { useGetReportsQuery, useDeleteReportMutation } from "@/redux/features/admin/reports/reportApi"
+import { toast } from "sonner"
 
 export interface Report {
-    id: string
-    reportId: string
-    name: string
-    uniqueId: string
-    resultStatus: 'pass' | 'fail'
-    testType: string
-    testDate: string
-    progressStatus: 'completed' | 'pending'
+  id: string
+  reportId: string
+  name: string
+  orderId: string
+  resultStatus: 'pass' | 'fail'
+  testType: string
+  testDate: string
+  progressStatus: 'completed' | 'pending'
+}
+
+export function ReportEntryTable() {
+  const router = useRouter()
+
+  const { data: reportsResponse, isLoading } = useGetReportsQuery()
+  const [deleteReport] = useDeleteReportMutation()
+
+  // 🔥 Format API Data
+  const formatReports = (reports: any[]): Report[] => {
+    return reports.map((item) => {
+      const testItems =
+        item.order?.items
+          ?.filter((i: any) => i.type === "test" || i.type === "addon")
+          ?.map((i: any) => i.name)
+          ?.join(" & ") || "N/A"
+
+      return {
+        id: String(item.id),
+        reportId: item?.id || "N/A",
+        name: item.name,
+        orderId: item.order?.id || "N/A",
+        resultStatus: item.result_status ?? "fail",
+        testType: testItems,
+        testDate: new Date(item.test_date).toLocaleDateString(),
+        progressStatus: item.progress_status,
+      }
+    })
   }
 
-  const reportData: Report[] = [
-    {
-      id: '1',
-      reportId: 'LNL-000123',
-      name: 'Theresa Webb',
-      uniqueId: 'LNL-000123',
-      resultStatus: 'pass',
-      testType: 'Standard Panel',
-      testDate: 'February 28, 2018',
-      progressStatus: 'completed',
-    },
-    {
-      id: '2',
-      reportId: 'LNL-000123',
-      name: 'Kristin Watson',
-      uniqueId: 'LNL-000123',
-      resultStatus: 'fail',
-      testType: 'Standard Panel & 2 add ons',
-      testDate: 'March 13, 2014',
-      progressStatus: 'pending',
-    },
-    {
-      id: '3',
-      reportId: 'LNL-000124',
-      name: 'Theresa Webb',
-      uniqueId: 'LNL-000123',
-      resultStatus: 'pass',
-      testType: 'Standard Panel',
-      testDate: 'December 2, 2018',
-      progressStatus: 'pending',
-    },
-    {
-      id: '4',
-      reportId: 'LNL-000125',
-      name: 'Guy Hawkins',
-      uniqueId: 'LNL-000123',
-      resultStatus: 'pass',
-      testType: 'Standard Panel & 2 add ons',
-      testDate: 'May 20, 2015',
-      progressStatus: 'completed',
-    },
-    {
-      id: '5',
-      reportId: 'LNL-000126',
-      name: 'Jacob Jones',
-      uniqueId: 'LNL-000123',
-      resultStatus: 'fail',
-      testType: 'Standard Panel',
-      testDate: 'October 25, 2019',
-      progressStatus: 'pending',
-    },
-  ]
+  const formattedReports = formatReports(
+    reportsResponse?.data || reportsResponse || []
+  )
+
+  const handleDelete = async (id: string) => {
+    try {
+      const response = await deleteReport({ id }).unwrap()
+      toast.success("Report deleted successfully")
+    } catch (error: any) {
+      toast.error(error?.data?.message || "Failed to delete report")
+    }
+  }
 
   const columns: Column<Report>[] = [
     {
@@ -79,25 +68,27 @@ export interface Report {
       accessor: 'name',
     },
     {
-      header: 'Unique ID',
-      accessor: 'uniqueId',
+      header: 'Order ID',
+      accessor: 'orderId',
     },
     {
       header: 'Result Status',
-      accessor: (item) => <StatusBadge status={item.resultStatus as 'pass' | 'fail'} />,
+      accessor: (item) => (
+        <StatusBadge status={item.resultStatus} />
+      ),
     },
     {
-      header: 'Test type',
+      header: 'Test Type',
       accessor: (item) => {
-        const hasAddOns = item.testType.includes('add ons')
-  
+        const hasAddon = item.testType.includes('&')
+
         return (
           <span>
-            {hasAddOns ? (
+            {hasAddon ? (
               <>
-                Standard Panel{' '}
+                {item.testType.split('&')[0]}{" "}
                 <span className="text-blue-600 text-sm font-medium">
-                  {item.testType.replace('Standard Panel ', '')}
+                  & {item.testType.split('&').slice(1).join('&')}
                 </span>
               </>
             ) : (
@@ -108,50 +99,54 @@ export interface Report {
       },
     },
     {
-      header: 'Test date',
+      header: 'Test Date',
       accessor: 'testDate',
     },
     {
       header: 'Progress Status',
       accessor: (item) => (
-        <StatusBadge status={item.progressStatus as 'completed' | 'pending' } />
+        <StatusBadge status={item.progressStatus} />
       ),
     },
   ]
 
-
-  export function ReportEntryTable() {
-    const [search, setSearch] = useState("");
-    const [sort, setSort] = useState("newest");
-
-    const router = useRouter();
+  if (isLoading) {
     return (
-      <div className="bg-white rounded-xl border p-6 min-w-0 overflow-hidden">
-        <h3 className="table-title mb-6">Report Table</h3>
-  
-        <ReusableTable
-          columns={columns as Column<Report>[]}
-          data={reportData as Report[]}
-          zebra={false}
-          actions={[
-            {
-              key: 'view',
-              label: 'View details',
-              onClick: (item) => router.push(`/admin-dashboard/report-entry/${item.id}`),
-            },
-            {
-              key: 'edit',
-              label: 'Edit',
-              onClick: (item) => router.push(`/admin-dashboard/report-entry/${item.id}/edit`),
-            },
-            {
-              key: 'delete',
-              label: 'Delete',
-              danger: true,
-              onClick: (item) => console.log('Delete', item),
-            },
-          ]}
-        />
+      <div className="bg-white rounded-xl border p-6">
+        Loading reports...
       </div>
     )
   }
+
+  return (
+    <div className="bg-white rounded-xl border p-6 min-w-0 overflow-hidden">
+      <h3 className="table-title mb-6">Report Table</h3>
+
+      <ReusableTable
+        columns={columns}
+        data={formattedReports}
+        zebra={false}
+        actions={[
+          {
+            key: 'view',
+            label: 'View details',
+            onClick: (item) =>
+              router.push(`/admin-dashboard/report-entry/${item.id}`),
+          },
+          {
+            key: 'edit',
+            label: 'Edit',
+            onClick: (item) =>
+              router.push(`/admin-dashboard/report-entry/${item.id}/edit`),
+          },
+          {
+            key: 'delete',
+            label: 'Delete',
+            danger: true,
+            onClick: (item) => handleDelete(item.id),
+          },
+        ]}
+      />
+    </div>
+  )
+}

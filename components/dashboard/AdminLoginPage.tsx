@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAppSelector } from '@/redux/hooks';
 import { useLoginMutation } from '@/redux/features/auth/authApi';
 // Assuming these are your paths for Redux and RTK Query
-
+import { Eye, EyeOff } from "lucide-react";
 
 type LoginFormValues = {
   email: string;
@@ -17,6 +17,9 @@ export default function AdminLoginPage() {
   const searchParams = useSearchParams();
   const next = searchParams.get("next");
   const router = useRouter();
+
+  const [showPassword, setShowPassword] = useState(false);
+
   
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const [login, { isLoading, error: apiError }] = useLoginMutation();
@@ -52,7 +55,7 @@ export default function AdminLoginPage() {
 
   return (
     <div className="flex items-center justify-center p-4 mt-10">
-      <div className="w-full max-w-lg">
+      <div className="w-full  ">
         
         {/* Branding Header */}
         <div className="text-center mb-10">
@@ -75,11 +78,15 @@ export default function AdminLoginPage() {
           {apiError && (
             <div className="mb-6 p-3 bg-red-50 border-l-4 border-red-500 text-red-700 text-sm">
               <p className="font-bold">Login Failed</p>
-              <p>Invalid email or password. Please try again.</p>
+           
+
+              {
+                'data' in apiError ? (apiError.data as any).message : "Invalid email or password. Please try again."
+              }
             </div>
           )}
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 w-auto md:w-105" >
             <div>
               <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Email Address</label>
               <input
@@ -91,17 +98,42 @@ export default function AdminLoginPage() {
             </div>
 
             <div>
-              <div className="flex justify-between mb-2">
-                <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Password</label>
-                <button type="button" className="text-xs font-semibold text-blue-600 hover:text-blue-800">Forgot?</button>
-              </div>
-              <input
-                {...register("password", { required: "Password is required" })}
-                type="password"
-                className={`w-full px-4 py-3 rounded-xl border ${errors.password ? 'border-red-500' : 'border-gray-200'} focus:ring-2 focus:ring-blue-500 outline-none transition bg-gray-50`}
-              />
-              {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
-            </div>
+  <div className="flex justify-between mb-2">
+    <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">
+      Password
+    </label>
+  </div>
+
+  <div className="relative">
+    <input
+      {...register("password", { required: "Password is required" })}
+      type={showPassword ? "text" : "password"}
+      className={`w-full px-4 py-3 pr-12 rounded-xl border ${
+        errors.password ? "border-red-500" : "border-gray-200"
+      } focus:ring-2 focus:ring-blue-500 outline-none transition bg-gray-50`}
+    />
+
+    {/* Eye Button */}
+    <button
+      type="button"
+      onClick={() => setShowPassword((prev) => !prev)}
+      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 transition"
+      aria-label={showPassword ? "Hide password" : "Show password"}
+    >
+      {showPassword ? (
+        <EyeOff className="w-5 h-5" />
+      ) : (
+        <Eye className="w-5 h-5" />
+      )}
+    </button>
+  </div>
+
+  {errors.password && (
+    <p className="text-red-500 text-xs mt-1">
+      {errors.password.message}
+    </p>
+  )}
+</div>
 
             <button
               type="submit"
