@@ -123,7 +123,7 @@ function FooterLink({
     children: React.ReactNode;
 }) {
     return (
-        <a href={href} scroll={false} className="hover:font-medium transition duration-200">
+        <a href={href}  className="hover:font-medium transition duration-200">
             {children}
         </a>
     );
