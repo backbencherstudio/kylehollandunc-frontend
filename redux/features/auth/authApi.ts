@@ -25,6 +25,12 @@ export const authApi = baseApi.injectEndpoints({
         method: "POST",
         body: credentials,
       }),
+      transformResponse: (response: any) => {
+        if (!response.success) {
+          throw new Error(response.errors || "Login failed");
+        }
+        return response;
+      },
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           const { data: raw } = await queryFulfilled;
@@ -73,6 +79,12 @@ export const authApi = baseApi.injectEndpoints({
         method: "POST",
         body: userData,
       }),
+      transformResponse: (response: any) => {
+        if (!response.success) {
+          throw new Error(response.errors || "Registration failed");
+        }
+        return response;
+      },
     }),
 
 

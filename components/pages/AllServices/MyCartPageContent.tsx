@@ -11,7 +11,7 @@ import { useGetCartQuery } from "@/redux/features/order/orderApi";
 export default function MyCart() {
     const { data: cartData } = useGetCartQuery();
 
-    const [currentStep, setCurrentStep] = useState(3);
+    const [currentStep, setCurrentStep] = useState(1);
     const nextStep = () => setCurrentStep((p) => Math.min(3, p + 1));
     const [selectedMethod, setSelectedMethod] = useState<"own" | "label">("own");
     const [address, setAddress] = useState("");
