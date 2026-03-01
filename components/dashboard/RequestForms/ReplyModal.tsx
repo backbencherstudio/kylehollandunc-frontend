@@ -15,18 +15,18 @@ export interface RequestDetails {
     detail: string;
 }
 
-interface ViewDetailsProps {
+interface ReplyModalProps {
     data: RequestDetails;
     onCancel?: () => void;
     onReply?: () => void;
 }
 
-export default function ViewDetails({
+export default function ReplyModal({
     data,
     onCancel,
     onReply,
 
-}: ViewDetailsProps) {
+}: ReplyModalProps) {
 
 
     const [name, setName] = useState("")

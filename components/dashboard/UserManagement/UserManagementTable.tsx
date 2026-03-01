@@ -1,11 +1,10 @@
 'use client'
 
 export interface User {
-    id: string
-    userId: string
+    id: number
     name: string
     email: string
-    created: string
+    created_at: string
 }
 import { Button } from '@/components/ui/button'
 import { Column, ReusableTable } from '@/components/reusable/ReusableTable'
@@ -14,38 +13,16 @@ import { Search } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import SearchInput from '@/components/reusable/SearchInput'
 import { useState } from 'react'
+import { useGetUsersQuery, useDeleteUserMutation } from '@/redux/features/admin/user-management/userApi'
+import { format } from 'date-fns'
+import { toast } from 'sonner'
 
-/* ================= Sample Data ================= */
-
-const users: User[] = [
-    {
-        id: '1',
-        userId: 'LNL-000123',
-        name: 'Theresa Webb',
-        email: 'jackson.graham@example.com',
-        created: 'February 28, 2018',
-    },
-    {
-        id: '2',
-        userId: 'LNL-000124',
-        name: 'Kristin Watson',
-        email: 'bill.sanders@example.com',
-        created: 'March 13, 2014',
-    },
-    {
-        id: '3',
-        userId: 'LNL-000125',
-        name: 'Guy Hawkins',
-        email: 'tim.jennings@example.com',
-        created: 'May 20, 2015',
-    },
-]
 /* ================= Component ================= */
 
 const columns: Column<User>[] = [
     {
         header: 'User ID',
-        accessor: 'userId',
+        accessor: 'id',
         className: 'font-medium text-[#1D1F2C]',
     },
     {
@@ -59,7 +36,10 @@ const columns: Column<User>[] = [
     },
     {
         header: 'Created',
-        accessor: 'created',
+        accessor: (item) => (
+            <span>{format(new Date(item.created_at), 'dd MMM yyyy')}</span>
+          ),
+        
     },
 ]
 
@@ -67,6 +47,27 @@ const columns: Column<User>[] = [
 export function UserManagementTable() {
 
     const [search, setSearch] = useState("");   
+    const { data: usersData, isLoading, error } = useGetUsersQuery();     
+    const [deleteUser] = useDeleteUserMutation();
+
+    const handleDelete = async (id: number) => {
+        try {
+            await deleteUser({ id }).unwrap();
+            toast.success("User deleted successfully");
+        } catch (error) {
+            toast.error("Failed to delete user");
+            console.error("Failed to delete user", error);
+        }
+    }
+    const users = usersData?.data || [];
+
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {(error as any).message}</div>;
+    }
     return (
         <div className="bg-white rounded-xl border border-[#E5E5E5] overflow-hidden">
 
@@ -87,20 +88,20 @@ export function UserManagementTable() {
             {/* Table */}
             <div className="px-4 py-4">
                 <ReusableTable
-                    columns={columns}
+                    columns={columns as any}
                     data={users}
                     zebra={false}
                     actions={[
-                        {
-                            key: 'edit',
-                            label: 'Edit',
-                            onClick: (user) => console.log('Edit', user),
-                        },
+                        // {
+                        //     key: 'edit',
+                        //     label: 'Edit',
+                        //     onClick: (user) => console.log('Edit', user),
+                        // },
                         {
                             key: 'delete',
                             label: 'Delete',
                             danger: true,
-                            onClick: (user) => console.log('Delete', user),
+                                onClick: (user) => handleDelete(user?.id as unknown as number),
                         },
                     ]}
                 />
