@@ -75,7 +75,7 @@ export const orderApi = baseApi.injectEndpoints({
 
 
         // get orders
-        getOrders: builder.query<any, { status?: string } | void>({
+       getUserOrders : builder.query<any, { status?: string } | void>({
             query: (data) => ({
                 url: "/user-orders",
                 method: "GET",
@@ -94,4 +94,4 @@ export const orderApi = baseApi.injectEndpoints({
 
 
 
-export const { useAddToCartMutation, useUpdateShippingDetailsMutation, useGetCartQuery, useUpdateSampleDetailsMutation, useGetOrdersQuery } = orderApi;
+export const { useAddToCartMutation, useUpdateShippingDetailsMutation, useGetCartQuery, useUpdateSampleDetailsMutation, useGetUserOrdersQuery } = orderApi;

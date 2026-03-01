@@ -7,7 +7,7 @@ export const orderApi = baseApi.injectEndpoints({
 
     // get all orders
     endpoints: (builder) => ({ 
-        getOrders: builder.query<any, void>({
+        getAllOrdersByAdmin: builder.query<any, void>({
         query: () => ({
             url: "/orders",
             method: "GET",
@@ -70,4 +70,4 @@ export const orderApi = baseApi.injectEndpoints({
 })
 
 
-export const { useGetOrdersQuery, useGetOrderByIdQuery, useUpdateOrderStatusMutation, useDeleteOrderMutation } = orderApi;
+export const { useGetAllOrdersByAdminQuery, useGetOrderByIdQuery, useUpdateOrderStatusMutation, useDeleteOrderMutation } = orderApi;

@@ -9,6 +9,7 @@ import { useLoginMutation } from "@/redux/features/auth/authApi";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { useAppSelector } from "@/redux/hooks";
+import { toast } from "sonner";
 
 type LoginFormValues = {
   email: string;
@@ -29,8 +30,8 @@ export default function LoginPage() {
   } = useForm<LoginFormValues>(
     {
       defaultValues: {
-        email: "",
-        password: "",
+        email: "ginale5702@dolofan.com",
+        password: "12345678",
       },
     }
   );
@@ -41,13 +42,16 @@ export default function LoginPage() {
   const onSubmit = async (data: LoginFormValues) => {
     try {
       await login(data).unwrap();
+      toast.success("Login successful");
       if (next) {
         router.push(next);
+
       } else {
         router.push("/");
       }
     } catch (err) {
       console.error("Login error:", err);
+      toast.error((err as any)?.data?.message || "Login failed");
     }
   };
 
