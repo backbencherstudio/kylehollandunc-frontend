@@ -4,7 +4,7 @@ import FormInput from '@/components/reusable/FormInput'
 import React, { useEffect } from 'react'
 
 import { useState } from "react";
-import { format } from "date-fns";
+import { format, isValid } from "date-fns";
 import { CalendarIcon, PlusIcon } from "lucide-react";
 import {
     Popover,
@@ -204,19 +204,32 @@ export default function ReportEditPage() {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
+    
         try {
+            // Prepare the update data
+            const updateData: any = {
+                lot: lot,
+                result_status: status,
+                result_summary: results, // Send the array directly, the mutation will stringify it
+            };
+            
+            // Only add test_date if it exists and is valid
+            if (date && !isNaN(date.getTime())) {
+                updateData.test_date = format(date, "yyyy-MM-dd");
+            }
+            
+            // Add file if it exists
+            if (file) {
+                updateData.report_file = file;
+            }
+    
+            console.log("Sending update data:", updateData); // Debug log
+    
             await updateReport({
                 id,
-                report: {
-                    test_date: date ? format(date, "yyyy-MM-dd") : "",
-                    lot: lot,
-                    result_status: status,
-                    result_summary: JSON.stringify(results),
-                    report_file: file,
-                },
+                report: updateData,
             }).unwrap();
-
+    
             toast.success("Report updated successfully");
         } catch (error) {
             toast.error("Failed to update report");
@@ -302,20 +315,23 @@ export default function ReportEditPage() {
                             Date
                         </label>
                         <Popover>
-                            <PopoverTrigger asChild>
-                                <button
-                                    type="button"
-                                    className="
-                                    w-full py-2 px-2.5 rounded-lg border text-sm transition outline-none
-                                    bg-white border-gray-300
-                                    focus:border-[#36668E] focus:ring-1 focus:ring-[#36668E]
-                                    flex items-center justify-between
-                                    "
-                                >
-                                    {date ? format(date, "PPP") : "Select date"}
-                                    <CalendarIcon className="w-4 h-4 text-gray-500" />
-                                </button>
-                            </PopoverTrigger>
+                        <PopoverTrigger asChild>
+  <button
+    type="button"
+    className="
+      w-full py-2 px-2.5 rounded-lg border text-sm transition outline-none
+      bg-white border-gray-300
+      focus:border-[#36668E] focus:ring-1 focus:ring-[#36668E]
+      flex items-center justify-between
+    "
+  >
+    {date && isValid(new Date(date))
+      ? format(new Date(date), "PPP")
+      : "Select date"}
+
+    <CalendarIcon className="w-4 h-4 text-gray-500" />
+  </button>
+</PopoverTrigger>
                             <PopoverContent className="w-auto p-0">
                                 <Calendar
                                     mode="single"
