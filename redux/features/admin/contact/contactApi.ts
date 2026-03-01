@@ -43,7 +43,18 @@ export const contactApi = baseApi.injectEndpoints({
                 return response.data;
             },
         }),
+
+
+
+        // create contact by user
+        createContactByUser: builder.mutation<any, { name: string, email: string, order_id?: number, message: string }>({
+            query: ({ name, email, order_id, message }) => ({
+                url: "/contacts",
+                method: "POST",
+                body: { name, email, order_id: order_id ? Number(order_id) : null, message }
+            }),
+        }), 
     }),
 });
 
-export const { useGetContactsQuery, useDeleteContactMutation, useReplyToContactMutation } = contactApi;
+export const { useCreateContactByUserMutation, useGetContactsQuery, useDeleteContactMutation, useReplyToContactMutation } = contactApi;

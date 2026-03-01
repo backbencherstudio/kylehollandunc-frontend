@@ -271,6 +271,13 @@ interface TopbarProps {
 }
 
 function Topbar({ onMenuClick }: TopbarProps) {
+   
+    const dispatch = useAppDispatch();
+    const router = useRouter();
+    const handleLogout = useCallback(() => {
+        dispatch(logout());
+        router.push("/");
+    }, [dispatch, router]);
     return (
         <header className="h-[72px] bg-white border-b px-4 md:px-8 flex items-center justify-between sticky top-0 z-10">
             {/* Left */}
@@ -316,7 +323,7 @@ function Topbar({ onMenuClick }: TopbarProps) {
                     <DropdownMenuContent align="end">
                         <DropdownMenuItem>Profile</DropdownMenuItem>
                         <DropdownMenuItem>Settings</DropdownMenuItem>
-                        <DropdownMenuItem className="text-red-500">
+                        <DropdownMenuItem onClick={handleLogout} className="text-red-500">
                             Logout
                         </DropdownMenuItem>
                     </DropdownMenuContent>
