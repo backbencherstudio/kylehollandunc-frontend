@@ -8,7 +8,7 @@ import {
     TabsContent,
 } from "@/components/ui/tabs";
 import PrivateRoute from "@/components/pages/AuthPages/PrivateRoute";
-import { useGetOrdersQuery } from "@/redux/features/order/orderApi";
+import { useGetUserOrdersQuery } from "@/redux/features/order/orderApi";
 
 // Types based on your API response
 interface OrderItem {
@@ -53,7 +53,7 @@ interface OrdersResponse {
 export default function MyOrdersPage() {
     const [activeTab, setActiveTab] = useState("all");
     
-    const { data, isLoading, error } = useGetOrdersQuery();
+    const { data, isLoading, error } = useGetUserOrdersQuery();
 
     // Manually filter orders based on active tab
     const filteredOrders = useMemo(() => {

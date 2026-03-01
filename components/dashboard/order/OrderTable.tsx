@@ -8,7 +8,7 @@ import SearchInput from '@/components/reusable/SearchInput'
 import SortFilter from '@/components/reusable/SortFilter'
 import { ReusableTable } from '@/components/reusable/ReusableTable'
 import { 
-    useGetOrdersQuery, 
+    useGetAllOrdersByAdminQuery, 
     useDeleteOrderMutation,
     useUpdateOrderStatusMutation 
 } from '@/redux/features/admin/order/adminOrderApi'
@@ -78,7 +78,7 @@ export default function OrderTable() {
     const [filteredData, setFilteredData] = useState<TableRow[]>([])
 
     // API hooks
-    const { data, isLoading, error, refetch } = useGetOrdersQuery()
+    const { data, isLoading, error, refetch } = useGetAllOrdersByAdminQuery()
     const [deleteOrder, { isLoading: isDeleting }] = useDeleteOrderMutation()
     const [updateOrderStatus] = useUpdateOrderStatusMutation()
 
