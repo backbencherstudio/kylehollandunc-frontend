@@ -15,8 +15,8 @@ const Homepage = () => {
         <div>
             <HeroSection2 />
             <AboutSection />
-            <OurServices />
             <OurPriceSection />             
+            <OurServices />
             <HowItWorks />
             <WhyChooseSection />
             <OurOfferSection />

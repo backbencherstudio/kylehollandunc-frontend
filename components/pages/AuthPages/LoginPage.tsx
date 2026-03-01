@@ -29,8 +29,8 @@ export default function LoginPage() {
   } = useForm<LoginFormValues>(
     {
       defaultValues: {
-        email: "bodut@mailinator.com",
-        password: "Pa$$w0rd!",
+        email: "",
+        password: "",
       },
     }
   );
