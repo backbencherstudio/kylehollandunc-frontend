@@ -6,24 +6,16 @@ import { MoreVertical, Calendar } from 'lucide-react'
 import { RowActions } from '@/components/reusable/RowActions';
 import CustomModal from '@/components/reusable/CustomModal';
 import React from 'react'
-import { useGetContactsQuery } from '@/redux/features/admin/contact/contactApi';
+import { useDeleteContactMutation, useGetContactsQuery } from '@/redux/features/admin/contact/contactApi';
 import ReplyContactModal from './ReplyContactModal';
 import ViewContactModal from './ViewContactModal';
+import { toast } from 'sonner';
 
 
 
 
 
 
-// {
-//     "id": 3,
-//     "name": "Kowshick Chowdhury",
-//     "email": "kowshickbdcalling@gmail.com",
-//     "order_id": "2",
-//     "message": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
-//     "created_at": "2026-02-26T06:26:54.000000Z",
-//     "updated_at": "2026-02-26T06:26:54.000000Z"
-// }
 
 export default function ContactForms() {
 
@@ -88,6 +80,7 @@ export default function ContactForms() {
                     <>
                         <ContactFormCard
                             key={contact.id}
+                            id={contact.id}
                             name={contact.name}
                             email={contact.email}
                             date={contact.created_at}
@@ -138,6 +131,7 @@ export default function ContactForms() {
 
 
 interface InquiryCardProps {
+    id?: number
     name?: string
     email?: string
     date?: string
@@ -157,7 +151,18 @@ function ContactFormCard({
     avatar = 'https://i.pravatar.cc/100?img=12',
     onView,
     onReply,
+    id,
 }: InquiryCardProps) {
+
+    const [deleteContact] = useDeleteContactMutation();
+    const { refetch } = useGetContactsQuery();
+    const handleDelete = async (id: number) => {
+        if (confirm("Are you sure you want to delete this contact?")) {
+            await deleteContact({ id: id }).unwrap();
+            toast.success("Contact deleted successfully");
+            await refetch();
+        }
+    }
     return (
         <div className="bg-[#F6F8FA] pl-3 pr-5 py-3 rounded-xl w-full">
 
@@ -194,11 +199,17 @@ function ContactFormCard({
                         key: 'view',
                         label: 'View',
                         onClick: onView ? () => onView() : () => { console.log('View') }
-                    }, {
+                    }, 
+                    {
                         key: 'reply',
                         label: 'Reply',
                         onClick: onReply ? () => onReply() : () => { console.log('Reply') }
-                    }]} item={name} />
+                    }, {
+                        key: 'delete',
+                        label: 'Delete',
+                        danger: true,
+                        onClick: () => handleDelete(id as number)
+                    }]} item={name as string} />
                 </button>
 
             </div>
