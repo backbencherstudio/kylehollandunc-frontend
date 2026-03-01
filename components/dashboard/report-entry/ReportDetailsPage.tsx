@@ -1,11 +1,12 @@
 "use client";
 
 import React from "react";
-import { format } from "date-fns";
+import { format, isValid } from "date-fns";
 import DashboardTtile from "@/components/reusable/DashboardTtile";
 import { useGetReportByIdQuery } from "@/redux/features/admin/reports/reportApi";
 import { useParams } from "next/navigation";
 import { StatusBadge } from "@/components/reusable/StatusBadge";
+
 
 export default function ReportDetailsPage() {
   const params = useParams();
@@ -32,7 +33,11 @@ export default function ReportDetailsPage() {
   const reportFile = report?.report_file || "No file uploaded";
 
   // Format Date Safely
-  const formattedDate = report?.test_date
+  const formattedDate =
+  report?.test_date &&
+  report.test_date !== "undefined" &&
+  report.test_date !== "null" &&
+  isValid(new Date(report.test_date))
     ? format(new Date(report.test_date), "PPP")
     : "N/A";
 
