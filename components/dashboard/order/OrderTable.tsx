@@ -45,17 +45,20 @@ const formatDate = (dateString: string): string => {
 
 // Get test type display text
 const getTestTypeDisplay = (order: any): string => {
-    const tests = order.items.filter((item:any) => item.type === 'test')
-    const addons = order.items.filter((item:any) => item.type === 'addon')
-    
+    if (!order?.items || !Array.isArray(order.items)) {
+        return 'No tests'
+    }
+
+    const tests = order.items.filter((item: any) => item?.type === 'test')
+    const addons = order.items.filter((item: any) => item?.type === 'addon')
+
     if (tests.length === 0) return 'No tests'
-    
-    const mainTest = tests[0].name
+
+    const mainTest = tests[0]?.name || 'Unknown Test'
     if (addons.length === 0) return mainTest
-    
+
     return `${mainTest} & ${addons.length} add on${addons.length > 1 ? 's' : ''}`
 }
-
 // Table row type
 interface TableRow {
     id: string;
@@ -83,16 +86,16 @@ export default function OrderTable() {
 
     // Transform API data to table format
     const tableData = useMemo(() => {
-        if (!data?.success) return []
-        
-        return data?.data?.data?.map((order: any) => ({
-            id: order.id.toString(),
-            orderId: order.order_number,
-            name: order.user.name,
-            email: order.user.email,
+        if (!data?.success || !Array.isArray(data?.data?.data)) return []
+    
+        return data.data.data.map((order: any) => ({
+            id: order?.id?.toString() ?? '',
+            orderId: order?.order_number ?? '',
+            name: order?.user?.name ?? 'Unknown',
+            email: order?.user?.email ?? 'Unknown',
             testType: getTestTypeDisplay(order),
-            date: formatDate(order.created_at),
-            status: mapOrderStatus(order.order_status),
+            date: order?.created_at ? formatDate(order.created_at) : 'Unknown',
+            status: mapOrderStatus(order?.order_status ?? 'pending'),
             original: order
         }))
     }, [data])

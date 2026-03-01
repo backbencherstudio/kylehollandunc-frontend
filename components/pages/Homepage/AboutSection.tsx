@@ -12,7 +12,7 @@ export default function AboutSection() {
 
           <div>
             <h3 className="max-w-[875px] text-[color:var(--Gray-Black-500,#1D1F2C)] [font-family:Syne] text-2xl sm:text-3xl md:text-4xl font-bold leading-[120%]">
-              At Lake Norman Lab, your confidence and accurate testing results
+              At Lake Norman Labs, your confidence and accurate testing results
               are our top priority. We believe lab testing should be smooth,
               reliable, and focused on your peace of mind.
             </h3>

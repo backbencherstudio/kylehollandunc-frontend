@@ -18,7 +18,7 @@ export default function OurPriceSection() {
             </div>
   
             <p className="max-w-[615px] text-[#4A4C56] text-base md:text-lg font-normal leading-[150%] tracking-[0.09px]">
-              At Lake Norman Lab, we believe in transparent, straightforward
+              At Lake Norman Labs, we believe in transparent, straightforward
               pricing with no surprises. Our testing fees are clearly listed so
               you can choose the right service with confidence. Each price
               reflects the accuracy and reliability our clients across the

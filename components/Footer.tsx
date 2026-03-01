@@ -26,7 +26,7 @@ export default function Footer() {
                     />
 
                     <p className="text-[#777980] text-base md:text-lg font-normal leading-[150%] tracking-[0.09px] mt-4">
-                        At Lake Norman Lab, your confidence and accurate testing
+                        At Lake Norman Labs, your confidence and accurate testing
                         results are our top priority. We believe lab testing should
                         be smooth, reliable.
                     </p>
@@ -50,7 +50,7 @@ export default function Footer() {
                     <FooterColumn title="Quick Links">
                         <FooterLink href="/">Home</FooterLink>
                         <FooterLink href="/about-us">About Us</FooterLink>
-                        <FooterLink href="/coa-doc">Contact Us</FooterLink>
+                        <FooterLink href="/#contact-us">Contact Us</FooterLink>
                         <FooterLink href="/verify-report">Verify</FooterLink>
                     </FooterColumn>
 
@@ -123,11 +123,21 @@ function FooterLink({
     children: React.ReactNode;
 }) {
     return (
-        <Link href={href} className="hover:font-medium transition duration-200">
+        <a href={href}  className="hover:font-medium transition duration-200">
             {children}
-        </Link>
+        </a>
     );
 }
+
+
+// const FooterLink2: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+//     return (
+//       <a href="/#contact-us" className="hover:font-medium transition duration-200">
+//         {children}
+//       </a>
+//     );
+//   };
+  
 
 function SocialIcon({ href="#", children }: { href?: string; children: React.ReactNode }) {
     return (

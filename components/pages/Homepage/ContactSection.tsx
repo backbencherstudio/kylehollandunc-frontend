@@ -6,7 +6,7 @@ import React from "react";
 
 export default function ContactSection() {
     return (
-        <section id="contact-us" className="relative w-full min-h-[750px] overflow-hidden">
+        <section className="relative w-full min-h-[750px] overflow-hidden">
 
             {/* ================= Background Image ================= */}
             <Image
@@ -18,7 +18,7 @@ export default function ContactSection() {
             />
 
             {/* Dark Overlay */}
-            <div className="absolute inset-0 bg-[rgba(2,51,71,0.40)]" />
+            <div id="contact-us" className="absolute inset-0 bg-[rgba(2,51,71,0.40)]" />
 
             {/* ================= Content ================= */}
             <div className="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-[140px] py-20 lg:py-[120px] flex flex-col lg:flex-row justify-between gap-14">
