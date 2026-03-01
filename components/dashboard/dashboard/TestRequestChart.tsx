@@ -40,7 +40,40 @@ const data = [
   { month: "Dec", test: 900, contact: 11000 },
 ]
 
-export default function TestRequestChart() {
+
+export const formatMonthlyChartData = (data: any) => {
+  const testMonthly =
+    data?.test_requests?.monthly_counts || {};
+
+  const contactMonthly =
+    data?.contact_requests?.monthly_counts || {};
+
+  const monthMap = {
+    January: "Jan",
+    February: "Feb",
+    March: "Mar",
+    April: "Apr",
+    May: "May",
+    June: "Jun",
+    July: "Jul",
+    August: "Aug",
+    September: "Sep",
+    October: "Oct",
+    November: "Nov",
+    December: "Dec",
+  };
+
+  return Object.keys(monthMap).map((month) => ({
+    month: monthMap[month as keyof typeof monthMap as keyof typeof monthMap],
+    test: testMonthly[month] ?? 0,
+    contact: contactMonthly[month] ?? 0,
+  }));
+};
+export default function TestRequestChart({ data }: { data: any }) {
+
+  console.log("data", data);
+  const monthlyChartData = formatMonthlyChartData(data);
+  console.log(monthlyChartData);
   return (
     <Card className="rounded-2xl shadow-sm h-[348px] px-4 py-4 flex-1">
       <CardHeader className="flex flex-row items-center justify-between">
@@ -62,7 +95,7 @@ export default function TestRequestChart() {
 
       <CardContent className="h-[280px] p-0">
         <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={data}>
+          <AreaChart data={monthlyChartData}>
             <defs>
               <linearGradient id="colorContact" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#2563eb" stopOpacity={0.3} />

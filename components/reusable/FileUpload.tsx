@@ -19,12 +19,11 @@ export default function FileUpload({
 
   const handleFile = (file: File) => {
     const allowedTypes = [
-      "text/csv",
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "application/pdf",
     ];
 
     if (!allowedTypes.includes(file.type)) {
-      alert("Only CSV or XLSX files are allowed.");
+      alert("Only PDF files are allowed.");
       return;
     }
 
@@ -83,7 +82,7 @@ export default function FileUpload({
       </p>
 
       <p className="text-[#818898] text-xs mt-2">
-        Supports CSV, XLSX (max {maxSizeMB}MB)
+        Supports PDF (max {maxSizeMB}MB)
       </p>
 
       {value && (
@@ -95,7 +94,7 @@ export default function FileUpload({
       <input
         ref={fileInputRef}
         type="file"
-        accept=".csv,.xlsx"
+        accept=".pdf"
         className="hidden"
         onChange={handleBrowse}
       />

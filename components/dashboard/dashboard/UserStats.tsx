@@ -1,13 +1,13 @@
 import React from 'react'
 
-export default function UserStats() {
+export default function UserStats({ statsData }: { statsData: { totalUsers: number, activeUsers: number, pendingOrders: number } }) {
   return (
-    <section className='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4.5  '>
+    // <section className='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4.5  '>
+    <section className='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4.5  '>
       
-      <StatCard title='Total Users' value='2,847' />  
-      <StatCard title='Active Users' value='1,934' />                 
-      <StatCard title='Premium Users' value='892' />  
-      <StatCard title='Premium Users' value='892' />  
+      <StatCard title='Total Users' value={statsData?.totalUsers?.toString() || '0'}  />  
+      <StatCard title='Active Users' value={statsData?.activeUsers?.toString() || '0'} />                 
+      <StatCard title='Pending Orders' value={statsData?.pendingOrders?.toString() || '0'} />  
     </section>
   )
 }

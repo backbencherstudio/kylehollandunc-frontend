@@ -20,6 +20,9 @@ import {
     AlertCircle
 } from 'lucide-react'
 
+import { useCallback } from "react";
+
+
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
@@ -42,28 +45,33 @@ export default function DashboardLayout({
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
     return (
-        <div className="flex min-h-screen bg-[#F5F6F8]">
-            {/* Desktop Sidebar - hidden on mobile */}
-            <div className="hidden lg:block">
-                <Sidebar />
-            </div>
+        <div className="flex h-screen overflow-hidden bg-[#F5F6F8]">
 
-            {/* Mobile Sidebar (Sheet) */}
-            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-                <SheetContent side="left" className="p-0 w-[280px]">
-                    <Sidebar isMobile onClose={() => setIsMobileMenuOpen(false)} />
-                </SheetContent>
-            </Sheet>
-
-            <div className="flex-1 min-w-0 bg-[#FAFAFA] flex flex-col">
-                <Topbar onMenuClick={() => setIsMobileMenuOpen(true)} />
-                <main className="flex-1 min-w-0 p-4 md:p-6 overflow-x-hidden max-w-[1680px] mx-auto w-full">
-
-                    {/* <main className="flex-1 p-4 md:p-6 overflow-x-hidden"> */}
-                    {children}
-                </main>
-            </div>
+        {/* Desktop Sidebar */}
+        <div className="hidden lg:block">
+            <Sidebar />
         </div>
+    
+        {/* Mobile Sidebar */}
+        <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+            <SheetContent side="left" className="p-0 w-[280px]">
+                <Sidebar isMobile onClose={() => setIsMobileMenuOpen(false)} />
+            </SheetContent>
+        </Sheet>
+    
+        {/* Right Section */}
+        <div className="flex-1 min-w-0 bg-[#FAFAFA] flex flex-col overflow-hidden">
+    
+            {/* Topbar (now truly fixed) */}
+            <Topbar onMenuClick={() => setIsMobileMenuOpen(true)} />
+    
+            {/* Scrollable Content Only */}
+            <main className="flex-1 overflow-y-auto overflow-x-hidden p-4 md:p-6 max-w-[1680px] mx-auto w-full">
+                {children}
+            </main>
+    
+        </div>
+    </div>
     )
 }
 
@@ -93,116 +101,145 @@ const menuItems = {
     ]
 };
 
+
+
+
+
 function Sidebar({ isMobile, onClose }: SidebarProps) {
     const pathname = usePathname();
     const router = useRouter();
     const dispatch = useAppDispatch();
     const [logoutOpen, setLogoutOpen] = useState(false);
-    // handle logout: clear storage and Redux, then redirect
-    const handleLogout = () => {
-        removeStorageItem('token');
-        removeStorageItem('user');
+
+    // ✅ Memoized logout handler
+    const handleLogout = useCallback(() => {
+        removeStorageItem("token");
+        removeStorageItem("user");
         dispatch(logout());
         setLogoutOpen(false);
-        router.push('/');
-    }
+        router.push("/");
+    }, [dispatch, router]);
 
-    const handleLinkClick = () => {
+    // ✅ Memoized link click
+    const handleLinkClick = useCallback(() => {
         if (isMobile && onClose) {
-            onClose()
+            onClose();
         }
-    }
+    }, [isMobile, onClose]);
 
-    const isActive = (href: string) => {
-        if (href === '/admin-dashboard') {
-            return pathname === href;
-        }
-        return pathname === href || pathname.startsWith(href + '/');
-    }
+    // ✅ Production-grade active matcher
+    const isActive = useCallback(
+        (href: string) => {
+            if (href === "/admin-dashboard") {
+                return pathname === href;
+            }
+            return pathname === href || pathname.startsWith(`${href}/`);
+        },
+        [pathname]
+    );
+
     return (
-        <aside className="w-full lg:w-[260px] h-full bg-white border-r flex flex-col justify-between">
-            {/* Top Section */}
-            <div>
-                {/* Logo with close button for mobile */}
-                <div className="px-4 py-4 flex items-center justify-between">
-                    <Link href="/" className='w-[200px] h-[57px] relative'>
+        <aside className="w-full lg:w-[260px] h-screen bg-white border-r flex flex-col">
 
-                        <Image src="/images/dashboard-logo.png" alt="logo" fill className='object-contain object-center' />
+            {/* ================= SCROLLABLE AREA ================= */}
+            <div className="flex-1 overflow-y-auto">
+
+                {/* Logo */}
+                <div className="px-4 py-4 flex items-center justify-between">
+                    <Link href="/" className="w-[200px] h-[57px] relative">
+                        <Image
+                            src="/images/dashboard-logo.png"
+                            alt="logo"
+                            fill
+                            className="object-contain"
+                            priority
+                        />
                     </Link>
+
                     {isMobile && (
-                        <Button variant="ghost" size="icon" onClick={onClose} className="lg:hidden">
-                            {/* <X className="h-5 w-5" /> */}
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={onClose}
+                            className="lg:hidden"
+                        >
+                            {/* Close icon here */}
                         </Button>
                     )}
                 </div>
 
                 {/* User Card */}
                 <div className="px-4">
-                    <div className="flex items-center gap-2 self-stretch border [background:#FFF] pl-2.5 pr-3 py-3 rounded-[10px] border-solid border-[#F1F1F5]">
+                    <div className="flex items-center gap-3 border bg-white px-3 py-3 rounded-[10px] border-[#F1F1F5]">
                         <Avatar className="h-10 w-10 shrink-0">
                             <AvatarImage src="/user-profile.webp" />
                             <AvatarFallback>AU</AvatarFallback>
                         </Avatar>
                         <div className="min-w-0 flex-1">
-                            <p className="[display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:1] overflow-hidden text-[#161618] text-ellipsis  text-base font-medium leading-[150%] tracking-[-0.32px] mb-[2px]">Admin User</p>
-                            <p className="[display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:1] self-stretch overflow-hidden text-[#5B5A64] text-ellipsis  text-xs font-normal leading-[150%] tracking-[-0.24px]">
+                            <p className="truncate text-[#161618] text-base font-medium">
+                                Admin User
+                            </p>
+                            <p className="truncate text-[#5B5A64] text-xs">
                                 admin@portal.com
                             </p>
                         </div>
                     </div>
                 </div>
 
-                {/* Menu */}
-                <div className="px-4 mt-6 ">
-                    <p className="flex   flex-col justify-center text-[#5B5A64] text-xs font-medium leading-[150%] tracking-[-0.24px] mb-2">
+                {/* Main Menu */}
+                <div className="px-4 mt-6">
+                    <p className="text-[#5B5A64] text-xs font-medium mb-2">
                         Main Menu
                     </p>
 
                     <nav className="space-y-2">
-                        {menuItems.top.map((item, i) => (
+                        {menuItems.top.map((item) => (
                             <Link
-                                key={i}
+                                key={item.href} // ✅ stable key
                                 href={item.href}
                                 onClick={handleLinkClick}
                                 className={cn(
-                                    'flex items-center gap-3 px-2.5 py-1.5  transition-all text-white text-sm font-medium leading-[150%] tracking-[-0.28px] self-stretch  rounded-[7px]',
+                                    "flex items-center gap-3 px-3 py-2 rounded-[7px] text-sm font-medium transition-all",
                                     isActive(item.href)
-                                        ? ' [background:var(--gradient,linear-gradient(0deg,rgba(0,0,0,0.20)_0%,rgba(0,0,0,0.20)_100%),linear-gradient(180deg,#84B6DE_0%,#1C5E96_100%))] text-white'
-                                        : 'text-[#5B5A64] hover:bg-gray-100'
+                                        ? "bg-gradient-to-b from-[#84B6DE] to-[#1C5E96] text-white"
+                                        : "text-[#5B5A64] hover:bg-gray-100"
                                 )}
                             >
                                 <item.icon className="w-4 h-4 shrink-0" />
-                                <span className="truncate">{item.label}</span>
+                                <span className="truncate">
+                                    {item.label}
+                                </span>
                             </Link>
                         ))}
                     </nav>
                 </div>
             </div>
 
-            {/* Bottom Section */}
-            <div className="px-4 pb-4">
+            {/* ================= FIXED BOTTOM ================= */}
+            <div className="px-4 py-4 border-t bg-white">
+
                 <p className="text-xs text-muted-foreground mb-3 uppercase tracking-wide">
                     Other
                 </p>
 
                 <div className="space-y-2">
-                    {
+                    {menuItems.bottom.map((item) => (
+                        <Link
+                            key={item.href}
+                            href={item.href}
+                            onClick={handleLinkClick}
+                            className="flex items-center gap-3 px-3 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded-md"
+                        >
+                            <item.icon className="w-4 h-4 shrink-0" />
+                            <span className="truncate">
+                                {item.label}
+                            </span>
+                        </Link>
+                    ))}
 
-                        menuItems.bottom.map((item, i) => (
-                            <Link
-                                key={i}
-                                href={item.href}
-                                onClick={handleLinkClick}
-                                className="flex items-center gap-3 px-3 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded-md w-full"
-                            >
-                                <item.icon className="w-4 h-4 shrink-0" />
-                                <span className="truncate">{item.label}</span>
-                            </Link>
-                        ))
-                    }
                     <button
-                        className="flex items-center gap-3 px-3 py-2 text-sm text-gray-600 hover:bg-gray-100 hover:text-red-500 rounded-md w-full cursor-pointer"
                         onClick={() => setLogoutOpen(true)}
+                        className="flex items-center gap-3 px-3 py-2 text-sm text-gray-600 hover:bg-gray-100 hover:text-red-500 rounded-md w-full transition-colors"
                     >
                         <LogOut className="w-4 h-4 shrink-0" />
                         <span className="truncate">Logout</span>
@@ -210,12 +247,12 @@ function Sidebar({ isMobile, onClose }: SidebarProps) {
                 </div>
             </div>
 
-
+            {/* ================= MODAL ================= */}
             <ReusableModal
                 open={logoutOpen}
                 onOpenChange={setLogoutOpen}
                 className="w-[500px] p-12"
-                hideCloseButton={true}
+                hideCloseButton
             >
                 <LogoutModal
                     setLogoutOpen={setLogoutOpen}
@@ -223,8 +260,9 @@ function Sidebar({ isMobile, onClose }: SidebarProps) {
                 />
             </ReusableModal>
         </aside>
-    )
+    );
 }
+
 
 /* ================= Topbar ================= */
 
