@@ -16,6 +16,8 @@ export interface RequestForm {
 import { Button } from '@/components/ui/button'
 import { Column, ReusableTable } from '@/components/reusable/ReusableTable'
 import { StatusBadge } from '@/components/reusable/StatusBadge'
+import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 /* ================= Sample Data ================= */
 
@@ -108,7 +110,7 @@ const columns = [
 
 export function RecentRequestTable() {
 
-
+    const router = useRouter();
    
 
 
@@ -122,6 +124,10 @@ export function RecentRequestTable() {
         </h3>
                                  
         <Button
+          onClick={() => {
+            router.push('/admin-dashboard/request-forms');
+  
+          }}  
           variant="outline"
           size="sm"
           className="rounded-md text-sm font-medium leading-[150%] tracking-[0.07px] text-[#1D1F2C] cursor-pointer"

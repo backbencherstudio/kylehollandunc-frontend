@@ -52,14 +52,17 @@ export const requestApi = baseApi.injectEndpoints({
 
 
         // request reply by admin
-        requestReply: builder.mutation<any, { id: string, reply: string }>({  // request reply by admin
-            query: ({ id, reply }) => ({
+        requestReply: builder.mutation<any, { id: string, body: { email: string, subject: string , description: string | null } }>({  // request reply by admin
+            query: ({ id, body }) => ({
                 url: `/requests/${id}/reply`,
                 method: "POST",
-                body: { reply },
+                body: body,
             }),
             invalidatesTags: ["Requests"],
             transformResponse: (response: any) => {
+                if (!response.success) {
+                    throw new Error(response.errors || "Failed to reply to request");
+                }
                 return response.data;
             },
         }),

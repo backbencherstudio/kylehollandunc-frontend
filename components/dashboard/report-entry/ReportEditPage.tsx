@@ -24,6 +24,7 @@ import { useParams } from 'next/navigation';
 import { useGetReportByIdQuery, useUpdateReportMutation } from '@/redux/features/admin/reports/reportApi';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
+import Loader from '@/components/reusable/Loader';
 
 // Define the type for result items
 interface ResultItem {
@@ -240,9 +241,7 @@ export default function ReportEditPage() {
     // Loading state
     if (isLoading) {
         return (
-            <div className="flex justify-center items-center min-h-[400px]">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-            </div>
+            <Loader />
         );
     }
 

@@ -16,6 +16,7 @@ import { useState, useMemo, useEffect } from 'react'
 import { useGetUsersQuery, useDeleteUserMutation } from '@/redux/features/admin/user-management/userApi'
 import { format } from 'date-fns'
 import { toast } from 'sonner'
+import Loader from '@/components/reusable/Loader'
 
 /* ================= Component ================= */
 
@@ -98,7 +99,7 @@ export function UserManagementTable() {
     }, [usersData, debouncedSearch]);
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <Loader />;
     }
 
     if (error) {

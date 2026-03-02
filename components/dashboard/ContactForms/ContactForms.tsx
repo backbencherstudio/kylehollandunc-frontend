@@ -11,6 +11,7 @@ import ReplyContactModal from './ReplyContactModal';
 import ViewContactModal from './ViewContactModal';
 import { toast } from 'sonner';
 import Image from 'next/image';
+import Loader from '@/components/reusable/Loader';
 
 export default function ContactForms() {
     const { data: contactsData, isLoading, error, refetch } = useGetContactsQuery();
@@ -62,7 +63,7 @@ export default function ContactForms() {
     };
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <Loader />;
     }
 
     if (error) {

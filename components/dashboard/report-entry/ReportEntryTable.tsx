@@ -5,6 +5,7 @@ import { StatusBadge } from "@/components/reusable/StatusBadge"
 import { useRouter } from "next/navigation"
 import { useGetReportsQuery, useDeleteReportMutation } from "@/redux/features/admin/reports/reportApi"
 import { toast } from "sonner"
+import Loader from "@/components/reusable/Loader"
 
 export interface Report {
   id: string
@@ -112,9 +113,7 @@ export function ReportEntryTable() {
 
   if (isLoading) {
     return (
-      <div className="bg-white rounded-xl border p-6">
-        Loading reports...
-      </div>
+      <Loader />
     )
   }
 

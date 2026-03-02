@@ -13,6 +13,7 @@ import {
     useUpdateOrderStatusMutation 
 } from '@/redux/features/admin/order/adminOrderApi'
 import { toast } from 'sonner'
+import Loader from '@/components/reusable/Loader'
 
 // Map API order status to UI status
 const mapOrderStatus = (status: string): 'started' | 'pending' | 'active' | 'canceled' => {
@@ -129,11 +130,7 @@ export default function OrderTable() {
     // Handle loading state
     if (isLoading) {
         return (
-            <div className="bg-white rounded-xl border p-6 min-w-0 overflow-hidden">
-                <div className="flex justify-center items-center py-12">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#4c5fda]"></div>
-                </div>
-            </div>
+            <Loader />
         )
     }
 

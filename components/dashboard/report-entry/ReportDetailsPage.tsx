@@ -6,6 +6,7 @@ import DashboardTtile from "@/components/reusable/DashboardTtile";
 import { useGetReportByIdQuery } from "@/redux/features/admin/reports/reportApi";
 import { useParams } from "next/navigation";
 import { StatusBadge } from "@/components/reusable/StatusBadge";
+import Loader from "@/components/reusable/Loader";
 
 
 export default function ReportDetailsPage() {
@@ -16,7 +17,7 @@ export default function ReportDetailsPage() {
     useGetReportByIdQuery({ id });
 
   if (isLoading) {
-    return <div className="p-6">Loading report...</div>;
+    return <Loader />;
   }
 
   if (error || !report) {
