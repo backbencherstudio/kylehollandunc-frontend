@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { logout, selectCurrentUser, selectIsLoading } from "@/redux/features/auth/authSlice";
 import { removeStorageItem } from "@/utils/storage";
+import { getUserRole } from "@/utils/auth";
 
 const Navbar = () => {
     const pathname = usePathname();
@@ -18,7 +19,9 @@ const Navbar = () => {
     const isLoading = useAppSelector(selectIsLoading);
     const user = useAppSelector(selectCurrentUser);
 
-    console.log(isLoading, user);
+    const role = getUserRole();
+
+    console.log(isLoading, user, role);
     useEffect(() => {
         const handleScroll = () => {
             if (window.scrollY > 50) {
@@ -51,12 +54,12 @@ const Navbar = () => {
     }, [menuOpen]);
 
     const navLinks = [
-        { label: 'Home', href: '/' },
+        { label: 'Home', href: '/',  },
         { label: 'Our services', href: '/services' },
         { label: 'About us', href: '/about-us' },
         { label: 'COA', href: '/coa-doc' },
         { label: 'Verify', href: '/verify-report' },
-        { label: 'Order', href: '/order' },
+        { label: 'Order', href: '/order', isPrivate: true },
     ];
 
     const isActive = (href: string) => pathname === href;
@@ -97,7 +100,7 @@ const Navbar = () => {
                             <Link
                                 key={link.href}
                                 href={link.href}
-                                className={`${isActive(link.href) ? 'underline underline-offset-4 font-medium' : ''} leading-[150%] tracking-[0.09px]`}
+                                className={`${isActive(link.href) ? 'underline underline-offset-4 font-medium' : ''} leading-[150%] tracking-[0.09px] ${link.isPrivate && role !== 'user' ? 'hidden' : ''}`}
                             >
                                 {link.label}
                             </Link>

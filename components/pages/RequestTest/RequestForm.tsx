@@ -1,152 +1,233 @@
+"use client";
+
 import SectionLabel from '@/components/reusable/SectionLabel'
 import React from 'react'
 import Image from 'next/image'
 import ChevronLeft from '@/components/icons/ChevronLeft'
-export default function RequestForm() {
-    return (
-        <section className='bg-white max-w-[1600px] mx-auto px-6 sm:px-10 md:px-16 lg:px-[140px] py-12 sm:pt-22.5 sm:pb-25'>
+import { useCreateRequestByUserMutation } from '@/redux/features/admin/request/requestApi'
+import { toast } from 'sonner'
+import { useForm, SubmitHandler } from 'react-hook-form'
 
-
-
-            {/* Content */}
-            <div className='max-w-[1320px] mx-auto '>
-
-
-            <h2 className="font-syne mb-10 md:mb-12 text-center text-[#1D1F2C] text-3xl sm:text-4xl lg:text-5xl font-semibold leading-[124%] tracking-[0.24px]">
-            Start a peptide testing request</h2>
-
-                <div className='flex  md:flex-row flex-col gap-16'>
-                
-                    {/* LEFT SIDE */}
-                    <div className="relative w-full lg:max-w-[628px] h-[540px] sm:h-[653px] rounded-2xl overflow-hidden">
-
-                        {/* Background Image */}
-                        <Image
-                            src="/images/others/testtubes.png"
-                            alt="Request Test"
-                            fill
-                            className="object-cover"
-                            // sizes="(max-width: 1024px) 100vw, 658px"
-                            priority
-                        />
-
-                        {/* Dark Overlay (optional but recommended) */}
-                        <div className="absolute inset-0 bg-black/30" />
-
-                        {/* Content Box */}
-                        <div className="absolute inset-0 p-6 sm:p-8 lg:p-12">
-
-                            <div className='w-full  backdrop-blur-md bg-white/10 border border-white/30 rounded-2xl p-8 text-white h-full'>
-
-                                <div className=''
-                                >
-                                    <h2 className='text-white font-syne text-2xl  sm:text-4xl font-semibold leading-[124%] tracking-[0.18px] mb-6'>What to include</h2>
-
-                                    <div className='flex flex-col gap-4'>
-
-
-                                        {
-                                            [{
-                                                name: 'Peptide name', description: 'Include concentration and vial size if known.'
-                                            },
-                                            {
-                                                name: 'Lot / batch info', description: 'Any identifiers help preserve traceability.'
-                                            },
-                                            {
-                                                name: 'Desired scope ', description: 'Identityr purity, potency, contaminants, stability.'
-                                            },
-                                            {
-                                                name: 'Timeline', description: 'Standard vs expedited (if available).'
-                                            }].map((item, index) => (
-                                                <div key={index} className='flex items-start justify-start gap-2.5'>
-                                                    <div>
-                                                        <ChevronLeft />
-                                                    </div>
-                                                    <div>
-                                                        <p className='mb-2 self-stretch text-[#FFF]  text-base sm:text-lg font-semibold leading-[150%] tracking-[0.09px] '>{item.name}</p>
-                                                        <p className='self-stretch text-[#FFF]  text-base sm:text-lg font-normal leading-[150%] tracking-[0.09px]'>{item.description}</p>
-                                                    </div>
-                                                </div>
-                                            ))
-                                        }
-
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-
-                    {/* RIGHT SIDE */}
-                    <div className='w-full lg:max-w-[628px] '>
-                        <RequestFormCard />
-                    </div>
-
-                </div>
-                      
-            </div>
-        </section>
-    )
+// Form data interface
+interface RequestFormData {
+    name: string;
+    email: string;
+    organization: string;
+    test: string;
+    message: string;
 }
 
+export default function RequestForm() {
+    const [createRequestByUser, { isLoading }] = useCreateRequestByUserMutation();
 
+    // Initialize React Hook Form
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors, isSubmitting }
+    } = useForm<RequestFormData>({
+        defaultValues: {
+            name: "",
+            email: "",
+            organization: "",
+            test: "",
+            message: "",
+        }
+    });
 
+    // Handle form submission
+    const onSubmit: SubmitHandler<RequestFormData> = async (data) => {
+        try {
+            await createRequestByUser(data).unwrap();
+            toast.success("Request sent successfully ✅");
+            reset(); // Reset form after successful submission
+        } catch (error: any) {
+            toast.error(error?.data?.message || error?.message || "Something went wrong ❌");
+        }
+    };
 
-
-const RequestFormCard = () => {
     return (
         <section className="max-w-[800px] mx-auto px-6 py-16">
-
             {/* Title */}
             <h2 className="text-3xl md:text-4xl font-syne font-semibold text-[#1D1F2C] mb-12">
                 Request form
             </h2>
 
             {/* Form */}
-            <form className="flex flex-col gap-8 md:gap-10">
-
-                <FormInput placeholder="Full Name" />
-                <FormInput placeholder="Email" />
-                <FormInput placeholder="Organization (supplier/clinic/pharmacy)" />
-                <FormInput placeholder="Peptide to test (e g , BPC-157, Semaglutide)" />
-                <textarea
-                    placeholder="What do you need verified? (identity/ purity/ potency/ contaminants/ stability/ desired turnaround)"
-                    rows={2}
-                    className="w-full bg-transparent border-b border-[#E5E7EB] pb-3 text-[#4A4C56] placeholder-[#9CA3AF] text-base md:text-lg focus:outline-none focus:border-[#1C5E96] resize-none leading-[150%] h-[100px] md:h-auto"
+            <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="flex flex-col gap-8 md:gap-10"
+            >
+                <FormInput
+                    name="name"
+                    register={register}
+                    validation={{ 
+                        required: "Name is required",
+                        minLength: {
+                            value: 2,
+                            message: "Name must be at least 2 characters"
+                        }
+                    }}
+                    error={errors.name}
+                    placeholder="Full Name"
                 />
 
+                <FormInput
+                    name="email"
+                    type="email"
+                    register={register}
+                    validation={{ 
+                        required: "Email is required",
+                        pattern: {
+                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                            message: "Invalid email address"
+                        }
+                    }}
+                    error={errors.email}
+                    placeholder="Email"
+                />
+
+                <FormInput
+                    name="organization"
+                    register={register}
+                    validation={{ 
+                        required: "Organization is required",
+                        minLength: {
+                            value: 2,
+                            message: "Organization must be at least 2 characters"
+                        }
+                    }}
+                    error={errors.organization}
+                    placeholder="Organization (supplier/clinic/pharmacy)"
+                />
+
+                <FormInput
+                    name="test"
+                    register={register}
+                    validation={{ 
+                        required: "Test name is required",
+                        minLength: {
+                            value: 2,
+                            message: "Test name must be at least 2 characters"
+                        }
+                    }}
+                    error={errors.test}
+                    placeholder="Peptide to test (e.g., BPC-157, Semaglutide)"
+                />
+
+                <FormTextarea
+                    name="message"
+                    register={register}
+                    validation={{ 
+                        required: "Message is required",
+                        minLength: {
+                            value: 10,
+                            message: "Message must be at least 10 characters"
+                        },
+                        maxLength: {
+                            value: 500,
+                            message: "Message cannot exceed 500 characters"
+                        }
+                    }}
+                    error={errors.message}
+                    placeholder="What do you need verified? (identity/purity/potency/contaminants/stability/desired turnaround)"
+                    rows={2}
+                />
 
                 {/* Button */}
                 <div>
                     <button
                         type="submit"
-                        className="px-8 py-4 rounded-full bg-[linear-gradient(180deg,#84B6DE_0%,#1C5E96_100%)] text-white text-lg font-medium hover:opacity-90 transition cursor-pointer"
+                        disabled={isLoading || isSubmitting}
+                        className="px-8 py-4 rounded-full bg-[linear-gradient(180deg,#84B6DE_0%,#1C5E96_100%)] text-white text-lg font-medium hover:opacity-90 transition cursor-pointer disabled:opacity-50"
                     >
-                        Send Request
+                        {isLoading || isSubmitting ? "Sending..." : "Send Request"}
                     </button>
                 </div>
-
             </form>
         </section>
     );
 };
 
-
-
 /* ================= Reusable Input ================= */
-
 interface FormInputProps {
     placeholder: string;
+    name: keyof RequestFormData;
+    type?: string;
+    register: any;
+    validation?: any;
+    error?: any;
     className?: string;
 }
 
-const FormInput: React.FC<FormInputProps> = ({ placeholder, className = '' }) => {
+const FormInput: React.FC<FormInputProps> = ({
+    placeholder,
+    name,
+    type = "text",
+    register,
+    validation = {},
+    error,
+    className = "",
+}) => {
     return (
-        <input
-            type="text"
-            placeholder={placeholder}
-            className={`bg-transparent border-b border-[#E5E7EB] pb-3 text-[#4A4C56] placeholder-[#9CA3AF] text-base md:text-lg focus:outline-none focus:border-[#1C5E96] transition  ${className}`}
-        />
+        <div className="relative">
+            <input
+                type={type}
+                {...register(name, validation)}
+                placeholder={placeholder}
+                className={`bg-transparent border-b pb-3 text-[#4A4C56] placeholder-[#9CA3AF] text-base md:text-lg focus:outline-none transition w-full ${
+                    error 
+                        ? 'border-red-500 focus:border-red-500' 
+                        : 'border-[#E5E7EB] focus:border-[#1C5E96]'
+                } ${className}`}
+            />
+            {error && (
+                <p className="text-red-500 text-sm mt-1 absolute">
+                    {error.message}
+                </p>
+            )}
+        </div>
+    );
+};
+
+/* ================= Reusable Textarea ================= */
+interface FormTextareaProps {
+    placeholder: string;
+    name: keyof RequestFormData;
+    rows?: number;
+    register: any;
+    validation?: any;
+    error?: any;
+    className?: string;
+}
+
+const FormTextarea: React.FC<FormTextareaProps> = ({
+    placeholder,
+    name,
+    rows = 2,
+    register,
+    validation = {},
+    error,
+    className = "",
+}) => {
+    return (
+        <div className="relative">
+            <textarea
+                {...register(name, validation)}
+                placeholder={placeholder}
+                rows={rows}
+                className={`w-full bg-transparent border-b pb-3 text-[#4A4C56] placeholder-[#9CA3AF] text-base md:text-lg focus:outline-none transition resize-none leading-[150%] h-[100px] md:h-auto ${
+                    error 
+                        ? 'border-red-500 focus:border-red-500' 
+                        : 'border-[#E5E7EB] focus:border-[#1C5E96]'
+                } ${className}`}
+            />
+            {error && (
+                <p className="text-red-500 text-sm mt-1 absolute">
+                    {error.message}
+                </p>
+            )}
+        </div>
     );
 };
