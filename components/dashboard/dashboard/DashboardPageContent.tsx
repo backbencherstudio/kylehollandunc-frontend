@@ -8,6 +8,7 @@ import { RecentRequestTable } from './RecentRequestTable'
 import RecentReq from './RecentReq'
 // import { GaugeChart } from './RequestDataCard'
 import { useGetDashboardDataQuery } from '@/redux/features/admin/dashboard/dashboardApi';
+import { RequestFormsTable } from './RecentFormsTable'
 
 
 export const formatRequestChartData = (dashboardData: any) => {
@@ -56,7 +57,7 @@ export default function DashboardPageContent() {
 
 
             <div>
-                <RecentRequestTable />
+                <RequestFormsTable />
             </div>
         </div>
     )

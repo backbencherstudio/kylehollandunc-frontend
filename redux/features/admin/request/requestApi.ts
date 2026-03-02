@@ -20,10 +20,11 @@ export const requestApi = baseApi.injectEndpoints({
         }),
 
         // get all requests by admin
-        getRequests: builder.query<any, void>({
-            query: () => ({
+        getRequests: builder.query<any, { page: number }>({
+            query: ({ page }) => ({
                 url: "/requests",
                 method: "GET",
+                params: { page },
             }),
             providesTags: ["Requests"],
             transformResponse: (response: any) => {

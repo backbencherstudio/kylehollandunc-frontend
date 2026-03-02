@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"
 import { useGetReportsQuery, useDeleteReportMutation } from "@/redux/features/admin/reports/reportApi"
 import { toast } from "sonner"
 import Loader from "@/components/reusable/Loader"
+import { useState } from "react"
 
 export interface Report {
   id: string
@@ -21,7 +22,21 @@ export interface Report {
 export function ReportEntryTable() {
   const router = useRouter()
 
+
+  const [page, setPage] = useState(1);
+
   const { data: reportsResponse, isLoading } = useGetReportsQuery()
+
+
+  const currentPage = reportsResponse?.data?.current_page ?? page;
+  const totalPages = reportsResponse?.last_page ?? 1;
+  const totalReports = reportsResponse?.total ?? 0;
+
+  console.log("reportsResponse", reportsResponse);
+  console.log("currentPage", currentPage);
+  console.log("totalPages", totalPages);
+  console.log("totalReports", totalReports);
+
   const [deleteReport] = useDeleteReportMutation()
 
   // 🔥 Format API Data

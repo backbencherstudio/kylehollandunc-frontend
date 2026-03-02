@@ -19,12 +19,12 @@ import SearchInput from '@/components/reusable/SearchInput'
 import { useState, useMemo } from 'react'
 import SortFilter from '@/components/reusable/SortFilter'
 import CustomModal from '@/components/reusable/CustomModal'
-import ViewDetails, { RequestDetails } from './ViewDetails'
-import ReplyModal from './ReplyModal'
 import { useGetRequestsQuery } from '@/redux/features/admin/request/requestApi'
 import { toast } from 'sonner'
 import Loader from '@/components/reusable/Loader'
 import { Pagination } from '@/components/reusable/Pagination'
+import ViewDetails, { RequestDetails } from '../RequestForms/ViewDetails'
+import ReplyModal from '../RequestForms/ReplyModal'
 /* ================= Component ================= */
 
 export function RequestFormsTable() {
@@ -225,11 +225,11 @@ export function RequestFormsTable() {
             />
 
 
-            <Pagination
+            {/* <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={(newPage) => setPage(newPage)}
-            />
+            /> */}
             {/* View Details Modal */}
             <CustomModal
                 open={isViewOpen}
@@ -238,7 +238,7 @@ export function RequestFormsTable() {
                 className="w-[687px]"
             >
                 <ViewDetails
-                    data={selectedRequest as RequestDetails}
+                    data={selectedRequest as RequestForm}
                     onCancel={() => setIsViewOpen(false)}
                     onReply={() => {
                         setIsViewOpen(false);
