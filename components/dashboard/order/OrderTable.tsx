@@ -14,6 +14,7 @@ import {
 } from '@/redux/features/admin/order/adminOrderApi'
 import { toast } from 'sonner'
 import Loader from '@/components/reusable/Loader'
+import { Pagination } from '@/components/reusable/Pagination'
 
 // Map API order status to UI status
 const mapOrderStatus = (status: string): 'started' | 'pending' | 'active' | 'canceled' => {
@@ -78,8 +79,17 @@ export default function OrderTable() {
     const [sort, setSort] = useState('newest')
     const [filteredData, setFilteredData] = useState<TableRow[]>([])
 
+
+    const [page, setPage] = useState(1);
+
     // API hooks
-    const { data, isLoading, error, refetch } = useGetAllOrdersByAdminQuery()
+    const { data, isLoading, error, refetch } = useGetAllOrdersByAdminQuery({ page })
+
+    // Derive pagination from API response (Laravel paginator format)
+    const totalPages = data?.data?.last_page ?? 1
+    const currentPage = data?.data?.current_page ?? page
+
+    // handle table actions
     const [deleteOrder, { isLoading: isDeleting }] = useDeleteOrderMutation()
     const [updateOrderStatus] = useUpdateOrderStatusMutation()
 
@@ -294,6 +304,12 @@ export default function OrderTable() {
                         onClick: handleDelete,
                     },
                 ]}
+            />
+
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={(newPage) => setPage(newPage)}
             />
 
             {/* Empty state */}

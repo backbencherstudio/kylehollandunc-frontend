@@ -17,6 +17,7 @@ import { useGetUsersQuery, useDeleteUserMutation } from '@/redux/features/admin/
 import { format } from 'date-fns'
 import { toast } from 'sonner'
 import Loader from '@/components/reusable/Loader'
+import { Pagination } from '@/components/reusable/Pagination'
 
 /* ================= Component ================= */
 
@@ -43,8 +44,8 @@ const columns: Column<User>[] = [
         header: 'Created',
         accessor: (item) => (
             <span>{format(new Date(item.created_at), 'dd MMM yyyy')}</span>
-          ),
-        
+        ),
+
     },
 ]
 
@@ -66,11 +67,15 @@ function useDebounce<T>(value: T, delay: number): T {
 }
 
 export function UserManagementTable() {
-
-    const [search, setSearch] = useState("");   
+    const [page, setPage] = useState(1);
+    const [search, setSearch] = useState("");
     const debouncedSearch = useDebounce(search, 300); // Debounce search input
-    const { data: usersData, isLoading, error } = useGetUsersQuery();     
+    const { data: usersData, isLoading, error } = useGetUsersQuery({ page });
     const [deleteUser] = useDeleteUserMutation();
+
+    const currentPage = usersData?.current_page || 1;
+    const totalPages = usersData?.last_page || 1;
+    const totalUsers = usersData?.total || 0;
 
     const handleDelete = async (id: number) => {
         try {
@@ -85,13 +90,13 @@ export function UserManagementTable() {
     // Filter users based on search input
     const filteredUsers = useMemo(() => {
         const users = usersData?.data || [];
-        
+
         if (!debouncedSearch.trim()) {
             return users;
         }
 
         const searchTerm = debouncedSearch.toLowerCase().trim();
-        
+
         return users.filter((user: User) => {
             return (
                 user.id.toString().includes(searchTerm) ||
@@ -147,6 +152,16 @@ export function UserManagementTable() {
                         },
                     ]}
                 />
+
+
+
+
+                <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={(newPage) => setPage(newPage)}
+                />
+
             </div>
         </div>
     )
