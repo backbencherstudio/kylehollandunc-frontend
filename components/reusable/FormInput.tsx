@@ -16,6 +16,7 @@ interface FormInputProps {
   className?: string;
   as?: "input" | "textarea";
   rows?: number;
+  required?: boolean;
 }
 
 const FormInput = ({
@@ -30,6 +31,7 @@ const FormInput = ({
   className = "",
   as = "input",
   rows = 3,
+  required = false,
 }: FormInputProps) => {
   const baseStyles = `
     w-full
@@ -82,6 +84,7 @@ const FormInput = ({
           readOnly={readOnly}
           disabled={disabled}
           rows={rows}
+          required={required}
           className={`
             ${baseStyles}
             ${readOnly ? readOnlyStyles : editableStyles}
@@ -99,6 +102,7 @@ const FormInput = ({
           placeholder={placeholder}
           readOnly={readOnly}
           disabled={disabled}
+          required={required}
           className={`
             ${baseStyles}
             ${readOnly ? readOnlyStyles : editableStyles}

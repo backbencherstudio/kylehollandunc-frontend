@@ -20,10 +20,11 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import FileUpload from '@/components/reusable/FileUpload';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useGetReportByIdQuery, useUpdateReportMutation } from '@/redux/features/admin/reports/reportApi';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
+import Loader from '@/components/reusable/Loader';
 
 // Define the type for result items
 interface ResultItem {
@@ -90,17 +91,18 @@ interface ReportData {
 
 export default function ReportEditPage() {
     const params = useParams();
+    const router = useRouter();
     const id = params.id as string;
 
     const { data: reportResponse, isLoading, error } = useGetReportByIdQuery({ id });
-    const [updateReport] = useUpdateReportMutation();
-    
+    const [updateReport, { isLoading: isUpdating }] = useUpdateReportMutation();
+
     // Log the response to see its structure
     useEffect(() => {
         console.log("Full API Response:", reportResponse);
         console.log("Report Data:", reportResponse?.data);
     }, [reportResponse]);
-    
+
     // State declarations
     const [date, setDate] = useState<Date | undefined>(undefined);
     const [status, setStatus] = useState<string>("");
@@ -117,34 +119,34 @@ export default function ReportEditPage() {
     useEffect(() => {
         // Check different possible response structures
         const reportData = reportResponse?.data || reportResponse;
-        
+
         if (reportData) {
             console.log("Setting form data with:", reportData);
-            
+
             // Set basic info
-            setReportId(reportData.order?.order_number || `RPT-${reportData.id}`);
+            setReportId(reportData.order?.id || `RPT-${reportData.id}`);
             setClientName(reportData.name || reportData.order?.user?.name || "");
             setProgressStatus(reportData.progress_status || "pending");
-            
+
             // Set date
             if (reportData.test_date) {
                 setDate(new Date(reportData.test_date));
             }
-            
+
             // Set unique ID
-            setUniqueId(reportData.order?.order_number || "");
-            
+            setUniqueId(reportData.order?.id || "");
+
             // Set lot
             setLot(reportData.lot || "");
-            
+
             // Set result status
             setStatus(reportData.result_status || "");
-            
+
             // Format test type from order items
             if (reportData.order?.items && Array.isArray(reportData.order.items)) {
                 const testItems = reportData.order.items.filter((item: OrderItem) => item.type === 'test');
                 const addonItems = reportData.order.items.filter((item: OrderItem) => item.type === 'addon');
-                
+
                 let formattedTestType = "";
                 if (testItems.length > 0) {
                     formattedTestType = testItems[0].name;
@@ -157,7 +159,7 @@ export default function ReportEditPage() {
                 }
                 setTestType(formattedTestType);
             }
-            
+
             // Handle result summary
             if (reportData.result_summary) {
                 try {
@@ -184,7 +186,7 @@ export default function ReportEditPage() {
     };
 
     const handleChange = (
-        index: number,  
+        index: number,
         field: "name" | "value",
         newValue: string
     ) => {
@@ -204,7 +206,7 @@ export default function ReportEditPage() {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-    
+
         try {
             // Prepare the update data
             const updateData: any = {
@@ -212,25 +214,26 @@ export default function ReportEditPage() {
                 result_status: status,
                 result_summary: results, // Send the array directly, the mutation will stringify it
             };
-            
+
             // Only add test_date if it exists and is valid
             if (date && !isNaN(date.getTime())) {
-                updateData.test_date = format(date, "yyyy-MM-dd");
+                updateData.test_date = format(date, "dd-MM-yy");
             }
-            
+
             // Add file if it exists
             if (file) {
                 updateData.report_file = file;
             }
-    
+
             console.log("Sending update data:", updateData); // Debug log
-    
+
             await updateReport({
                 id,
                 report: updateData,
             }).unwrap();
-    
+
             toast.success("Report updated successfully");
+            router.push(`/admin-dashboard/report-entry`);
         } catch (error) {
             toast.error("Failed to update report");
             console.error("Failed to update report", error);
@@ -240,9 +243,7 @@ export default function ReportEditPage() {
     // Loading state
     if (isLoading) {
         return (
-            <div className="flex justify-center items-center min-h-[400px]">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-            </div>
+            <Loader />
         );
     }
 
@@ -251,7 +252,7 @@ export default function ReportEditPage() {
         return (
             <div className="bg-red-50 border-l-4 border-red-500 p-4 m-4">
                 <p className="text-red-700">
-                    {'data' in error 
+                    {'data' in error
                         ? (error.data as { message?: string })?.message || "Failed to load report"
                         : "An error occurred while loading the report"}
                 </p>
@@ -315,23 +316,23 @@ export default function ReportEditPage() {
                             Date
                         </label>
                         <Popover>
-                        <PopoverTrigger asChild>
-  <button
-    type="button"
-    className="
+                            <PopoverTrigger asChild>
+                                <button
+                                    type="button"
+                                    className="
       w-full py-2 px-2.5 rounded-lg border text-sm transition outline-none
       bg-white border-gray-300
       focus:border-[#36668E] focus:ring-1 focus:ring-[#36668E]
       flex items-center justify-between
     "
-  >
-    {date && isValid(new Date(date))
-      ? format(new Date(date), "PPP")
-      : "Select date"}
+                                >
+                                    {date && isValid(new Date(date))
+                                        ? format(new Date(date), "PPP")
+                                        : "Select date"}
 
-    <CalendarIcon className="w-4 h-4 text-gray-500" />
-  </button>
-</PopoverTrigger>
+                                    <CalendarIcon className="w-4 h-4 text-gray-500" />
+                                </button>
+                            </PopoverTrigger>
                             <PopoverContent className="w-auto p-0">
                                 <Calendar
                                     mode="single"
@@ -345,11 +346,12 @@ export default function ReportEditPage() {
 
                     {/* Unique ID */}
                     <FormInput
-                        label="Unique ID"
+                        label="Order ID"
                         name="uniqueId"
                         value={uniqueId}
                         onChange={(e) => setUniqueId(e.target.value)}
                         placeholder="e.g. Illinois DOL"
+                        readOnly
                     />
                 </div>
 
@@ -415,18 +417,8 @@ export default function ReportEditPage() {
                                     handleChange(index, "name", e.target.value)
                                 }
                                 className="
-                                    flex-1
-                                    text-[#777980]
-                                    text-base
-                                    outline-none
-                                    bg-transparent
-                                    border border-transparent
-                                    focus:border-[#36668E]
-                                    focus:ring-1
-                                    focus:ring-[#36668E]
-                                    rounded
-                                    px-2
-                                    py-1
+                                    flex-1 text-[#777980] text-base outline-none bg-transparent border border-transparentfocus:border-[#36668E] focus:ring-1
+                                    focus:ring-[#36668E] rounded px-2 py-1
                                 "
                             />
                             <input
@@ -473,8 +465,8 @@ export default function ReportEditPage() {
                     <label className="block mb-2 text-[#1D1F2C] font-medium leading-[150%]">
                         Report File
                     </label>
-                    <FileUpload 
-                        value={file} 
+                    <FileUpload
+                        value={file}
                         onChange={handleFileChange}
                         maxSizeMB={5}
                     />
@@ -497,9 +489,12 @@ export default function ReportEditPage() {
                     </Button>
                     <Button
                         type="submit"
+                        disabled={isUpdating}
                         className="px-6 py-2 bg-gradient-to-r from-[#2c5282] to-[#1a365d] text-white rounded-lg hover:opacity-90"
                     >
-                        Save Changes
+                        {
+                            isUpdating ? "Saving..." : "Save Changes"
+                        }
                     </Button>
                 </div>
             </form>

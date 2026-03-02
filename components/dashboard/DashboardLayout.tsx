@@ -223,12 +223,17 @@ function Sidebar({ isMobile, onClose }: SidebarProps) {
                 </p>
 
                 <div className="space-y-2">
-                    {menuItems.bottom.map((item) => (
+                    {menuItems?.bottom?.map((item) => (
                         <Link
                             key={item.href}
                             href={item.href}
                             onClick={handleLinkClick}
-                            className="flex items-center gap-3 px-3 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded-md"
+                            className={cn(
+                                "flex items-center gap-3 px-3 py-2 rounded-[7px] text-sm font-medium transition-all",
+                                isActive(item.href)
+                                    ? "bg-gradient-to-b from-[#84B6DE] to-[#1C5E96] text-white"
+                                    : "text-[#5B5A64] hover:bg-gray-100"
+                            )}
                         >
                             <item.icon className="w-4 h-4 shrink-0" />
                             <span className="truncate">

@@ -6,6 +6,7 @@ import DashboardTtile from "@/components/reusable/DashboardTtile";
 import { useGetReportByIdQuery } from "@/redux/features/admin/reports/reportApi";
 import { useParams } from "next/navigation";
 import { StatusBadge } from "@/components/reusable/StatusBadge";
+import Loader from "@/components/reusable/Loader";
 
 
 export default function ReportDetailsPage() {
@@ -16,7 +17,7 @@ export default function ReportDetailsPage() {
     useGetReportByIdQuery({ id });
 
   if (isLoading) {
-    return <div className="p-6">Loading report...</div>;
+    return <Loader />;
   }
 
   if (error || !report) {
@@ -49,10 +50,29 @@ export default function ReportDetailsPage() {
       ?.join(" & ") || "N/A";
 
   // 🔥 Result Summary (if backend sends JSON later)
-  const resultSummary =
-    report?.result_summary && Array.isArray(report.result_summary)
-      ? report.result_summary
-      : [];
+  const resultSummary = (() => {
+    if (!report?.result_summary) return [];
+  
+    if (Array.isArray(report.result_summary)) {
+      return report.result_summary;
+    }
+  
+    if (typeof report.result_summary === "string") {
+      try {
+        const parsed = JSON.parse(report.result_summary);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch {
+        return [];
+      }
+    }
+  
+    return [];
+  })();
+
+
+  console.log("report", report.re);
+
+
 
   return (
     <div className="space-y-8">

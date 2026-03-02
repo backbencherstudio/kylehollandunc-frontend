@@ -118,6 +118,7 @@ export default function OrderDetailsPage() {
                 page="Order"
                 heading={`Order Details - #${formatValue(order.order_number)}`}
                 className="mb-8"
+                isBackButton
             />
 
             {/* Status Badge and Dates */}

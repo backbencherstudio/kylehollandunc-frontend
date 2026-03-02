@@ -35,7 +35,7 @@ export const reportApi = baseApi.injectEndpoints({
             query: ({ id, report }) => {
               const formData = new FormData();
               if (report.test_date) {  // Only append if it exists
-                formData.append("test_date", report.test_date);
+                formData.append("date", report.test_date);
             }
               formData.append("lot", report.lot);
               formData.append("result_status", report.result_status);
@@ -54,6 +54,7 @@ export const reportApi = baseApi.injectEndpoints({
                 body: formData,
               };
             },
+            invalidatesTags: ["Reports"],
           }),
         // delete report
         deleteReport: builder.mutation<any, { id: string }>({

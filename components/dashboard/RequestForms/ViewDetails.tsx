@@ -8,11 +8,12 @@ import FormInput from "@/components/reusable/FormInput";
 import { Mail } from "lucide-react";
 
 export interface RequestDetails {
-    fullName: string;
+    id: number;
+    name: string;
     email: string;
     organization: string;
-    peptide: string;
-    detail: string;
+    test: string;
+    message: string;
 }
 
 interface ViewDetailsProps {
@@ -39,9 +40,9 @@ export default function ViewDetails({
             {/* Fields */}
 
             <FormInput
-                label="Full Name"
-                name="fullName"
-                value={data.fullName || "Anonymous"}
+                label="Name"
+                name="name"
+                    value={data.name || "Anonymous"}
                 readOnly
             />
             <FormInput
@@ -57,16 +58,17 @@ export default function ViewDetails({
                 readOnly
             />
             <FormInput
-                label="Peptide to test"
-                name="peptide"
-                value={data.peptide || "Anonymous"}
+                label="Test"
+                name="test"
+                value={data.test || "Anonymous"}
                 readOnly
             />
             <FormInput
-                label="Detail"
-                name="detail"
-                value="Identity and purity verification with potency analysis..."
+                label="Message"
+                name="message"
+                value={data.message || "Anonymous"}
                 as="textarea"
+                rows={4}
                 readOnly
             />
 

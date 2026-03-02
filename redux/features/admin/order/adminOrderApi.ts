@@ -7,10 +7,11 @@ export const orderApi = baseApi.injectEndpoints({
 
     // get all orders
     endpoints: (builder) => ({ 
-        getAllOrdersByAdmin: builder.query<any, void>({
-        query: () => ({
+        getAllOrdersByAdmin: builder.query<any, { page: number }>({
+        query: ({ page }) => ({
             url: "/orders",
             method: "GET",
+            params: { page },
         }),
         providesTags: ["AdminOrder"],
         transformResponse: (response: any) => {

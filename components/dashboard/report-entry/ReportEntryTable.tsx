@@ -5,6 +5,7 @@ import { StatusBadge } from "@/components/reusable/StatusBadge"
 import { useRouter } from "next/navigation"
 import { useGetReportsQuery, useDeleteReportMutation } from "@/redux/features/admin/reports/reportApi"
 import { toast } from "sonner"
+import Loader from "@/components/reusable/Loader"
 
 export interface Report {
   id: string
@@ -61,7 +62,12 @@ export function ReportEntryTable() {
   const columns: Column<Report>[] = [
     {
       header: 'Report ID',
-      accessor: 'reportId',
+      accessor: (item: Report) => (
+        <p className="text-gray-600">
+          REP-{item.id}
+        </p>
+      ),
+      className: 'font-medium text-[#1D1F2C]',
     },
     {
       header: 'Name',
@@ -69,7 +75,12 @@ export function ReportEntryTable() {
     },
     {
       header: 'Order ID',
-      accessor: 'orderId',
+      accessor: (item: Report) => (
+        <p className="text-gray-600">
+          ORD-{item.orderId}
+        </p>
+      ),
+      className: 'font-medium text-[#1D1F2C]',
     },
     {
       header: 'Result Status',
@@ -112,9 +123,7 @@ export function ReportEntryTable() {
 
   if (isLoading) {
     return (
-      <div className="bg-white rounded-xl border p-6">
-        Loading reports...
-      </div>
+      <Loader />
     )
   }
 
