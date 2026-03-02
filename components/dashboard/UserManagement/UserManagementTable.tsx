@@ -23,7 +23,11 @@ import Loader from '@/components/reusable/Loader'
 const columns: Column<User>[] = [
     {
         header: 'User ID',
-        accessor: 'id',
+        accessor: (item: User) => (
+            <p className="text-gray-600">
+                USR-{item.id}
+            </p>
+        ),
         className: 'font-medium text-[#1D1F2C]',
     },
     {

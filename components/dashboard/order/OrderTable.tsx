@@ -148,7 +148,11 @@ export default function OrderTable() {
     const columns: Column<TableRow>[] = [
         {
             header: 'Order ID',
-            accessor: 'orderId',
+            accessor: (item) => (
+                <p  className="text-gray-600">
+                    ORD-{item.id}
+                </p>
+            ),
         },
         {
             header: 'Name',

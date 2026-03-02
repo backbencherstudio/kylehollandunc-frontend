@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useUpdatePasswordMutation } from "@/redux/features/admin/settings/settingsApi";
+import { toast } from "sonner";
 
 export default function PasswordUpdatet() {
   const [formData, setFormData] = useState({
@@ -15,6 +17,9 @@ export default function PasswordUpdatet() {
     newPassword?: string;
     confirmPassword?: string;
   }>({});
+
+  const [updatePassword, { isLoading: isLoadingUpdatePassword }] =
+    useUpdatePasswordMutation();
 
   const handleChange = (field: string, value: string) => {
     setFormData((prev) => ({
@@ -38,14 +43,26 @@ export default function PasswordUpdatet() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!validate()) return;
 
     console.log("Form submitted:", formData);
 
-    // TODO: Call API here
+    // Call API here
+   try {
+    await updatePassword({
+      passwordBody: {
+        password: formData.currentPassword,
+        new_password: formData.newPassword,
+        confirm_password: formData.confirmPassword,
+      },
+    }).unwrap();
+    toast.success("Password updated successfully");
+   } catch (error) {
+    toast.error((error as any)?.data?.message || "Failed to update password");
+   }
 
     // Reset
     setFormData({
@@ -108,8 +125,9 @@ export default function PasswordUpdatet() {
               <Button
                 type="submit"
                 disabled={isDisabled}
+
               >
-                Update Password
+                {isLoadingUpdatePassword ? "Updating..." : "Update Password"}
               </Button>
             </div>
           </div>

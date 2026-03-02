@@ -62,7 +62,12 @@ export function ReportEntryTable() {
   const columns: Column<Report>[] = [
     {
       header: 'Report ID',
-      accessor: 'reportId',
+      accessor: (item: Report) => (
+        <p className="text-gray-600">
+          REP-{item.id}
+        </p>
+      ),
+      className: 'font-medium text-[#1D1F2C]',
     },
     {
       header: 'Name',
@@ -70,7 +75,12 @@ export function ReportEntryTable() {
     },
     {
       header: 'Order ID',
-      accessor: 'orderId',
+      accessor: (item: Report) => (
+        <p className="text-gray-600">
+          ORD-{item.orderId}
+        </p>
+      ),
+      className: 'font-medium text-[#1D1F2C]',
     },
     {
       header: 'Result Status',

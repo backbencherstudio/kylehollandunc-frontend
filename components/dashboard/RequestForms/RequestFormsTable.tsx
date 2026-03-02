@@ -88,8 +88,12 @@ export function RequestFormsTable() {
     // Define columns
     const columns = [
         {
-            header: 'User ID',
-            accessor: 'id',
+            header: 'Request ID',
+            accessor: (item: RequestForm) => (
+                <p className="text-gray-600">
+                    REQ-{item.id}
+                </p>
+            ),
             className: '',
         },
         {
@@ -134,12 +138,12 @@ export function RequestFormsTable() {
                 );
             },
         },
-        // {
-        //     header: 'Status',
-        //     accessor: (item: RequestForm) => (
-        //         <StatusBadge status={item?.status || 'pending'} />
-        //     ),
-        // },
+        {
+            header: 'Status',
+            accessor: (item: RequestForm) => (
+                <StatusBadge status={item?.status || 'pending'} />
+            ),
+        },
     ] as Column<RequestForm>[];
 
     if (isLoading) {

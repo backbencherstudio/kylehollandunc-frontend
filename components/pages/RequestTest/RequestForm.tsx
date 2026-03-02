@@ -132,7 +132,7 @@ export default function RequestForm() {
                     }}
                     error={errors.message}
                     placeholder="What do you need verified? (identity/purity/potency/contaminants/stability/desired turnaround)"
-                    rows={2}
+                    rows={3}
                 />
 
                 {/* Button */}
