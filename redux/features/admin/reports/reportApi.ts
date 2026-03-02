@@ -33,29 +33,29 @@ export const reportApi = baseApi.injectEndpoints({
         // update report
         updateReport: builder.mutation<any, { id: string; report: any }>({
             query: ({ id, report }) => {
-              const formData = new FormData();
-              if (report.test_date) {  // Only append if it exists
-                formData.append("date", report.test_date);
-            }
-              formData.append("lot", report.lot);
-              formData.append("result_status", report.result_status);
-              formData.append(
-                "result_summary",
-                JSON.stringify(report.result_summary)
-              );
-          
-              if (report.report_file) {
-                formData.append("report_file", report.report_file);
-              }
-          
-              return {
-                url: `/reports/${id}`,
-                method: "POST",
-                body: formData,
-              };
+                const formData = new FormData();
+                if (report.test_date) {  // Only append if it exists
+                    formData.append("date", report.test_date);
+                }
+                formData.append("lot", report.lot);
+                formData.append("result_status", report.result_status);
+                formData.append(
+                    "result_summary",
+                    JSON.stringify(report.result_summary)
+                );
+
+                if (report.report_file) {
+                    formData.append("report_file", report.report_file);
+                }
+
+                return {
+                    url: `/reports/${id}`,
+                    method: "POST",
+                    body: formData,
+                };
             },
             invalidatesTags: ["Reports"],
-          }),
+        }),
         // delete report
         deleteReport: builder.mutation<any, { id: string }>({
             query: ({ id }) => ({
@@ -70,9 +70,38 @@ export const reportApi = baseApi.injectEndpoints({
                 return response.data;
             },
         }),
-        // 
-        
+
+
+        // get report by users
+        getReportByUserId: builder.query<any, { id: string }>({
+            query: ({ id }) => ({
+                url: `/reports/${id}/details`,
+                method: "GET",
+            }),
+            providesTags: ["Reports"],
+            transformResponse: (response: any) => {
+                if (!response.success) {
+                    throw new Error(response.errors || "Failed to get report by users");
+                }
+                return response.data;
+            },
+        }),
+        // download report
+        downloadReport: builder.query<any, { id: string | number }>({
+            query: ({ id }) => ({
+                url: `/reports/${id}/download`,
+                method: "GET",
+                responseHandler: (response: any) => response.blob(), // 🔥 important
+            }),
+            transformResponse: (response: any) => {
+                if (!response.success) {
+                    throw new Error(response.errors || "Failed to download report");
+                }
+                return response.data;
+            },
+        }),
+
     }),
 });
 
-export const { useGetReportsQuery, useGetReportByIdQuery, useUpdateReportMutation, useDeleteReportMutation } = reportApi;
+export const { useGetReportsQuery, useGetReportByIdQuery, useUpdateReportMutation, useDeleteReportMutation, useGetReportByUserIdQuery, useLazyGetReportByUserIdQuery, useDownloadReportQuery, useLazyDownloadReportQuery } = reportApi;
