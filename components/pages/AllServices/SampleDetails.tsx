@@ -255,18 +255,20 @@ export function OrderSummaryCard({
     subtotal,
     shipping,
 }: OrderSummaryCardProps) {
-    const total = Number(subtotal) + Number(shipping);
+  
+
+    const total2 = Number(subtotal) - Number(shipping);
 
     return (
         <div className="w-full max-w-[900px] border border-[#DFE1E7] rounded-[32px] p-6 sm:p-8 bg-white">
             <h3 className="text-[#1D1F2C] font-syne text-xl sm:text-2xl font-semibold mb-6">
-                Order Summary
+                Order Summaryy
             </h3>
 
             <div className="flex flex-col gap-4 text-[#4A4C56] text-base">
                 <div className="flex justify-between">
                     <span>Subtotal</span>
-                    <span>${subtotal}</span>
+                    <span>${total2}</span>
                 </div>
 
                 <div className="flex justify-between">
@@ -276,7 +278,7 @@ export function OrderSummaryCard({
 
                 <div className="border-t border-[#E5E7EB] pt-4 mt-2 flex justify-between font-semibold text-[#1D1F2C]">
                     <span>Total</span>
-                    <span>${total}</span>
+                    <span>${subtotal}</span>
                 </div>
             </div>
         </div>
