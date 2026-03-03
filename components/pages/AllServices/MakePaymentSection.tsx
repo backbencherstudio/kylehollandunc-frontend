@@ -27,7 +27,7 @@ export default function   MakePaymentSection({cartData, handleProceed, shippingM
 
       <PaymentSection cartId={cartData?.id} />
 
-      <FinalOrderSummary  subtotal={subtotal} shipping={shippingMethod === "own" ? 0 : 25} onPay={handleProceed} />
+      <FinalOrderSummary  subtotal={subtotal - (shippingMethod === "own" ? 0 : 25)} shipping={shippingMethod === "own" ? 0 : 25} onPay={handleProceed} />
     </section>
   )
 }
@@ -49,6 +49,8 @@ function FinalOrderSummary({
   const router = useRouter();
 
 
+
+
   const handleMakePayment = () => {
     console.log("payment done")
 
@@ -61,7 +63,7 @@ function FinalOrderSummary({
       {/* Top Section */}
       <div>
         <h3 className="text-[#1D1F2C] font-syne text-xl sm:text-2xl font-semibold mb-8">
-          Order Summary
+          Order Summaryyy
         </h3>
 
         <div className="flex flex-col gap-6 text-[#4A4C56] text-base">

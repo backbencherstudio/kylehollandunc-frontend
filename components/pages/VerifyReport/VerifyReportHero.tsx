@@ -16,20 +16,18 @@ interface NormalizedReport {
 export default function VerifyReportHero() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [reportId, setReportId] = useState("");
-
   const [result, setResult] = useState<NormalizedReport | null>(null);
   const [notFound, setNotFound] = useState(false);
+  const currentRequestId = useRef<string | null>(null);
 
-  // 🔥 Lazy query (only runs when triggered)
-  const [trigger, { data, isLoading, error, isError }] =
+  const [trigger, { data, isLoading, error, isError, isFetching, status }] =
     useLazyGetReportByUserIdQuery();
-
-    
 
   /* ================= Handle API Response ================= */
 
   useEffect(() => {
-    if (!data) return;
+    // Only process if we have data and it matches current request
+    if (!data || reportId !== currentRequestId.current) return;
 
     try {
       // Handle result_summary parsing
@@ -66,35 +64,41 @@ export default function VerifyReportHero() {
       setResult(null);
       setNotFound(true);
     }
-  }, [data]);
+  }, [data, reportId]);
 
   /* ================= Handle Error ================= */
 
   useEffect(() => {
-    if (isError || error) {
+    if ((isError || error) && reportId === currentRequestId.current) {
       setResult(null);
       setNotFound(true);
     }
-  }, [isError, error]);
+  }, [isError, error, reportId]);
 
   /* ================= Verify Handler ================= */
 
   const handleVerify = async () => {
     const id = inputRef.current?.value.trim();
-
+  
     if (!id) {
-      // Optional: Show toast or validation message
       return;
     }
-
+  
+    // Don't trigger if it's the same ID and we already have a result
+    if (id === currentRequestId.current && result) {
+      return;
+    }
+  
+    // Set current request ID and clear results
+    currentRequestId.current = id;
     setReportId(id);
-    setNotFound(false);
     setResult(null);
+    setNotFound(false);
 
     try {
-      await trigger({ id }).unwrap();
+      // Force a new request by adding a timestamp or using refetch
+      await trigger({ id }, true).unwrap(); // Pass true to force refetch
     } catch (err) {
-      // Error handled in useEffect
       console.error("Verification failed:", err);
     }
   };
@@ -103,6 +107,13 @@ export default function VerifyReportHero() {
     if (e.key === 'Enter') {
       handleVerify();
     }
+  };
+
+  // Reset function for when input changes
+  const handleInputChange = () => {
+    // Optional: Clear results when user starts typing new ID
+    // setResult(null);
+    // setNotFound(false);
   };
 
   return (
@@ -127,15 +138,16 @@ export default function VerifyReportHero() {
             className="text-center text-white bg-transparent border-b border-white/20 focus:outline-none w-full py-2.5 px-4 placeholder:text-white/50"
             placeholder="LNL-2026-000124"
             onKeyPress={handleKeyPress}
-            disabled={isLoading}
+            onChange={handleInputChange}
+            disabled={isFetching}
           />
 
           <button
             onClick={handleVerify}
-            disabled={isLoading}
+            disabled={isFetching}
             className="px-8 py-4 rounded-full bg-gradient-to-b from-[#84B6DE] to-[#1C5E96] text-white text-lg font-medium hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isLoading ? "Verifying..." : "Verify Report"}
+            {isFetching ? "Verifying..." : "Verify Report"}
           </button>
         </div>
 
@@ -146,8 +158,18 @@ export default function VerifyReportHero() {
           </div>
         )}
 
+        {/* Loading State */}
+        {isFetching && !result && (
+          <div className="bg-white rounded-2xl p-8 w-full max-w-[700px] mt-8 animate-fadeIn">
+            <div className="flex flex-col items-center justify-center py-8">
+              <div className="w-12 h-12 border-4 border-[#1C5E96] border-t-transparent rounded-full animate-spin mb-4"></div>
+              <p className="text-[#777980] text-lg">Loading report...</p>
+            </div>
+          </div>
+        )}
+
         {/* Result */}
-        {result && !notFound && (
+        {!isFetching && result && !notFound && (
           <div className="bg-white rounded-2xl p-8 w-full max-w-[700px] mt-8 animate-fadeIn">
             <h4 className="text-[#1D1F2C] text-2xl font-semibold mb-6">
               Test Results
@@ -184,7 +206,6 @@ export default function VerifyReportHero() {
 
             {result.file && (
               <a
-                // href={result.file}
                 href={`${process.env.NEXT_PUBLIC_API_URL}/reports/${result.reportId}/download`}
                 download
                 target="_blank"
@@ -212,6 +233,18 @@ export default function VerifyReportHero() {
         }
         .animate-fadeIn {
           animation: fadeIn 0.3s ease-out;
+        }
+        
+        @keyframes spin {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+        .animate-spin {
+          animation: spin 1s linear infinite;
         }
       `}</style>
     </section>

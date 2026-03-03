@@ -133,6 +133,20 @@ export const authApi = baseApi.injectEndpoints({
         return response;
       },
     }),
+
+    // guest login
+    guestLogin: builder.mutation({
+      query: () => ({
+        url: "/guest",
+        method: "POST",
+      }),
+      transformResponse: (response: any) => {
+        if (!response.success) {
+          throw new Error(response.errors || "Guest login failed");
+        }
+        return response;
+      },
+    }),
     
 
   }),
@@ -144,4 +158,5 @@ export const {
   useForgotPasswordMutation,
   useVerifyOtpMutation,
   useResetPasswordMutation,
+  useGuestLoginMutation,
 } = authApi;

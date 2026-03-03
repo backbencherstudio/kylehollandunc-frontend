@@ -25,7 +25,7 @@ export default function SuccessPage() {
             </div>
 
             {/* ===== Order Summary Card ===== */}
-            <div className=" mx-auto border border-[#E5E7EB] bg-[#FCFCFD] rounded-[24px] p-4 sm:p-6">
+            {/* <div className=" mx-auto border border-[#E5E7EB] bg-[#FCFCFD] rounded-[24px] p-4 sm:p-6">
                 <div className=" mx-auto border border-[#E5E7EB] bg-[#FCFCFD] rounded-[24px] p-4 sm:p-6">
 
                     <h4 className="text-[#1D1F2C] font-syne text-xl sm:text-2xl font-semibold mb-8">
@@ -57,7 +57,7 @@ export default function SuccessPage() {
                     </div>
                 </div>
 
-            </div>
+            </div> */}
         </section>
     );
 }

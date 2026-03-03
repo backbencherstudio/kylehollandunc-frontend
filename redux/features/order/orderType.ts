@@ -26,8 +26,9 @@ export interface CreateCartResponse {
     success: boolean;
     message: string;
     data: {
+      guest_token?: string;
       id: number;
-      user_id: number;
+      user_id?: number;
       type: string;
       name: string;
       quantity: number;

@@ -21,7 +21,17 @@ interface SampleDetailsFormData {
 }
 
 export default function SampleDetails({ selectedMethod, handleNext, cartData, address }: SampleDetailsProps) {
+
+    console.log("cartData", cartData);
     const subtotal = cartData?.total_price;
+
+    
+    // if(selectedMethod === "label") {
+
+    //     const shipping = 25;
+    // }
+
+    
     const [updateSampleDetails, { isLoading }] = useUpdateSampleDetailsMutation();
     
     const {
@@ -62,7 +72,7 @@ export default function SampleDetails({ selectedMethod, handleNext, cartData, ad
         <section className=''>
             <div className="grid sm:grid-cols-2 grid-cols-1 gap-6 md:gap-12 mb-6 md:mb-12">
                 <ShippingSummaryCard method={selectedMethod} address={address} />
-                <OrderSummaryCard subtotal={subtotal} shipping={25} />
+                <OrderSummaryCard subtotal={subtotal} shipping={selectedMethod === "own" ? 0 : 25} />
             </div>
 
             <div className='flex flex-col md:flex-row gap-6 md:gap-16'>
