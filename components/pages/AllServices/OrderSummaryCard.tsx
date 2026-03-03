@@ -16,7 +16,9 @@ export function OrderSummaryCard({
 
 
 
-  const total = Number(subtotal) + Number(shipping ?? 0);
+  // const total = Number(subtotal) + Number(shipping ?? 0);
+
+  const total = subtotal - 25;
 
   return (
     <div className="w-full  border border-[#DFE1E7] rounded-[32px] p-6 sm:p-8 bg-white">
@@ -31,7 +33,7 @@ export function OrderSummaryCard({
 
         <div className="flex justify-between">
           <span>Subtotal</span>
-          <span>${subtotal}</span>
+          <span>${subtotal }</span>
         </div>
 
         <div className="flex justify-between">
@@ -44,21 +46,8 @@ export function OrderSummaryCard({
 
         <div className="border-t border-[#E5E7EB] pt-4 mt-2 flex justify-between font-semibold text-[#1D1F2C]">
           <span>Total</span>
-          <span>${total}</span>
+          <span>${Number(subtotal) + Number(shipping ?? 0)}</span>
         </div>
-
-      </div>
-
-      {/* Buttons */}
-      <div className="mt-8 flex flex-col sm:flex-row gap-4">
-
-        {/* Cancel */}
-        <button
-          onClick={handleCancel}
-          className="w-full sm:w-1/2 border border-[#E5E7EB] rounded-lg py-3 text-[#4A4C56] hover:bg-gray-50 transition"
-        >
-          Cancel
-        </button>
 
         {/* Proceed */}
         <button

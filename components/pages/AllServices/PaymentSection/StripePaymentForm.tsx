@@ -13,10 +13,29 @@ export default function StripePaymentForm({ cartId }: { cartId: string }) {
   const [loading, setLoading] = useState(false);
   const [cardholderName, setCardholderName] = useState("");
 
-  const token =
-    typeof window !== "undefined"
-      ? localStorage.getItem("token")
-      : null;
+  /* ================================
+     HELPER: BUILD AUTH HEADERS
+  ================================= */
+  const getAuthHeaders = () => {
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("token");
+      const guestToken = localStorage.getItem("guest_token");
+
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
+
+      if (guestToken) {
+        headers["X-Guest-Token"] = guestToken;
+      }
+    }
+
+    return headers;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,15 +50,14 @@ export default function StripePaymentForm({ cartId }: { cartId: string }) {
     setLoading(true);
 
     try {
-      // 1️⃣ Create payment intent from backend
+      /* ================================
+         1️⃣ CREATE ORDER (PAYMENT INTENT)
+      ================================= */
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/checkout`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
+          headers: getAuthHeaders(),
           body: JSON.stringify({
             cart_id: parseInt(cartId),
             payment_method: "card",
@@ -49,15 +67,27 @@ export default function StripePaymentForm({ cartId }: { cartId: string }) {
 
       const data = await res.json();
 
+      if (!res.ok) {
+        throw new Error(data?.message || "Failed to create payment");
+      }
+
       const cardElement = elements.getElement(CardElement);
 
-      // 2️⃣ Confirm payment with billing details
+      if (!cardElement) {
+        toast.error("Card element not found");
+        setLoading(false);
+        return;
+      }
+
+      /* ================================
+         2️⃣ CONFIRM STRIPE PAYMENT
+      ================================= */
       const { paymentIntent, error } =
         await stripe.confirmCardPayment(data.client_secret, {
           payment_method: {
-            card: cardElement!,
+            card: cardElement,
             billing_details: {
-              name: cardholderName, // ✅ Here it goes
+              name: cardholderName,
             },
           },
         });
@@ -68,15 +98,14 @@ export default function StripePaymentForm({ cartId }: { cartId: string }) {
         return;
       }
 
-      // 3️⃣ Notify backend
-      await fetch(
+      /* ================================
+         3️⃣ VERIFY PAYMENT ON BACKEND
+      ================================= */
+      const verifyRes = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/checkout/stripe`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
+          headers: getAuthHeaders(),
           body: JSON.stringify({
             payment_intent_id: paymentIntent?.id,
             order_id: data.order_id,
@@ -84,10 +113,29 @@ export default function StripePaymentForm({ cartId }: { cartId: string }) {
         }
       );
 
+      const verifyData = await verifyRes.json();
+
+      if (!verifyRes.ok) {
+        throw new Error(
+          verifyData?.message || "Payment verification failed"
+        );
+      }
+
       toast.success("Payment successful!");
+
+      // Optional: clear guest token after successful order
+      // localStorage.removeItem("guest_token");
+
+
+      if(localStorage.getItem("guest_token")) {
+        localStorage.removeItem("guest_token");
+        router.push("/");
+        return;
+      }
+      
       router.push("/order");
-    } catch (err) {
-      toast.error("Something went wrong.");
+    } catch (err: any) {
+      toast.error(err?.message || "Something went wrong.");
     }
 
     setLoading(false);
@@ -95,18 +143,14 @@ export default function StripePaymentForm({ cartId }: { cartId: string }) {
 
   return (
     <form onSubmit={handleSubmit} className="mt-6 space-y-6">
-
       {/* Cardholder Name */}
       <div>
-        {/* <label className="block text-sm text-[#4A4C56] mb-2">
-          Cardholder Name
-        </label> */}
         <input
           type="text"
           value={cardholderName}
           onChange={(e) => setCardholderName(e.target.value)}
           placeholder="Enter cardholder name"
-          className="w-full border border-[#E5E7EB] rounded-lg px-4 py-3 focus:outline-none focus:border-[#1C5E96] placeholder-[#9CA3AF] "
+          className="w-full border border-[#E5E7EB] rounded-lg px-4 py-3 focus:outline-none focus:border-[#1C5E96] placeholder-[#9CA3AF]"
         />
       </div>
 
@@ -133,6 +177,7 @@ export default function StripePaymentForm({ cartId }: { cartId: string }) {
       <div className="mt-10 flex flex-col sm:flex-row gap-4">
         <button
           type="button"
+          onClick={() => router.back()}
           className="w-full sm:w-1/2 border border-[#E5E7EB] rounded-lg py-3 text-[#4A4C56] hover:bg-gray-50 transition cursor-pointer"
         >
           Cancel
@@ -141,7 +186,7 @@ export default function StripePaymentForm({ cartId }: { cartId: string }) {
         <button
           type="submit"
           disabled={!stripe || loading}
-          className="w-full sm:w-1/2 py-3 rounded-lg bg-linear-to-b from-[#84B6DE] to-[#1C5E96] text-white font-medium hover:opacity-90 transition cursor-pointer"
+          className="w-full sm:w-1/2 py-3 rounded-lg bg-gradient-to-b from-[#84B6DE] to-[#1C5E96] text-white font-medium hover:opacity-90 transition cursor-pointer"
         >
           {loading ? "Processing..." : "Pay Now"}
         </button>

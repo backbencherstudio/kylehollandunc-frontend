@@ -29,7 +29,7 @@ export const orderApi = baseApi.injectEndpoints({
         // get cart
         getCart: builder.query<any, void>({
             query: () => ({
-                url: "/carts",
+                url: "/carts-by-user",
                 method: "GET",
             }),
             providesTags: ["Order"],

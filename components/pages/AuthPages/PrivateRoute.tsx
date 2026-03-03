@@ -1,35 +1,3 @@
-// "use client";
-
-// import { useEffect } from "react";
-// import { usePathname, useRouter } from "next/navigation";
-// import { useAppSelector } from "@/redux/hooks";
-
-// type Props = {
-//   children: React.ReactNode;
-//   redirectTo?: string;
-// };
-
-// export default function PrivateRoute({ children, redirectTo = "/login" }: Props) {
-//   const router = useRouter();
-//   const pathname = usePathname();
-
-//   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
-//   const rehydrated = useAppSelector((state) => state.auth.rehydrated);
-
-//   useEffect(() => {
-//     if (!rehydrated) return; // wait for localStorage auth check
-//     if (!isAuthenticated) {
-//       router.replace(`${redirectTo}?next=${encodeURIComponent(pathname)}`);
-//     }
-//   }, [rehydrated, isAuthenticated, router, redirectTo, pathname]);
-
-//   // Wait for rehydration before deciding; prevent flashing protected UI
-//   if (!rehydrated || !isAuthenticated) return null;
-
-//   return <>{children}</>;
-// }
-
-
 "use client";
 
 import { useEffect } from "react";
@@ -40,12 +8,14 @@ type Props = {
   children: React.ReactNode;
   redirectTo?: string;
   allowedRoles?: string[];
+  allowGuest?: boolean; // ✅ NEW
 };
 
 export default function PrivateRoute({
   children,
   redirectTo = "/login",
   allowedRoles,
+  allowGuest = false,
 }: Props) {
   const router = useRouter();
   const pathname = usePathname();
@@ -54,19 +24,36 @@ export default function PrivateRoute({
     (state) => state.auth
   );
 
+  // ✅ check guest token
+  const guestToken =
+    typeof window !== "undefined"
+      ? localStorage.getItem("guest_token")
+      : null;
+
   useEffect(() => {
     if (!rehydrated) return;
 
-    // Not logged in
-    if (!isAuthenticated) {
+    const hasSession = isAuthenticated || guestToken;
+
+    // ❌ No session at all
+    if (!hasSession) {
       router.replace(
         `${redirectTo}?next=${encodeURIComponent(pathname)}`
       );
       return;
     }
 
-    // Logged in but wrong role
+    // 🔐 If guest is NOT allowed but only real users
+    if (!isAuthenticated && !allowGuest) {
+      router.replace(
+        `${redirectTo}?next=${encodeURIComponent(pathname)}`
+      );
+      return;
+    }
+
+    // 🔐 Role restriction (only applies to logged users)
     if (
+      isAuthenticated &&
       allowedRoles &&
       user &&
       (!user.role || !allowedRoles.includes(user.role))
@@ -81,12 +68,20 @@ export default function PrivateRoute({
     router,
     pathname,
     redirectTo,
+    guestToken,
+    allowGuest,
   ]);
 
   if (!rehydrated) return null;
-  if (!isAuthenticated) return null;
+
+  const hasSession = isAuthenticated || guestToken;
+
+  if (!hasSession) return null;
+
+  if (!isAuthenticated && !allowGuest) return null;
 
   if (
+    isAuthenticated &&
     allowedRoles &&
     user &&
     (!user.role || !allowedRoles.includes(user.role))

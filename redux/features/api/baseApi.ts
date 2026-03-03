@@ -31,10 +31,14 @@ const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_API_URL,
   prepareHeaders: (headers) => {
     if (typeof window !== "undefined") {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("token") ;
+       const guestToken = localStorage.getItem("guest_token");
 
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
+      }
+      if (guestToken) {
+        headers.set("X-Guest-Token", `${guestToken}`);
       }
     }
     return headers;
