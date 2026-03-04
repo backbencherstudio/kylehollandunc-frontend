@@ -153,12 +153,13 @@ const OwnCourierCard = ({
       </h3>
 
       <p className="text-[#777980] text-sm sm:text-base mb-6 leading-[150%]">
-        Use your preferred shipping carrier. Lab address will be shared after confirmation.
+      Use your preferred shipping carrier and account Ship samples
+      directly to our lab address. Address will be provided after confirmation.
       </p>
 
       <div className="flex flex-col gap-4">
-        <InfoBox title="Flexible carrier choice" text="Use any carrier you prefer" />
-        <InfoBox title="Full control" text="Track & manage your own shipment" />
+        <InfoBox title="Flexible carrier choice" text="Use FedEx, UPS USPS, or any carrier you prefer." />
+        <InfoBox title="Full control" text="Track and manage shipments cn your terms" />
         <PackagingBox />
       </div>
     </div>
@@ -197,7 +198,8 @@ const ThirdPartyCourierCard = ({
       </h3>
 
       <p className="text-[#777980] text-sm sm:text-base mb-6 leading-[150%]">
-        Request a prepaid shipping label from us. Print, attach, and ship easily.
+      Request a prepaid shipping label from us Simply print, attach, and
+      drop off your package.
       </p>
 
       {/* Address Input - Only shown when selected */}
@@ -222,12 +224,11 @@ const ThirdPartyCourierCard = ({
       )}
 
       <div className="flex flex-col gap-4">
-        <InfoBox title="Prepaid & hassle-free" text="No carrier account needed" />
-        <InfoBox title="Cold chain ready" text="Labels match temperature needs" />
-        <InfoBox title="Tracking included" text="End-to-end tracking" />
+        <InfoBox title="Prepaid & hassle-free" text="No shipping accounts needed. we handle the logistics." />
+        <InfoBox title="Tracking included" text="Real-time tracking from pickup to lab delivery." />
       </div>
 
-      <div className="rounded-xl bg-[#E6F4F1] border border-[#CFE9E4] p-4 flex justify-between items-center">
+      <div className="rounded-xl bg-[#E6F4F1] border border-[#CFE9E4] p-4 flex justify-between items-center mt-4">
         <span className="text-[#1D1F2C] font-medium">Label fee added to invoice</span>
         <span className="text-[#166534] text-3xl font-medium">$25</span>
       </div>
@@ -247,10 +248,10 @@ const PackagingBox = () => (
   <div className="rounded-xl border border-[#E5E7EB] p-4 bg-[#F9FAFB]">
     <h4 className="text-[#1C5E96] font-medium mb-2">Packaging Guidelines</h4>
     <ul className="list-disc pl-5 space-y-1 text-[#777980] text-sm">
-      <li>Use insulated packaging with cold packs</li>
-      <li>Secure vials to prevent breakage</li>
-      <li>Include order confirmation</li>
-      <li>Label: "FRAGILE – LAB SAMPLES"</li>
+      <li>Secure vials to prevent breakage during transit</li>
+      <li>Include a copy of your order confirmation inside the package</li>
+      <li>Label package "FRAGILE - LABORATORY SAMPLES"</li>
+
     </ul>
   </div>
 );
